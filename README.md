@@ -121,14 +121,22 @@ went behind a fold or stayed reachable through search.
   twice: two colour plates, two leads, two stacks of three items each carrying a full deck: so
   the eye had to parse the same pattern back to back.
 
-**Both Library shelves use one layout**: the main story carries the plate, and the rest sit
-beside it as a list of titles and read-times. The decks that used to sit under every list entry
-were most of the section's density, so they are gone. Clicking a list title promotes it into the
-main slot.
+**The Library plates break the container.** Everything else on the page sits inside one centred
+1280px column, which is the strongest single tell that a layout was generated rather than
+composed. The plates do not: they run to the edge of the screen while the type stays on the
+measure, and the two shelves mirror each other, so the Archive plate bleeds left and the Small
+History plate bleeds right.
 
-That promotion is a hand-rolled crossfade, not the View Transitions API. The API stopped running
-its callback on repeat swaps here, so every second click silently did nothing; a 190ms
-opacity-and-lift on the shelf container is predictable and the timing is ours.
+Bleed is measured from `--vw`, which JS sets from `documentElement.clientWidth` on load and on
+resize. **Do not swap it for `100vw`**: `100vw` includes the scrollbar, and the difference is
+exactly how far every bleeding block would push the page sideways. `--edge` derives the inset
+that keeps the type aligned to the measure, so the text column's inner edge lands on the same
+pixel as the section head above it.
+
+Each shelf shows the main story with the plate and the rest as a list of titles and read-times.
+Clicking a list title promotes it into the main slot. That promotion is a hand-rolled crossfade,
+not the View Transitions API: the API stopped running its callback on repeat swaps here, so
+every second click silently did nothing.
 
 `SHELF_ORDER` sets the Library order explicitly rather than inheriting it from `DESK`, because
 two pairs tell the same story twice: `stethoscope-invention` twins `stethoscope-history` (both

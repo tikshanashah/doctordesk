@@ -357,29 +357,46 @@ a{color:inherit}
 /* ═══════════════════════════════════════════════════════════
    THE LIBRARY: the plate is typographic by design
    ═══════════════════════════════════════════════════════════ */
-.shelf{margin-bottom:var(--s6)}
+.shelf{margin-bottom:var(--s7)}
 .shelf-label{
   display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s2);
   font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-accent);font-variation-settings:"wdth" 86;
 }
 .shelf-label::after{content:"";flex:1;border-top:1px solid var(--rule-hair)}
-/* Two columns that actually balance. The plate holds the left on its own;
-   the headline, deck and the rest of the shelf stack down the right. A plain
-   image-left / list-right split always leaves a hole under the shorter
-   column, and spacing the list out to cover it only makes the hole bigger. */
+/* ── BREAKING THE CONTAINER ────────────────────────────────
+   Everything else on the page lives inside one centred column.
+   The Library plates do not: they run to the edge of the screen
+   while the type stays on the measure. The two shelves mirror
+   each other, so the page stops reading as one repeating box.
+
+   Bleed is measured from --vw, set in JS from clientWidth, not
+   from 100vw: 100vw includes the scrollbar and would push the
+   page sideways by however wide that scrollbar happens to be. */
+:root{ --vw:100vw; }
+.edge{ --edge:calc(max(0px, (var(--vw) - var(--max)) / 2) + var(--gutter)); }
+
 .swap{
-  display:grid;grid-template-columns:1.12fr .88fr;gap:var(--s5);align-items:start;
+  width:var(--vw);
+  margin-left:calc(50% - var(--vw) / 2);
+  display:grid;grid-template-columns:.56fr .44fr;
+  gap:var(--s5);align-items:start;
   transition:opacity .19s var(--ease),transform .19s var(--ease);
 }
 .swap.is-swapping{opacity:0;transform:translateY(7px)}
+.swap .lead-side{padding-right:var(--edge)}
+
+/* the second shelf mirrors the first */
+.shelf-mirror .swap{grid-template-columns:.44fr .56fr}
+.shelf-mirror .swap .lead{grid-column:2;grid-row:1}
+.shelf-mirror .swap .lead-side{grid-column:1;grid-row:1;padding-right:0;padding-left:var(--edge)}
 
 .lead{background:none;border:0;padding:0;cursor:pointer;display:block;width:100%;
   text-align:left;font:inherit;color:inherit}   /* buttons centre their text by default */
 .lead:hover .plate-wrap{transform:translateY(-3px)}
 
 .plate-wrap{
-  position:relative;display:block;width:100%;aspect-ratio:4/3;
+  position:relative;display:block;width:100%;aspect-ratio:16/10;
   background:var(--ink-accent);overflow:hidden;
   transition:transform .3s var(--ease);
 }
@@ -387,14 +404,15 @@ a{color:inherit}
   position:absolute;inset:0;display:flex;flex-direction:column;
   justify-content:flex-end;gap:var(--s3);padding:var(--s4);color:var(--paper);
 }
+.shelf-mirror .plate-type{padding-right:var(--s5)}
 .plate-type em{
   font-family:var(--sans);font-style:normal;font-size:11px;font-weight:700;
   letter-spacing:.14em;text-transform:uppercase;opacity:.9;align-self:flex-start;
 }
 .plate-type b{
   font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:clamp(19px,1.9vw,26px);line-height:1.3;
-  font-variation-settings:"opsz" 26;
+  font-size:clamp(20px,2.1vw,30px);line-height:1.28;max-width:24ch;
+  font-variation-settings:"opsz" 30;
 }
 .plate{
   position:relative;width:100%;height:100%;object-fit:cover;
@@ -403,7 +421,7 @@ a{color:inherit}
 .plate.ok{opacity:1}
 .plate.ok + .plate-type{background:linear-gradient(transparent 42%,rgba(23,35,42,.9))}
 
-/* the right column: headline, then the rest of the shelf */
+/* the type column, still on the measure */
 .lead-side{display:flex;flex-direction:column}
 .lead-head{
   background:none;border:0;padding:0 0 var(--s4);text-align:left;color:inherit;
@@ -676,7 +694,13 @@ button:active,summary:active{transform:translateY(1px)}
    RESPONSIVE: explicit column counts, no auto-fit surprises
    ═══════════════════════════════════════════════════════════ */
 @media (max-width:1100px){
-  .swap{grid-template-columns:1fr;gap:var(--s4)}
+  /* stacked, the plate still bleeds but the type needs both gutters */
+  .swap,.shelf-mirror .swap{grid-template-columns:1fr;gap:var(--s4)}
+  .swap .lead-side,.shelf-mirror .swap .lead-side{
+    grid-column:1;grid-row:auto;padding-inline:var(--edge);
+  }
+  .shelf-mirror .swap .lead{grid-column:1;grid-row:1}
+  .shelf-mirror .plate-type{padding-right:var(--s4)}
   .plate-wrap{aspect-ratio:2/1}
   .front-grid{grid-template-columns:1fr;gap:var(--s5)}
   .front-lead{position:static}
@@ -870,12 +894,12 @@ button:active,summary:active{transform:translateY(1px)}
     <p class="sec-note">Stories behind the things you see every day, and how the ordinary
       parts of medicine became ordinary.</p>
 
-    <div class="shelf" style="margin-top:var(--s5)">
+    <div class="shelf edge" style="margin-top:var(--s5)">
       <div class="shelf-label">From the Archive, still worth seeing</div>
       <div class="swap" id="shelf-archive"></div>
     </div>
 
-    <div class="shelf" data-ink="history">
+    <div class="shelf edge shelf-mirror" data-ink="history">
       <div class="shelf-label">Small History, how ordinary became ordinary</div>
       <div class="swap" id="shelf-history"></div>
     </div>
@@ -2146,6 +2170,16 @@ if (!still) {
   }, { passive:true });
   draw();
 }
+
+/* --vw drives every full-bleed element. documentElement.clientWidth
+   excludes the scrollbar; 100vw does not, and the difference is exactly
+   how far a bleeding block would push the page sideways. */
+function measureViewport(){
+  document.documentElement.style.setProperty(
+    "--vw", document.documentElement.clientWidth + "px");
+}
+measureViewport();
+window.addEventListener("resize", measureViewport, { passive:true });
 
 /* open on whatever the URL asks for */
 route();
