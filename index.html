@@ -250,8 +250,11 @@ a{color:inherit}
    THE ISSUE
    ═══════════════════════════════════════════════════════════ */
 .issue{margin-top:var(--s3)}
+/* The numeral carries this section. At label size it was decoration;
+   at display size it is the only graphic element a text digest needs. */
 .entry{
-  display:grid;grid-template-columns:64px 1fr auto;gap:0 var(--s4);align-items:start;
+  display:grid;grid-template-columns:clamp(62px,7.4vw,116px) 1fr auto;
+  gap:0 var(--s4);align-items:start;
   width:100%;text-align:left;background:none;border:0;font:inherit;color:inherit;
   padding:var(--s3) 0;border-top:1px solid var(--rule-hair);cursor:pointer;
   transition:background .16s;
@@ -260,12 +263,15 @@ a{color:inherit}
 .entry:hover{background:var(--paper-2)}
 .entry:hover .e-title{color:var(--rounds)}
 .e-num{
-  font-family:var(--serif);font-size:30px;font-weight:300;color:var(--rounds);
-  line-height:1;padding-top:4px;font-variation-settings:"opsz" 30;
+  font-family:var(--serif);font-size:clamp(38px,5.4vw,78px);font-weight:200;
+  color:var(--rounds);line-height:.82;letter-spacing:-.04em;
+  font-variation-settings:"opsz" 72;
+  transition:color .2s var(--quick),transform .3s var(--ease);
 }
+.entry:hover .e-num{transform:translateX(3px)}
 .e-body{min-width:0}
 .e-title{
-  font-family:var(--serif);font-weight:400;margin:4px 0 var(--s1);
+  font-family:var(--serif);font-weight:400;margin:0 0 var(--s1);
   font-size:clamp(22px,2.5vw,30px);line-height:1.16;letter-spacing:-.018em;
   transition:color .16s;font-variation-settings:"opsz" 30;text-wrap:balance;
 }
@@ -288,6 +294,20 @@ a{color:inherit}
 }
 .tool:hover{border-top-color:var(--ink)}
 .tool:hover .tool-t{color:var(--tools)}
+
+/* One filled panel gives the section a block of colour to sit against,
+   the way the Casebook's ink block does. A solid field, not a card:
+   no radius, no shadow, no floating. */
+.tool.filled{
+  background:var(--tools);color:var(--paper);border-top-color:var(--tools);
+  padding:var(--s4);
+}
+.tool.filled .kicker{color:rgba(246,243,234,.85)}
+.tool.filled p{color:rgba(246,243,234,.84)}
+.tool.filled:hover{border-top-color:var(--ink)}
+.tool.filled:hover .tool-t{color:var(--paper)}
+.tool.filled .status{background:var(--paper);color:var(--tools)}
+.tool.filled:hover .status{background:var(--ink);color:var(--paper)}
 .tool-t{
   font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.3vw,28px);
   line-height:1.16;letter-spacing:-.018em;margin:6px 0 var(--s2);
@@ -728,8 +748,8 @@ button:active,summary:active{transform:translateY(1px)}
   body{font-size:16px}
   .tools{grid-template-columns:1fr;gap:var(--s3)}
   .plate-wrap{aspect-ratio:16/9}
-  .entry{grid-template-columns:38px 1fr;gap:0 var(--s3)}
-  .e-num{font-size:22px}
+  .entry{grid-template-columns:56px 1fr;gap:0 var(--s3)}
+  .e-num{font-size:40px}
   .e-time{grid-column:2;padding-top:var(--s2)}
   
   .mast-right{text-align:left}
@@ -751,7 +771,7 @@ button:active,summary:active{transform:translateY(1px)}
   :root{--gutter:16px}
   .front h1{font-size:34px}
   .entry{grid-template-columns:1fr;gap:var(--s1)}
-  .e-num{font-size:18px;padding-top:0}
+  .e-num{font-size:34px;padding-top:0;line-height:1}
   .e-time{grid-column:auto;padding-top:var(--s1)}  /* else it makes an implicit 2nd column */
 }
 
@@ -1797,8 +1817,9 @@ $("#roundsmore").textContent = of_("current").length + " in all";
 
 /* ── tools ── */
 const tools = of_("tool");
-$("#toollist").innerHTML = tools.map(function(d){
-  return '<button class="tool" data-open="' + d.id + '">' +
+$("#toollist").innerHTML = tools.map(function(d,i){
+  /* the first tool is the filled panel */
+  return '<button class="tool' + (i === 0 ? " filled" : "") + '" data-open="' + d.id + '">' +
       '<span class="kicker">' + esc(d.series) + '</span>' +
       '<span class="tool-t">' + esc(d.title) + '</span>' +
       '<p>' + esc(d.deck) + '</p>' +
