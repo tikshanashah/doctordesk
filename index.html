@@ -206,28 +206,6 @@ a{color:inherit}
 .res-none{padding:var(--s3) 0;color:var(--ink-2);font-style:italic}
 
 /* ═══════════════════════════════════════════════════════════
-   ON YOUR DESK TODAY
-   ═══════════════════════════════════════════════════════════ */
-.strip{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border-top:3px solid var(--ink);border-bottom:1px solid var(--rule-mid);
-  background:var(--paper-2);
-}
-.strip button{
-  background:none;border:0;border-left:1px solid var(--rule-hair);
-  padding:var(--s3);cursor:pointer;text-align:left;font:inherit;color:inherit;
-  display:flex;flex-direction:column;gap:var(--s1);transition:background .16s;
-}
-.strip button:first-child{border-left:0}
-.strip button:hover{background:var(--paper)}
-.strip .verb{
-  font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.12em;
-  color:var(--rounds);text-transform:uppercase;font-variation-settings:"wdth" 82;
-}
-.strip .what{font-family:var(--serif);font-size:17px;line-height:1.3;text-wrap:balance}
-.strip button:hover .what{color:var(--rounds)}
-
-/* ═══════════════════════════════════════════════════════════
    SECTION SCAFFOLD — the coloured bar is the section marker
    ═══════════════════════════════════════════════════════════ */
 .sec{padding-block:var(--s7) 0}
@@ -281,15 +259,15 @@ a{color:inherit}
   color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:var(--s2);
 }
 .fold summary::-webkit-details-marker{display:none}
-.fold summary::after{content:"+";font-family:var(--serif);font-size:22px;color:var(--rounds);line-height:1}
+.fold summary::after{content:"+";font-family:var(--serif);font-size:22px;color:var(--ink-accent);line-height:1}
 .fold[open] summary::after{content:"\2013"}
-.fold summary:hover{color:var(--rounds)}
+.fold summary:hover{color:var(--ink-accent)}
 .foldgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 var(--s4);padding-bottom:var(--s2)}
 .mini{
-  background:none;border:0;border-top:2px solid var(--rounds);
+  background:none;border:0;border-top:2px solid var(--ink-accent);
   text-align:left;font:inherit;color:inherit;cursor:pointer;padding:var(--s2) 0;
 }
-.mini:hover .mini-t{color:var(--rounds)}
+.mini:hover .mini-t{color:var(--ink-accent)}
 .mini-t{font-family:var(--serif);font-size:18px;line-height:1.26;margin-top:5px;font-weight:400;font-variation-settings:"opsz" 18}
 
 /* ═══════════════════════════════════════════════════════════
@@ -557,7 +535,7 @@ button,summary,.nav a,.quick button,.refs a{
 }
 button:active,summary:active{transform:translateY(1px)}
 .entry:active,.tool:active,.case:active,.case-lead:active,
-.strip button:active,.stack-item:active,.mini:active{transform:translateY(1px) scale(.997)}
+.stack-item:active,.mini:active{transform:translateY(1px) scale(.997)}
 
 /* the hairline under a hovered row draws in from the left */
 .entry,.stack-item,.mini,.tool{position:relative}
@@ -570,7 +548,7 @@ button:active,summary:active{transform:translateY(1px)}
 
 /* headlines break on sense, not on the box */
 .front h1,.sec-head h2,.e-title,.tool-t,.lead-t,.case-t,.case-lead-t,
-.stack-t,.mini-t,.close h2,.sheet h1,.strip .what{text-wrap:balance}
+.stack-t,.mini-t,.close h2,.sheet h1{text-wrap:balance}
 .e-deck,.tool p,.sec-note,.lead p,.sheet .lede{text-wrap:pretty}
 
 /* scroll position, as a hairline */
@@ -641,10 +619,6 @@ button:active,summary:active{transform:translateY(1px)}
   .case-lead{grid-template-columns:1fr;gap:var(--s3);align-items:start}
 }
 @media (max-width:940px){
-  .strip{grid-template-columns:repeat(2,1fr)}
-  .strip button{border-left:0;border-top:1px solid var(--rule-hair)}
-  .strip button:nth-child(2n){border-left:1px solid var(--rule-hair)}
-  .strip button:nth-child(-n+2){border-top:0}
   .close{grid-template-columns:1fr;gap:var(--s3)}
   .close h2{max-width:24ch}
 }
@@ -672,9 +646,6 @@ button:active,summary:active{transform:translateY(1px)}
   .nav-jump{padding:11px 0}
 }
 @media (max-width:560px){
-  .strip{grid-template-columns:1fr}
-  .strip button,.strip button:nth-child(2n){border-left:0;border-top:1px solid var(--rule-hair)}
-  .strip button:first-child{border-top:0}
   .caselist{grid-template-columns:1fr}
   .case,.case:first-child,.case:nth-child(odd){border-left:0;padding-inline:0}
   .foldgrid{grid-template-columns:1fr}
@@ -698,11 +669,11 @@ button:active,summary:active{transform:translateY(1px)}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   button:active,summary:active,.entry:active,.tool:active,.case:active,
-  .case-lead:active,.strip button:active,.stack-item:active,.mini:active{transform:none}
+  .case-lead:active,.stack-item:active,.mini:active{transform:none}
   .entry::after,.stack-item::after,.mini::after,.tool::after{display:none}
 }
 @media print{
-  .navbar,.veil,.strip,.keep{display:none}
+  .navbar,.veil,.keep{display:none}
   body{background:#fff}
 }
 </style>
@@ -768,11 +739,6 @@ button:active,summary:active{transform:translateY(1px)}
       </div>
     </div>
   </section>
-
-  <!-- ══ ON YOUR DESK TODAY ════════════════════════════ -->
-  <div class="wrap">
-    <div class="strip" id="strip"></div>
-  </div>
 
   <!-- ══ THE ISSUE ═════════════════════════════════════ -->
   <section class="sec wrap" id="issue" data-ink="rounds">
@@ -851,6 +817,11 @@ button:active,summary:active{transform:translateY(1px)}
       <div class="shelf-label">Small History</div>
       <div class="swap" id="shelf-history"></div>
     </div>
+
+    <details class="fold">
+      <summary>More from the library<span id="libfoldcount"></span></summary>
+      <div class="foldgrid" id="libfold"></div>
+    </details>
   </section>
 
   <!-- ══ CLOSE ═════════════════════════════════════════ -->
@@ -1641,22 +1612,12 @@ const esc = function(s){
   $("#issueline").textContent = "No. 01 · " + month;
 })();
 
-/* ── on your desk today ── */
-const STRIP = [
-  { verb:"Use · 60 sec", what:"Close the consultation well", id:"consultation-end" },
-  { verb:"Understand",      what:"First steps after a legal notice", id:"legal-notice" },
-  { verb:"Read · 2 min", what:"What consent actually covered", id:"consent-scope" },
-  { verb:"Discover",        what:"The scientist who drew the brain", id:"cajal" }
-];
-$("#strip").innerHTML = STRIP.map(function(s){
-  return '<button data-open="' + s.id + '">' +
-           '<span class="verb">' + esc(s.verb) + '</span>' +
-           '<span class="what">' + esc(s.what) + '</span>' +
-         '</button>';
-}).join("");
+/* The "on your desk today" strip was removed: all four of its items
+   repeated content shown further down the same page, so the reader met
+   each of them twice before reaching the digest. */
 
 /* ── the issue: a genuine sequence, so it gets numbers ── */
-const ISSUE_IDS = ["nmc-registration","dengue-vaccine","ai-healthcare-india","doctor-burnout","gst-health-insurance","world-heart-day"];
+const ISSUE_IDS = ["nmc-registration","dengue-vaccine","ai-healthcare-india","doctor-burnout","gst-health-insurance"];
 const issueItems = ISSUE_IDS.map(function(id){ return BY[id]; }).filter(Boolean);
 
 $("#issuelist").innerHTML = issueItems.map(function(d,i){
@@ -1715,11 +1676,22 @@ $("#caselist").innerHTML = cases.slice(1).map(function(d){
 }).join("");
 $("#casecount").textContent = cases.length + " patterns";
 
-/* ── the library: lead + stack, swappable ── */
-const shelves = {
-  "shelf-archive": of_("archive").slice(),
-  "shelf-history": of_("history").slice()
+/* ── the library: lead + three, remainder folded ──────────────
+   Order is explicit rather than inherited from DESK, because two
+   pairs tell the same story twice: stethoscope-invention twins
+   stethoscope-history, and paternalism twins homevisit. The Small
+   History half of each pair is placed last so it falls into the
+   fold and a pair is never shown side by side.                    */
+const SHELF_ORDER = {
+  "shelf-archive": ["cajal","stethoscope-invention","paternalism","oath","hela"],
+  "shelf-history": ["whitecoat","xray","emr","hospitals","stethoscope-history","homevisit"]
 };
+const SHELF_VISIBLE = 4;   /* the lead plus three */
+
+const shelves = {};
+Object.keys(SHELF_ORDER).forEach(function(key){
+  shelves[key] = SHELF_ORDER[key].map(function(id){ return BY[id]; }).filter(Boolean);
+});
 
 function drawShelf(key){
   const items = shelves[key];
@@ -1746,7 +1718,7 @@ function drawShelf(key){
       '<p>' + esc(lead.deck) + '</p>' +
     '</button>' +
     '<div class="stack">' +
-      items.slice(1).map(function(d,i){
+      items.slice(1, SHELF_VISIBLE).map(function(d,i){
         return '<button class="stack-item" data-swap="' + key + '" data-i="' + (i+1) + '">' +
             '<span class="meta">' + esc(d.read) + '</span>' +
             '<span class="stack-t">' + esc(d.title) + '</span>' +
@@ -1757,6 +1729,18 @@ function drawShelf(key){
 }
 drawShelf("shelf-archive");
 drawShelf("shelf-history");
+
+/* what didn't fit on the two shelves */
+const libRest = Object.keys(SHELF_ORDER).reduce(function(acc, key){
+  return acc.concat(shelves[key].slice(SHELF_VISIBLE));
+}, []);
+$("#libfold").innerHTML = libRest.map(function(d){
+  return '<button class="mini" data-open="' + d.id + '">' +
+      '<span class="meta">' + esc(d.series) + " · " + esc(d.read) + '</span>' +
+      '<span class="mini-t">' + esc(d.title) + '</span>' +
+    '</button>';
+}).join("");
+$("#libfoldcount").textContent = libRest.length + " more";
 $("#libcount").textContent = (of_("archive").length + of_("history").length) + " stories";
 
 let swapping = false;

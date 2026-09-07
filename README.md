@@ -85,6 +85,24 @@ Headlines use `text-wrap:balance`, decks `text-wrap:pretty`. The entire layer is
 A card-based modernisation was tried and reverted at 78d5521 — rounded surfaces and shadows cost
 the flat typographic structure that was doing the work. Keep changes inside that structure.
 
+## Homepage density
+
+The homepage shows **22 items**, down from 34. Nothing was deleted; what came off the surface
+went behind a fold or stayed reachable through search.
+
+- **The "on your desk today" strip is gone.** All four of its items repeated content shown
+  further down the same page — two Tools, the Casebook lead and the Archive lead — so a reader
+  met each of them twice before reaching the digest. It added navigation, not content.
+- **The issue shows a lead plus four**, with the remaining five current pieces folded.
+- **Each Library shelf shows a lead plus three**, with the remainder in one shared fold.
+
+`SHELF_ORDER` sets the Library order explicitly rather than inheriting it from `DESK`, because
+two pairs tell the same story twice: `stethoscope-invention` twins `stethoscope-history` (both
+Laënnec, 1816, the rolled paper tube), and `paternalism` twins `homevisit`. The Small History
+half of each pair is placed last so it falls into the fold — the pair is never on screen
+together. **If you reorder those shelves, keep the twins apart.** The proper fix is still to
+merge or differentiate them (§84); this only stops them colliding visually.
+
 ---
 
 ## Content model
