@@ -71,8 +71,19 @@ queries evaluate against the viewport *including* the scrollbar, so a 768px tabl
 **Kickers are serif italic**, not tracked-out caps eyebrows. **Numbers appear only in the issue
 digest**, because that is the one place the content is genuinely a sequence.
 
-**Motion** is interaction-only — modal open, search filter, library swap via the View Transitions
-API. Nothing animates on scroll. `prefers-reduced-motion` is respected.
+**The issue leads with one story.** Entry 01 carries a 60px headline against 25px for the rest —
+a 2.4× ratio — and closes on a rule in the section ink, so the eye lands somewhere before it
+starts scanning. Without it, six items of equal rank read as a list rather than a front page.
+The lead numeral and its rail scale down at 820 and 400, or it overruns the narrowed column.
+
+**Feel, not motion.** No scroll-triggered animation. What the page does is answer you: every
+control takes a press, hovering a row draws a 2px accent hairline in from the left in that
+section's ink, the reader arrives on a long soft curve, and a hairline tracks scroll position.
+Headlines use `text-wrap:balance`, decks `text-wrap:pretty`. The entire layer is disabled under
+`prefers-reduced-motion`, press transforms and hover hairline included.
+
+A card-based modernisation was tried and reverted at 78d5521 — rounded surfaces and shadows cost
+the flat typographic structure that was doing the work. Keep changes inside that structure.
 
 ---
 

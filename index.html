@@ -591,6 +591,38 @@ button:active,summary:active{transform:translateY(1px)}
 .sheet figure img{max-height:min(58vh,500px);object-fit:cover;object-position:center 28%}
 
 /* ═══════════════════════════════════════════════════════════
+   THE LEAD
+   A front page leads with one story. Entry 01 gets the weight;
+   02–06 tighten beneath it so the eye has somewhere to land
+   first instead of meeting six items of equal rank.
+   ═══════════════════════════════════════════════════════════ */
+.entry.is-lead{
+  border-top:0;padding-block:var(--s2) var(--s5);
+  border-bottom:2px solid var(--ink-accent);margin-bottom:var(--s3);
+}
+.entry.is-lead .e-num{
+  font-size:46px;line-height:.86;padding-top:6px;
+  font-variation-settings:"opsz" 46;
+}
+.entry.is-lead .e-title{
+  font-size:clamp(33px,4.6vw,60px);line-height:1.0;letter-spacing:-.032em;
+  margin:var(--s2) 0 var(--s3);font-variation-settings:"opsz" 60;
+}
+.entry.is-lead .e-deck{
+  font-size:clamp(18px,1.8vw,20.5px);line-height:1.55;max-width:56ch;
+}
+.entry.is-lead .e-time{padding-top:var(--s2)}
+
+/* the rest, compressed — the contrast is the point */
+.entry:not(.is-lead){padding-block:var(--s3)}
+.entry:not(.is-lead) .e-num{font-size:23px;padding-top:5px;font-variation-settings:"opsz" 24}
+.entry:not(.is-lead) .e-title{
+  font-size:clamp(20px,2.05vw,25px);line-height:1.18;margin:2px 0 6px;
+  font-variation-settings:"opsz" 26;
+}
+.entry:not(.is-lead) .e-deck{font-size:15.5px;line-height:1.5;max-width:66ch}
+
+/* ═══════════════════════════════════════════════════════════
    RESPONSIVE — explicit column counts, no auto-fit surprises
    ═══════════════════════════════════════════════════════════ */
 @media (max-width:1100px){
@@ -627,6 +659,10 @@ button:active,summary:active{transform:translateY(1px)}
   .plate-wrap{aspect-ratio:16/9}
   .entry{grid-template-columns:38px 1fr;gap:0 var(--s3)}
   .e-num{font-size:22px}
+  /* the lead numeral would otherwise overrun the narrowed rail */
+  .entry.is-lead{grid-template-columns:52px 1fr}
+  .entry.is-lead .e-num{font-size:32px;padding-top:4px}
+  .entry.is-lead .e-title{margin-top:var(--s1)}
   .e-time{grid-column:2;padding-top:var(--s2)}
   .sheet{width:100%}
   .mast-right{text-align:left}
@@ -653,6 +689,8 @@ button:active,summary:active{transform:translateY(1px)}
   .front h1{font-size:34px}
   .entry{grid-template-columns:1fr;gap:var(--s1)}
   .e-num{font-size:18px;padding-top:0}
+  .entry.is-lead,.entry.is-lead{grid-template-columns:1fr}
+  .entry.is-lead .e-num{font-size:26px;padding-top:0}
   .e-time{grid-column:auto;padding-top:var(--s1)}  /* else it makes an implicit 2nd column */
 }
 
@@ -1622,7 +1660,7 @@ const ISSUE_IDS = ["nmc-registration","dengue-vaccine","ai-healthcare-india","do
 const issueItems = ISSUE_IDS.map(function(id){ return BY[id]; }).filter(Boolean);
 
 $("#issuelist").innerHTML = issueItems.map(function(d,i){
-  return '<button class="entry" data-open="' + d.id + '">' +
+  return '<button class="entry' + (i === 0 ? " is-lead" : "") + '" data-open="' + d.id + '">' +
       '<span class="e-num">' + String(i+1).padStart(2,"0") + '</span>' +
       '<span class="e-body">' +
         '<span class="kicker">' + esc(d.series) + '</span>' +
