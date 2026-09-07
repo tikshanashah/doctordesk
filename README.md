@@ -76,11 +76,30 @@ a 2.4× ratio — and closes on a rule in the section ink, so the eye lands some
 starts scanning. Without it, six items of equal rank read as a list rather than a front page.
 The lead numeral and its rail scale down at 820 and 400, or it overruns the narrowed column.
 
-**Feel, not motion.** No scroll-triggered animation. What the page does is answer you: every
-control takes a press, hovering a row draws a 2px accent hairline in from the left in that
-section's ink, the reader arrives on a long soft curve, and a hairline tracks scroll position.
-Headlines use `text-wrap:balance`, decks `text-wrap:pretty`. The entire layer is disabled under
-`prefers-reduced-motion`, press transforms and hover hairline included.
+**The front is a split.** The Desk says what it is on the left; on the right it leads with an
+actual story carrying a plate. Before this, every image sat below the Casebook — the page opened
+with five screens of type before the first picture. There are now three visual anchors spaced
+down the page: the lead plate at the top, the dark Casebook in the middle, the Archive feature at
+the bottom. The lead story appears in the hero **or** the numbered digest, never both.
+
+**Motion.** The masthead line sets itself word by word, each rising out of its own mask, then the
+deck and search follow — one orchestrated opening, after which the page is still. A section
+announces itself by drawing its own 6px rule as it scrolls into view (`.sec-head::before`,
+`scaleX`), which reuses the existing rule vocabulary rather than adding a new effect. Beyond
+that it is interaction only: every control takes a press, hovering a row draws a 2px accent
+hairline in from the left in that section's ink, the reader arrives on a long soft curve, and a
+hairline tracks scroll position. Headlines use `text-wrap:balance`, decks `text-wrap:pretty`.
+All of it is disabled under `prefers-reduced-motion`, which also draws every section rule
+immediately so nothing is left invisible.
+
+**Search re-weights the desk.** Typing doesn't open a dropdown — the whole page responds.
+Matches stay lit, everything else drops to 14% and desaturates, folds force open so a match
+can't hide inside one, and a section dims entirely when it has nothing to offer. This is §14's
+"search as a core product layer" made literal. Two things to know if you touch it: content
+elements are addressed by `data-open` **or** `data-filter` (the Archive's "also" items promote
+rather than open, so they carry the latter), and `:not()` must be repeated per branch —
+`"[data-open],[data-filter]:not(.nomatch)"` applies the negation only to the second selector,
+which silently breaks the section-empty check.
 
 A card-based modernisation was tried and reverted at 78d5521 — rounded surfaces and shadows cost
 the flat typographic structure that was doing the work. Keep changes inside that structure.
