@@ -94,7 +94,17 @@ went behind a fold or stayed reachable through search.
   further down the same page — two Tools, the Casebook lead and the Archive lead — so a reader
   met each of them twice before reaching the digest. It added navigation, not content.
 - **The issue shows a lead plus four**, with the remaining five current pieces folded.
-- **Each Library shelf shows a lead plus three**, with the remainder in one shared fold.
+- **The two Library series no longer share a layout.** They were rendering as the same module
+  twice — two colour plates, two leads, two stacks of three items each carrying a full deck — so
+  the eye had to parse the same pattern back to back.
+
+**From the Archive is the resurfacing slot** (§65, §125), not a second grid. One story is
+featured with the full-width plate, a large title and its deck; the other three are titles and
+read-times only. Clicking one promotes it into the feature via the View Transitions API, so the
+shelf is something you browse rather than a fixed list.
+
+**Small History is an index.** "How did this become normal" is a listing question, so it reads as
+a two-column list of titles and read-times — no plate, no decks. Two series, two textures.
 
 `SHELF_ORDER` sets the Library order explicitly rather than inheriting it from `DESK`, because
 two pairs tell the same story twice: `stethoscope-invention` twins `stethoscope-history` (both
