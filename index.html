@@ -1,0 +1,1786 @@
+<!doctype html>
+<!--
+  THE DOCTOR'S DESK — CoverYou's editorial, practice intelligence and utility platform for doctors.
+
+  Written and curated by Tikshana Shah.
+  Editorial voice, sourcing discipline and content architecture per THE_DOCTORS_DESK_MASTER_README.
+
+  Design: "two-ink press" — set as if printed in two inks on clinical form stock.
+  Ink (#152A35) carries the page. The spot (#8E2B22) is reserved for the case/legal
+  rail and cautions. It is never decoration.
+
+  Single-file build. All content lives in the DESK array so the render layer can be
+  swapped for a real content API when this moves to an app.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Doctor's Desk — What matters without the effort of finding it</title>
+<meta name="description" content="A curated professional desk for doctors in India: practical tools, practice intelligence, medico-legal case patterns and remarkable stories worth keeping. Curated by CoverYou.">
+<meta name="author" content="Tikshana Shah">
+<meta name="theme-color" content="#EDF1F0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Archivo:wdth,wght@75..100,400..700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Periodical",
+  "name": "The Doctor's Desk",
+  "alternateName": "The Doctor's Desk by CoverYou",
+  "description": "A curated professional desk for doctors in India.",
+  "inLanguage": "en-IN",
+  "author":    { "@type": "Person", "name": "Tikshana Shah" },
+  "editor":    { "@type": "Person", "name": "Tikshana Shah" },
+  "creator":   { "@type": "Person", "name": "Tikshana Shah" },
+  "publisher": { "@type": "Organization", "name": "CoverYou" }
+}
+</script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOKENS — two inks, one stock
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --stock:#EDF1F0;        /* duplicate case-sheet paper */
+  --sheet:#F9FBFA;        /* reading surface */
+  --ink:#152A35;          /* blue-black writing ink */
+  --ink-soft:#4E626C;     /* decks, meta */
+  --ink-faint:#8298A1;
+  --spot:#8E2B22;         /* madder — case rail + cautions only */
+
+  --rule-hair:rgba(21,42,53,.14);
+  --rule-mid:rgba(21,42,53,.32);
+  --rule-press:var(--ink);
+
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+
+  --measure:64ch;
+  --gutter:clamp(20px,5vw,68px);
+  --max:1240px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--stock);color:var(--ink);
+  font-family:var(--serif);font-optical-sizing:auto;
+  font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+::selection{background:var(--ink);color:var(--stock)}
+
+:focus-visible{outline:2px solid var(--spot);outline-offset:3px}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+
+/* ── the rule vocabulary: thickness is hierarchy ──────────── */
+.r-press{border-bottom:3px solid var(--rule-press)}
+.r-mid{border-bottom:1px solid var(--rule-mid)}
+.r-hair{border-bottom:1px solid var(--rule-hair)}
+.r-double{border-bottom:1px solid var(--rule-mid);box-shadow:0 3px 0 -1px var(--rule-hair)}
+
+/* ── functional layer ─────────────────────────────────────── */
+.meta{
+  font-family:var(--sans);font-variation-settings:"wdth" 88;
+  font-size:11.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--ink-soft);
+}
+.kicker{                                   /* serif italic, not a caps eyebrow */
+  font-family:var(--serif);font-style:italic;
+  font-size:15px;font-weight:400;color:var(--spot);
+  font-variation-settings:"opsz" 16;
+}
+.kicker.n{color:var(--ink-soft)}
+
+/* ═══════════════════════════════════════════════════════════
+   MASTHEAD
+   ═══════════════════════════════════════════════════════════ */
+.mast{background:var(--stock);position:relative;z-index:30}
+.mast-top{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:24px;padding:22px 0 14px;flex-wrap:wrap;
+}
+.logo{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(26px,3.6vw,40px);line-height:.95;
+  letter-spacing:-.022em;margin:0;
+  font-variation-settings:"opsz" 40;
+}
+.logo .the{font-style:italic;font-weight:300}
+.mast-right{text-align:right;line-height:1.5}
+.mast-right .coverline{display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-top:3px}
+.mast-right img{height:13px;width:auto;opacity:.72}
+
+.navbar{
+  position:sticky;top:0;z-index:25;background:var(--stock);
+  border-bottom:1px solid var(--rule-hair);
+}
+.navbar .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;min-height:46px;
+}
+.nav{display:flex;gap:26px;flex-wrap:wrap}
+.nav a{
+  font-family:var(--sans);font-variation-settings:"wdth" 90;
+  font-size:12.5px;font-weight:600;letter-spacing:.05em;
+  text-decoration:none;color:var(--ink);padding:13px 0;
+  border-bottom:2px solid transparent;transition:border-color .16s,color .16s;
+}
+.nav a:hover,.nav a:focus-visible{border-bottom-color:var(--spot);color:var(--spot)}
+.nav-jump{
+  font-family:var(--sans);font-size:12.5px;font-weight:600;
+  background:none;border:0;padding:13px 0;cursor:pointer;color:var(--ink-soft);
+  font-variation-settings:"wdth" 90;letter-spacing:.05em;
+}
+.nav-jump:hover{color:var(--spot)}
+
+/* ═══════════════════════════════════════════════════════════
+   FRONT — the issue opens here
+   ═══════════════════════════════════════════════════════════ */
+.front{padding:clamp(44px,7vw,86px) 0 clamp(30px,4vw,48px)}
+.front h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,6.6vw,84px);line-height:1.03;
+  letter-spacing:-.028em;margin:0 0 26px;max-width:15ch;
+  font-variation-settings:"opsz" 72;
+}
+.front .deck{
+  font-size:clamp(18px,1.9vw,21px);line-height:1.55;color:var(--ink-soft);
+  max-width:52ch;margin:0 0 clamp(34px,4.5vw,52px);font-weight:300;
+  font-variation-settings:"opsz" 20;
+}
+
+/* search set as a line on a form, not a box */
+.findline{max-width:none;border-top:1px solid var(--rule-mid);padding-top:16px}
+.findline label{display:block;margin-bottom:6px}
+.findrow{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:9px}
+.findrow input{
+  flex:1;min-width:0;border:0;background:transparent;padding:4px 0;
+  font-family:var(--serif);font-size:clamp(19px,2.4vw,26px);color:var(--ink);
+  font-variation-settings:"opsz" 24;
+}
+.findrow input::placeholder{color:var(--ink-faint);font-style:italic}
+.findrow input:focus{outline:none}
+.findbtn{
+  flex:none;background:none;border:0;cursor:pointer;padding:4px 0;
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.07em;
+  color:var(--ink);font-variation-settings:"wdth" 86;
+}
+.findbtn:hover{color:var(--spot)}
+
+.quick{display:flex;flex-wrap:wrap;gap:0 18px;margin-top:14px;align-items:center}
+.quick span{font-family:var(--sans);font-size:11.5px;color:var(--ink-faint);font-weight:600;letter-spacing:.05em}
+.quick button{
+  background:none;border:0;padding:4px 0;cursor:pointer;color:var(--ink-soft);
+  font-family:var(--serif);font-size:15.5px;font-style:italic;
+  border-bottom:1px solid var(--rule-hair);
+}
+.quick button:hover{color:var(--spot);border-bottom-color:var(--spot)}
+
+/* search results */
+.results{margin-top:26px;border-top:1px solid var(--rule-mid);padding-top:6px}
+.results[hidden]{display:none}
+.res-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:10px 0}
+.res-clear{background:none;border:0;cursor:pointer;font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--spot);letter-spacing:.05em}
+.res{
+  display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  padding:13px 0;border-top:1px solid var(--rule-hair);
+  display:grid;grid-template-columns:1fr auto;gap:6px 20px;align-items:baseline;
+}
+.res:hover .res-t{color:var(--spot)}
+.res-t{font-family:var(--serif);font-size:19px;line-height:1.3;font-variation-settings:"opsz" 20}
+.res-k{grid-column:1/-1;font-family:var(--sans);font-size:11.5px;color:var(--ink-faint);letter-spacing:.05em}
+.res-none{padding:16px 0 22px;color:var(--ink-soft);font-style:italic}
+
+/* ═══════════════════════════════════════════════════════════
+   ON YOUR DESK TODAY — quick strip
+   ═══════════════════════════════════════════════════════════ */
+.strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:3px solid var(--rule-press);border-bottom:1px solid var(--rule-mid);
+}
+.strip button{
+  background:none;border:0;border-left:1px solid var(--rule-hair);
+  padding:20px 20px 22px;cursor:pointer;text-align:left;font:inherit;color:inherit;
+  transition:background .16s;
+}
+.strip button:first-child{border-left:0;padding-left:0}
+.strip button:hover{background:rgba(21,42,53,.035)}
+.strip .verb{
+  display:block;font-family:var(--sans);font-size:11px;font-weight:700;
+  letter-spacing:.11em;color:var(--spot);margin-bottom:7px;
+  font-variation-settings:"wdth" 82;
+}
+.strip .what{font-family:var(--serif);font-size:17px;line-height:1.32;display:block}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION SCAFFOLD
+   ═══════════════════════════════════════════════════════════ */
+.sec{padding:clamp(46px,6.5vw,84px) 0 0}
+.sec-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:16px 28px;flex-wrap:wrap;
+  border-bottom:1px solid var(--rule-mid);padding-bottom:10px;margin-bottom:6px;
+}
+.sec-head h2{
+  font-family:var(--serif);font-weight:400;margin:0;
+  font-size:clamp(25px,3.1vw,38px);letter-spacing:-.022em;line-height:1.06;
+  font-variation-settings:"opsz" 36;
+}
+.sec-head .count{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink-faint);letter-spacing:.06em}
+.sec-note{color:var(--ink-soft);font-size:16px;max-width:56ch;margin:14px 0 0;font-weight:300}
+
+/* ═══════════════════════════════════════════════════════════
+   THE ISSUE — hanging numbers. The one true sequence on the page.
+   ═══════════════════════════════════════════════════════════ */
+.issue{margin-top:4px}
+.entry{
+  display:grid;grid-template-columns:58px 1fr auto;
+  gap:0 26px;align-items:start;
+  width:100%;text-align:left;background:none;border:0;font:inherit;color:inherit;
+  padding:22px 0;border-top:1px solid var(--rule-hair);cursor:pointer;
+  transition:background .16s;
+}
+.entry:hover{background:rgba(21,42,53,.03)}
+.entry:hover .e-title{color:var(--spot)}
+.e-num{
+  font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink-faint);
+  padding-top:5px;font-variation-settings:"wdth" 80;letter-spacing:.04em;
+  border-right:1px solid var(--rule-hair);align-self:stretch;
+}
+.e-body{min-width:0}
+.e-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(21px,2.3vw,27px);line-height:1.2;letter-spacing:-.016em;
+  margin:5px 0 7px;transition:color .16s;font-variation-settings:"opsz" 28;
+}
+.e-deck{color:var(--ink-soft);font-size:16.5px;line-height:1.55;max-width:62ch;margin:0;font-weight:300}
+.e-time{
+  font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink-faint);
+  white-space:nowrap;padding-top:9px;letter-spacing:.05em;
+}
+
+/* the fold — more from the same series, set compact */
+.fold{margin-top:2px;border-top:1px solid var(--rule-mid)}
+.fold summary{
+  cursor:pointer;padding:15px 0;list-style:none;
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.06em;
+  color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:14px;
+}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary::after{content:"+";font-family:var(--serif);font-size:20px;color:var(--spot);line-height:1}
+.fold[open] summary::after{content:"–"}
+.fold summary:hover{color:var(--spot)}
+.foldgrid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
+  gap:0 34px;padding-bottom:10px;
+}
+.mini{
+  background:none;border:0;border-top:1px solid var(--rule-hair);
+  text-align:left;font:inherit;color:inherit;cursor:pointer;padding:13px 0;
+}
+.mini:hover .mini-t{color:var(--spot)}
+.mini-t{font-family:var(--serif);font-size:17.5px;line-height:1.3;margin:4px 0 0;font-weight:400;font-variation-settings:"opsz" 18}
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLS — columns, rules between
+   ═══════════════════════════════════════════════════════════ */
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.tool{
+  background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer;
+  padding:26px 34px 30px 0;border-top:1px solid var(--rule-hair);
+  transition:background .16s;
+}
+.tool:nth-child(even){padding-right:0;padding-left:34px;border-left:1px solid var(--rule-hair)}
+.tool:hover{background:rgba(21,42,53,.03)}
+.tool:hover .tool-t{color:var(--spot)}
+.tool-t{
+  font-family:var(--serif);font-weight:400;font-size:clamp(20px,2.1vw,25px);
+  line-height:1.22;letter-spacing:-.016em;margin:6px 0 8px;transition:color .16s;
+  font-variation-settings:"opsz" 26;
+}
+.tool p{color:var(--ink-soft);font-size:16px;line-height:1.55;margin:0;font-weight:300;max-width:46ch}
+.tool .status{
+  display:inline-block;margin-top:14px;font-family:var(--sans);font-size:11px;
+  font-weight:700;letter-spacing:.09em;color:var(--ink);
+  border-bottom:2px solid var(--spot);padding-bottom:3px;font-variation-settings:"wdth" 84;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THE CASEBOOK — solid ink block. The second ink's home.
+   ═══════════════════════════════════════════════════════════ */
+.casebook{
+  background:var(--ink);color:var(--stock);
+  margin-top:clamp(46px,6.5vw,84px);
+  padding:clamp(42px,5.5vw,70px) 0 clamp(46px,6vw,74px);
+}
+.casebook .sec-head{border-bottom-color:rgba(237,241,240,.34)}
+.casebook .sec-head h2{color:var(--stock)}
+.casebook .kicker{color:#E2A79E}
+.casebook .sec-note{color:rgba(237,241,240,.74)}
+.casebook .count{color:rgba(237,241,240,.55)}
+
+.caselist{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0;margin-top:6px}
+.case{
+  background:none;border:0;border-top:1px solid rgba(237,241,240,.24);
+  border-left:1px solid rgba(237,241,240,.16);
+  text-align:left;font:inherit;color:var(--stock);cursor:pointer;
+  padding:22px 24px 26px;transition:background .16s;
+}
+.case:first-child{border-left:0;padding-left:0}
+.case:hover{background:rgba(237,241,240,.07)}
+.case-turn{
+  font-family:var(--serif);font-style:italic;font-size:14.5px;
+  color:#E2A79E;display:block;margin-bottom:9px;
+}
+.case-t{font-family:var(--serif);font-size:20px;line-height:1.26;font-weight:400;margin:0;font-variation-settings:"opsz" 22}
+.case-open{
+  display:block;margin-top:16px;font-family:var(--sans);font-size:11px;
+  font-weight:700;letter-spacing:.09em;color:rgba(237,241,240,.7);
+  font-variation-settings:"wdth" 84;
+}
+.case:hover .case-open{color:var(--stock)}
+
+.caveat{
+  margin-top:34px;padding:18px 22px;
+  border-left:3px solid #E2A79E;background:rgba(237,241,240,.06);
+  font-size:15px;line-height:1.6;color:rgba(237,241,240,.84);max-width:74ch;
+}
+.caveat strong{color:var(--stock);font-weight:600}
+
+/* ═══════════════════════════════════════════════════════════
+   THE LIBRARY — lead + list, swappable
+   ═══════════════════════════════════════════════════════════ */
+.shelf{margin-bottom:clamp(40px,5vw,64px)}
+.swap{display:grid;grid-template-columns:1.14fr .86fr;gap:0 44px;margin-top:6px}
+.lead{
+  background:none;border:0;border-top:1px solid var(--rule-mid);
+  text-align:left;font:inherit;color:inherit;cursor:pointer;padding:20px 0 0;
+}
+.lead:hover .lead-t{color:var(--spot)}
+.plate{
+  width:100%;aspect-ratio:16/10;object-fit:cover;
+  background:var(--ink);filter:grayscale(.24) contrast(1.04);
+  border:1px solid var(--rule-hair);
+}
+.plate-fallback{
+  width:100%;aspect-ratio:16/10;background:var(--ink);color:var(--stock);
+  display:flex;align-items:flex-end;padding:22px;
+  font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.3;
+}
+.lead-t{
+  font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.7vw,33px);
+  line-height:1.16;letter-spacing:-.022em;margin:16px 0 9px;transition:color .16s;
+  font-variation-settings:"opsz" 34;
+}
+.lead p{color:var(--ink-soft);font-size:16.5px;line-height:1.55;margin:0;font-weight:300;max-width:50ch}
+
+.stack{display:flex;flex-direction:column}
+.stack-item{
+  background:none;border:0;border-top:1px solid var(--rule-hair);
+  text-align:left;font:inherit;color:inherit;cursor:pointer;
+  padding:15px 0;display:grid;grid-template-columns:1fr;gap:4px;
+  transition:padding-left .18s;
+}
+.stack-item:first-child{border-top:1px solid var(--rule-mid)}
+.stack-item:hover{padding-left:9px}
+.stack-item:hover .stack-t{color:var(--spot)}
+.stack-t{font-family:var(--serif);font-size:18.5px;line-height:1.26;font-weight:400;margin:0;font-variation-settings:"opsz" 20}
+.stack-d{color:var(--ink-soft);font-size:14.5px;line-height:1.5;margin:0;font-weight:300}
+
+/* ═══════════════════════════════════════════════════════════
+   COLOPHON / CLOSE
+   ═══════════════════════════════════════════════════════════ */
+.close{
+  margin-top:clamp(52px,7vw,92px);
+  border-top:3px solid var(--rule-press);
+  padding:clamp(40px,5vw,64px) 0;
+  display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;
+}
+.close h2{
+  font-family:var(--serif);font-weight:400;font-size:clamp(24px,3vw,36px);
+  line-height:1.16;letter-spacing:-.022em;margin:10px 0 0;max-width:19ch;
+  font-variation-settings:"opsz" 34;
+}
+.close p{color:var(--ink-soft);font-size:16.5px;line-height:1.6;max-width:46ch;font-weight:300}
+.keep{
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.07em;
+  background:var(--ink);color:var(--stock);border:0;cursor:pointer;
+  padding:15px 26px;margin-top:22px;transition:background .16s;
+  font-variation-settings:"wdth" 86;
+}
+.keep:hover{background:var(--spot)}
+.keep[data-saved="1"]{background:var(--spot)}
+
+footer{border-top:1px solid var(--rule-mid);padding:26px 0 46px}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.foot img{height:15px;opacity:.7}
+.foot .cy{display:flex;align-items:center;gap:7px}
+
+/* ═══════════════════════════════════════════════════════════
+   READER — the sheet
+   ═══════════════════════════════════════════════════════════ */
+.veil{
+  position:fixed;inset:0;z-index:100;background:rgba(21,42,53,.52);
+  display:flex;justify-content:flex-end;
+  opacity:0;pointer-events:none;transition:opacity .22s ease;
+}
+.veil.on{opacity:1;pointer-events:auto}
+.sheet{
+  background:var(--sheet);width:min(760px,100%);height:100%;
+  overflow-y:auto;overscroll-behavior:contain;
+  transform:translateX(26px);transition:transform .26s cubic-bezier(.2,.7,.3,1);
+  box-shadow:-1px 0 0 var(--rule-mid);
+}
+.veil.on .sheet{transform:none}
+.sheet-bar{
+  position:sticky;top:0;background:var(--sheet);z-index:2;
+  border-bottom:1px solid var(--rule-mid);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:14px clamp(24px,4vw,54px);
+}
+.sheet-x{
+  background:none;border:0;cursor:pointer;font-family:var(--sans);
+  font-size:12px;font-weight:700;letter-spacing:.07em;color:var(--ink);
+  padding:5px 0;font-variation-settings:"wdth" 86;
+}
+.sheet-x:hover{color:var(--spot)}
+.sheet-in{padding:clamp(30px,4.5vw,52px) clamp(24px,4vw,54px) 90px}
+.sheet h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(29px,4.2vw,45px);line-height:1.1;letter-spacing:-.026em;
+  margin:12px 0 20px;font-variation-settings:"opsz" 46;
+}
+.sheet .lede{
+  font-size:clamp(19px,2.2vw,22px);line-height:1.5;color:var(--ink);
+  font-weight:300;margin:0 0 26px;font-variation-settings:"opsz" 22;
+}
+.sheet p{max-width:var(--measure);margin:0 0 17px;line-height:1.68}
+.sheet h4{
+  font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.28;
+  margin:36px 0 12px;letter-spacing:-.012em;font-variation-settings:"opsz" 22;
+}
+.sheet h4::before{
+  content:"";display:block;width:44px;border-top:2px solid var(--spot);
+  margin-bottom:11px;
+}
+.sheet ul,.sheet ol{max-width:var(--measure);margin:0 0 18px;padding-left:20px}
+.sheet li{margin-bottom:7px;line-height:1.6}
+.sheet figure{margin:28px 0}
+.sheet figure img{width:100%;border:1px solid var(--rule-hair);filter:grayscale(.2) contrast(1.03)}
+.sheet figcaption{
+  font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--ink-soft);
+  margin-top:9px;max-width:60ch;
+}
+.pull{
+  border-left:3px solid var(--spot);padding:4px 0 4px 20px;margin:26px 0;
+  font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.45;
+  color:var(--ink);max-width:52ch;font-variation-settings:"opsz" 22;
+}
+.dates{border-top:1px solid var(--rule-mid);border-bottom:1px solid var(--rule-mid);padding:16px 0;margin:30px 0}
+.dates b{display:block;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:11px;font-variation-settings:"wdth" 84}
+.dates dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 18px}
+.dates dt{font-family:var(--sans);font-size:13px;font-weight:700;white-space:nowrap;font-variation-settings:"wdth" 88}
+.dates dd{margin:0;font-size:15.5px;color:var(--ink-soft)}
+.thought{
+  border-top:3px solid var(--ink);margin:36px 0 0;padding-top:18px;max-width:var(--measure);
+}
+.thought b{display:block;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:10px;font-variation-settings:"wdth" 84}
+.thought q{
+  font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.45;
+  quotes:"“" "”";display:block;font-variation-settings:"opsz" 24;
+}
+.refs{margin-top:38px;border-top:1px solid var(--rule-hair);padding-top:16px}
+.refs b{display:block;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:11px;font-variation-settings:"wdth" 84}
+.refs ol{margin:0;padding-left:18px}
+.refs li{font-size:14px;line-height:1.55;color:var(--ink-soft);margin-bottom:7px}
+.refs a{color:var(--spot);text-decoration:none;border-bottom:1px solid rgba(142,43,34,.34);word-break:break-word}
+.refs a:hover{border-bottom-color:var(--spot)}
+.disclaim{
+  margin-top:30px;padding:15px 18px;background:rgba(142,43,34,.05);
+  border-left:3px solid var(--spot);
+  font-size:14px;line-height:1.58;color:var(--ink-soft);max-width:64ch;
+}
+.related{margin-top:34px;border-top:1px solid var(--rule-mid);padding-top:16px}
+.related b{display:block;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:10px;font-variation-settings:"wdth" 84}
+.related button{
+  display:block;background:none;border:0;padding:8px 0;cursor:pointer;text-align:left;
+  font-family:var(--serif);font-size:17.5px;color:var(--ink);
+  border-top:1px solid var(--rule-hair);width:100%;
+}
+.related button:hover{color:var(--spot)}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:900px){
+  .swap{grid-template-columns:1fr;gap:34px}
+  .close{grid-template-columns:1fr;gap:24px}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  .strip button:nth-child(3){border-left:0;padding-left:0}
+  .strip button:nth-child(-n+2){border-bottom:1px solid var(--rule-hair)}
+}
+@media (max-width:720px){
+  body{font-size:16px}
+  .tools{grid-template-columns:1fr}
+  .tool,.tool:nth-child(even){padding:22px 0 26px;border-left:0}
+  .caselist{grid-template-columns:1fr}
+  .case{padding:20px 0 24px;border-left:0}
+  .entry{grid-template-columns:34px 1fr;gap:0 16px}
+  .e-time{grid-column:2;padding-top:9px}
+  .mast-top{align-items:flex-start}
+  .mast-right{text-align:left}
+  .mast-right .coverline{justify-content:flex-start}
+  .nav{gap:18px}
+  .sheet{width:100%}
+}
+@media (max-width:420px){
+  .strip{grid-template-columns:1fr}
+  .strip button{border-left:0;padding-left:0;border-bottom:1px solid var(--rule-hair)}
+  .strip button:last-child{border-bottom:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+@media print{
+  .navbar,.veil,.strip,.keep{display:none}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ MASTHEAD ══════════════════════════════════════════ -->
+<header class="mast">
+  <div class="wrap mast-top">
+    <h1 class="logo"><span class="the">The</span> Doctor&rsquo;s Desk</h1>
+    <div class="mast-right meta">
+      <div id="issueline">No. 01</div>
+      <div class="coverline">Curated by
+        <img src="https://www.coveryou.in/images/svg/logo.svg" alt="CoverYou" onerror="this.replaceWith(Object.assign(document.createElement('b'),{textContent:'CoverYou'}))">
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar" aria-label="Sections">
+  <div class="wrap">
+    <div class="nav">
+      <a href="#issue">This issue</a>
+      <a href="#tools">Tools</a>
+      <a href="#casebook">Casebook</a>
+      <a href="#library">Library</a>
+    </div>
+    <button class="nav-jump" id="tosearch">Search the desk</button>
+  </div>
+</nav>
+
+<main>
+  <!-- ══ FRONT ═════════════════════════════════════════ -->
+  <section class="front wrap">
+    <h1>What matters without the effort of finding it.</h1>
+    <p class="deck">Practical tools, practice intelligence, remarkable stories and things worth
+      keeping &mdash; built around the everyday work of being a doctor.</p>
+
+    <div class="findline">
+      <label class="meta" for="q">What are you looking for today?</label>
+      <div class="findrow">
+        <input id="q" type="search" autocomplete="off" placeholder="consent, records, referral, burnout&hellip;"
+               aria-describedby="qhint">
+        <button class="findbtn" id="go">Search</button>
+      </div>
+      <div class="quick" id="qhint">
+        <span>Try</span>
+        <button data-q="consent">consent</button>
+        <button data-q="records">medical records</button>
+        <button data-q="legal notice">legal notice</button>
+        <button data-q="referral">referral</button>
+        <button data-q="burnout">burnout</button>
+      </div>
+
+      <div class="results" id="results" hidden>
+        <div class="res-head">
+          <span class="meta" id="rescount"></span>
+          <button class="res-clear" id="resclear">Clear</button>
+        </div>
+        <div id="reslist"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ON YOUR DESK TODAY ════════════════════════════ -->
+  <div class="wrap">
+    <div class="strip" id="strip"></div>
+  </div>
+
+  <!-- ══ THE ISSUE ═════════════════════════════════════ -->
+  <section class="sec wrap" id="issue">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Making rounds</span>
+        <h2>In this issue</h2>
+      </div>
+      <span class="count" id="issuecount"></span>
+    </div>
+    <p class="sec-note">What doctors are talking about right now &mdash; and why it matters
+      past the headline. Relevance before recency.</p>
+    <div class="issue" id="issuelist"></div>
+
+    <details class="fold">
+      <summary>Everything else on the rounds<span></span></summary>
+      <div class="foldgrid" id="foldlist"></div>
+    </details>
+  </section>
+
+  <!-- ══ TOOLS ═════════════════════════════════════════ -->
+  <section class="sec wrap" id="tools">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Use</span>
+        <h2>Tools for the desk</h2>
+      </div>
+      <span class="count" id="toolcount"></span>
+    </div>
+    <p class="sec-note">Small utilities built around recurring practice moments. Something
+      useful in thirty seconds to three minutes, not another workflow to complete.</p>
+    <div class="tools" id="toollist"></div>
+  </section>
+
+  <!-- ══ CASEBOOK ══════════════════════════════════════ -->
+  <section class="casebook" id="casebook">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">Understand</span>
+          <h2>The Casebook</h2>
+        </div>
+        <span class="count" id="casecount"></span>
+      </div>
+      <p class="sec-note">Where medicine gets complicated enough for the law to have an
+        opinion. The value is in the reasoning, not the outcome.</p>
+      <div class="caselist" id="caselist"></div>
+      <p class="caveat">
+        <strong>How to read these.</strong> Each entry is a de-identified pattern drawn from
+        recurring medical disputes &mdash; not a report of a specific judgment. Nothing here
+        states what a court held. Verified judgments, with citations and links to the
+        underlying text, are the next stage of this section.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ LIBRARY ═══════════════════════════════════════ -->
+  <section class="sec wrap" id="library">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Discover</span>
+        <h2>The Library</h2>
+      </div>
+      <span class="count" id="libcount"></span>
+    </div>
+    <p class="sec-note">Still worth seeing. Stories behind familiar things, and the small
+      histories of how ordinary became ordinary.</p>
+
+    <div class="shelf" style="margin-top:26px">
+      <div class="meta" style="margin-bottom:2px">From the Archive</div>
+      <div class="swap" id="shelf-archive"></div>
+    </div>
+
+    <div class="shelf">
+      <div class="meta" style="margin-bottom:2px">Small History</div>
+      <div class="swap" id="shelf-history"></div>
+    </div>
+  </section>
+
+  <!-- ══ CLOSE ═════════════════════════════════════════ -->
+  <section class="wrap">
+    <div class="close">
+      <div>
+        <span class="kicker n">Why this exists</span>
+        <h2>A useful internet for doctors should do more than give them another feed.</h2>
+      </div>
+      <div>
+        <p>The Doctor&rsquo;s Desk is where editorial curiosity meets practical utility. Some
+          things are here because they are beautiful. Others because you may need them
+          between two patients.</p>
+        <p>The Desk should earn a bookmark before it ever asks for anything from you. So it
+          doesn&rsquo;t ask.</p>
+        <button class="keep" id="keep">Keep this desk</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot meta">
+    <span>Things worth seeing, using, understanding, keeping and passing on.</span>
+    <span class="cy">Curated by
+      <img src="https://www.coveryou.in/images/svg/logo.svg" alt="CoverYou" onerror="this.replaceWith(Object.assign(document.createElement('b'),{textContent:'CoverYou'}))">
+    </span>
+  </div>
+</footer>
+
+<!-- ══ READER ══════════════════════════════════════════ -->
+<div class="veil" id="veil" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+  <article class="sheet" id="sheet">
+    <div class="sheet-bar">
+      <span class="meta" id="sheetKicker"></span>
+      <button class="sheet-x" id="sheetX">Close</button>
+    </div>
+    <div class="sheet-in" id="sheetIn"></div>
+  </article>
+</div>
+
+<script>
+"use strict";
+/* ═══════════════════════════════════════════════════════════
+   CONTENT
+   One array, one schema. When this becomes an app, this is the
+   only thing that gets replaced by an API response.
+
+   Every record is authored by Tikshana Shah.
+   ═══════════════════════════════════════════════════════════ */
+
+const AUTHOR = "Tikshana Shah";
+
+const DISCLAIMER_TOOL  = "For professional education and documentation support. Not a substitute for clinical judgement, applicable institutional requirements or qualified legal advice.";
+const DISCLAIMER_LEGAL = "General information only. Not legal advice. The appropriate response depends on the facts, the applicable law, the forum and the terms of your own policy.";
+
+/* body blocks: lead | p | h | pull | list | olist | fig | dates | thought | note */
+const DESK = [
+
+/* ─────────── MAKING ROUNDS ─────────── */
+{
+  id:"nmc-registration", type:"current", series:"Making rounds", read:"2 min",
+  title:"NMC registration rules are being redrawn",
+  deck:"Still a draft. But registration is one of those parts of practice that stays in the background until the moment you need it.",
+  keyword:"NMC doctor registration",
+  body:[
+    ["lead","Your registration may look like a number today. The National Medical Commission is now proposing changes to how that professional identity is maintained."],
+    ["p","The NMC has published a draft amendment to the Registration of Medical Practitioners and Licence to Practice Medicine Regulations, 2026, and has invited comments, objections and suggestions from stakeholders and the public. The draft sits within a broader effort to update the way medical registration and licensing are handled."],
+    ["p","The important word here is draft."],
+    ["p","It is not a new rule that doctors need to act on tomorrow. But it is worth paying attention to what is being proposed, because registration is one of those parts of medical practice that usually stays in the background — until you need it."],
+    ["p","For doctors, the practical questions are likely to be about registration status, additional qualifications, licensing and how professional records are maintained across the system."],
+    ["h","The bigger shift underneath"],
+    ["p","Medicine is becoming increasingly digital. Qualifications are recorded digitally. Health records are moving online. Professional information is increasingly verified through databases rather than pieces of paper."],
+    ["p","So the story around NMC doctor registration is ultimately about more than registration itself. It is about how a doctor's professional identity is recorded, verified and carried forward."],
+    ["p","For now, the proposal is still a proposal. The final rules and their implementation are what will matter."]
+  ],
+  refs:[
+    ["National Medical Commission — current notices and draft regulations","https://www.nmc.org.in/"],
+    ["The Gazette of India — Registration of Medical Practitioners and Licence to Practice Medicine (Amendment) Regulations, 2026","https://egazette.gov.in/WriteReadData/2026/271812.pdf"]
+  ]
+},
+{
+  id:"cashless-everywhere", type:"current", series:"Making rounds", read:"2 min",
+  title:"What “cashless everywhere” actually means",
+  deck:"It sounds like a phrase that needs no explanation. In practice there is a little more to it, and the patient asks you first.",
+  keyword:"Cashless Everywhere Health Insurance",
+  body:[
+    ["lead","“Cashless everywhere” sounds like the kind of phrase that needs no explanation. In practice, there is a little more to it."],
+    ["p","The General Insurance Council launched the Cashless Everywhere initiative in January 2024 to allow policyholders to seek cashless treatment even at hospitals that are not part of their insurer's existing network, subject to the initiative's conditions and the hospital's participation."],
+    ["p","The change was designed to address a familiar problem: a patient chooses a hospital outside the insurer's network and suddenly finds that treatment has to be paid for first and claimed back later."],
+    ["h","But cashless does not mean automatic"],
+    ["p","The policy must cover the treatment. The hospital must follow the required process. The insurer still has to assess and approve the claim according to the applicable policy terms."],
+    ["p","For doctors, this sits just outside the clinical part of care — but very much inside the patient's experience of care."],
+    ["pull","A patient does not usually ask, “What is the adjudication pathway?” They ask, “Will I have to pay now?”"],
+    ["p","That is why Cashless Everywhere sits at the intersection of patient expectations, hospital processes and clinical care. The idea is simple: reduce the distance between being treated and being able to afford the treatment. The execution is where the real story is."]
+  ],
+  refs:[["General Insurance Council — Press release: launch of “Cashless Everywhere”, 24 January 2024","https://www.gicouncil.in/news-media/events/press-release-launch-of-cashless-everywhere/"]]
+},
+{
+  id:"gst-health-insurance", type:"current", series:"Making rounds", read:"2 min",
+  title:"The GST exemption on health insurance, a year on",
+  deck:"The headline was easy to remember. The details are what appear on a premium quote.",
+  keyword:"GST Exemption on Health Insurance",
+  body:[
+    ["lead","The headline was simple: eligible individual health-insurance premiums no longer carried GST."],
+    ["p","From 22 September 2025, GST on individual health insurance policies — including family floater policies — was reduced from 18% to zero. Group health insurance was not included in the exemption and continues to attract 18% GST."],
+    ["p","A year later, the more useful question is not what the announcement said. It is what the change actually means when someone buys or renews a policy."],
+    ["p","For an individual policyholder, the tax component is no longer added in the same way it was before the change. But the treatment is not identical across every insurance arrangement."],
+    ["p","The Department of Financial Services has clarified that employer-sponsored group health insurance remains taxable at 18%, while individual policies are covered by the exemption. It has also clarified how instalment premiums and certain timing situations are treated."],
+    ["h","Why doctors sit on both sides of this"],
+    ["p","Doctors often sit on both sides of healthcare: professionally inside the system, and personally navigating it as consumers."],
+    ["p","So the interesting question is no longer simply, “Was GST removed?” It is: did the change make insurance meaningfully easier to afford — and for whom?"]
+  ],
+  refs:[["Department of Financial Services, Ministry of Finance — Exemption of GST on individual life and health insurance policies","https://www.financialservices.gov.in/node/3332"]]
+},
+{
+  id:"dengue-vaccine", type:"current", series:"Making rounds", read:"2 min",
+  title:"The dengue conversation has changed",
+  deck:"For years it started with mosquitoes and prevention. Now there is a second question patients will bring to you.",
+  keyword:"Dengue Vaccine in India",
+  body:[
+    ["lead","For years, the dengue conversation started with mosquitoes, prevention and what to do when fever arrived. Now there is another question doctors may increasingly hear: what about vaccination?"],
+    ["p","On 21 July 2026, the Central Drugs Standard Control Organisation approved Qdenga, making it the first dengue vaccine approved in India for prevention of dengue disease. The approval covers individuals aged 4 to 60 years."],
+    ["p","That is a significant regulatory development. But approval is only the beginning of the clinical conversation."],
+    ["p","Patients are likely to ask who the vaccine is for, how it fits with other prevention measures, whether previous dengue infection changes the discussion, and what an approval actually means for them."],
+    ["h","Approval and recommendation are not the same thing"],
+    ["p","There is an important distinction between regulatory approval and a universal recommendation. WHO's current guidance for Qdenga is narrower, recommending its use in children 6–16 years old in settings with high dengue transmission intensity."],
+    ["p","So this is now a live topic with two separate questions sitting beside each other: what India has approved, and how the vaccine should be used in practice."],
+    ["p","The arrival of a vaccine does not make mosquito control, surveillance, early diagnosis or clinical management irrelevant. It adds another tool. And as with many new developments, the real test of the news is what happens after the headline — when doctors start getting questions from actual patients."]
+  ],
+  refs:[
+    ["Press Information Bureau, MoHFW — CDSCO approves India's first dengue vaccine, 21 July 2026","https://www.pib.gov.in/PressReleasePage.aspx?PRID=2286883&lang=1&reg=6"],
+    ["World Health Organization — Vaccines and immunization: dengue","https://www.who.int/news-room/questions-and-answers/item/dengue-vaccines"]
+  ]
+},
+{
+  id:"dengue-guidelines", type:"current", series:"Making rounds", read:"2 min",
+  title:"A seasonal reset on dengue management",
+  deck:"A familiar presentation does not guarantee a familiar trajectory. Refreshers matter more for common diseases than rare ones.",
+  keyword:"Dengue Clinical Management Guidelines",
+  body:[
+    ["lead","The first dengue patient of the season may look familiar. The challenge is remembering that a familiar presentation does not guarantee a familiar trajectory."],
+    ["p","India's National Center for Vector Borne Diseases Control lists the National Guidelines for Clinical Management of Dengue Fever 2023 among its current dengue guidance. The guidance sits alongside national material on dengue prevention, vector control and outbreak management."],
+    ["p","The WHO also maintains current guidance on clinical management of arboviral diseases, including dengue, with emphasis on recognising warning signs, monitoring patients appropriately and managing severe disease early."],
+    ["p","For doctors, this is less a “read this because dengue is new” topic and more of a seasonal reset."],
+    ["p","What matters is not memorising an entire guideline every monsoon. It is remembering where the patient's risk can change, what needs closer monitoring, and when a previously uncomplicated case stops looking uncomplicated."],
+    ["pull","Routine creates confidence. Confidence can occasionally become assumption."],
+    ["p","The useful question before the next dengue case is therefore not, “Do I know dengue?” It is: have I looked at the current guidance recently? Because clinical guidance changes, terminology gets refined and seasonal patterns can shift."]
+  ],
+  refs:[
+    ["National Center for Vector Borne Diseases Control, MoHFW — Guidelines","https://ncvbdc.mohfw.gov.in/index1.php?lang=1&level=1&lid=3686&sublinkid=5899&theme=Cream"],
+    ["World Health Organization — Arboviral disease case management guidance","https://www.who.int/publications/i/item/B09394"]
+  ]
+},
+{
+  id:"leprosy-programme", type:"current", series:"Making rounds", read:"2 min",
+  title:"Why the leprosy programme is still running",
+  deck:"Some diseases leave everyday conversation long before they leave the health system. Less visible gets mistaken for less relevant.",
+  keyword:"National Leprosy Eradication Programme",
+  body:[
+    ["lead","Some diseases leave everyday conversation long before they leave the health system. Leprosy is one of them."],
+    ["p","The National Leprosy Eradication Programme remains an active national programme under India's National Health Mission, with a focus on early detection, treatment, disability prevention, rehabilitation and reducing stigma and discrimination."],
+    ["p","The current programme is also not standing still. The Directorate General of Health Services says India's revised leprosy classification and treatment protocol has been implemented nationwide since 1 April 2025, with a three-drug multidrug therapy regimen used for both paucibacillary and multibacillary cases."],
+    ["p","That makes the programme more than an old public-health campaign with a new name. It is a continuing surveillance and treatment system."],
+    ["p","India's current strategy includes case-detection campaigns in high-endemic districts, focused campaigns in lower-endemic districts, ASHA-based surveillance and digital tracking through Nikusth. The programme's 2026–27 targets also show why the work continues: the country is still working to reduce new cases, child cases and Grade 2 disability."],
+    ["h","What happens when a disease becomes less visible"],
+    ["p","Less visible can be mistaken for less relevant. But elimination work often depends on continuing to look carefully, diagnose early and prevent the consequences of delayed treatment."],
+    ["p","This is not simply a story about a disease India wants to leave behind. It is a reminder that public-health progress has to be maintained, not merely declared."]
+  ],
+  refs:[["Directorate General of Health Services — National Leprosy Eradication Programme, updated 25 August 2026","https://dghs.mohfw.gov.in/nlep.php"]]
+},
+{
+  id:"world-heart-day", type:"current", series:"Making rounds", read:"2 min",
+  title:"World Heart Day, and the risk that hides in plain sight",
+  deck:"An awareness day becomes noise quickly. The 2026 message asks a better question: what are we still missing?",
+  keyword:"World Heart Day 2026",
+  body:[
+    ["lead","An awareness day can become noise very quickly. World Heart Day's 2026 message gives us a better question: what are we still missing?"],
+    ["p","World Heart Day falls on 29 September 2026. The World Heart Federation's 2026 campaign continues under the message “Don't Miss a Beat” and focuses on the fact that heart disease can hide in plain sight."],
+    ["p","That framing is useful because cardiovascular risk is not always dramatic. A patient may not describe symptoms as cardiac. A risk factor may be present without symptoms at all. And some cardiovascular conditions can remain undiagnosed until a more serious event forces the issue."],
+    ["h","The quiet part of cardiovascular care"],
+    ["p","For doctors, the day can be more than another calendar-date awareness post. It can be a prompt to look at the symptoms that are easy to dismiss, the risks that accumulate slowly and the patients who do not fit the stereotypical picture of heart disease."],
+    ["p","The World Heart Federation is also using the 2026 campaign to keep attention on equitable prevention and care. That makes the conversation broader than lifestyle advice. It is about recognition, prevention and access."],
+    ["p","September's awareness moment may last one day. The clinical work it points towards does not."]
+  ],
+  refs:[
+    ["World Heart Federation — World Heart Day 2026 campaign resources","https://world-heart-federation.org/world-heart-day/campaign-resources/"],
+    ["World Heart Federation — World Heart Day 2026","https://world-heart-federation.org/world-heart-day/"]
+  ]
+},
+{
+  id:"ai-healthcare-india", type:"current", series:"Making rounds", read:"2 min",
+  title:"AI in Indian healthcare moves from experiment to governance",
+  deck:"The interesting question is no longer whether it can. It is where it should — and that is a workflow question, not a technology one.",
+  keyword:"AI in Healthcare India",
+  body:[
+    ["lead","The interesting AI question in medicine is no longer, “Can it do this?” It is, “Where should it?”"],
+    ["p","In February 2026, India's Ministry of Health and Family Welfare launched SAHI — Strategy for Artificial Intelligence in Healthcare for India — and BODH, a benchmarking platform for health AI. The government described SAHI as a framework for safe, ethical, evidence-based and inclusive adoption of AI across healthcare."],
+    ["p","That tells us something important about where the conversation has moved. AI is no longer being discussed only as a futuristic possibility. India is now also talking about governance, validation, data stewardship, deployment and monitoring."],
+    ["h","Which makes it a workflow question"],
+    ["p","Should a tool help draft documentation? Support image interpretation? Reduce administrative work? Help with research? Or stay out of a particular clinical decision entirely?"],
+    ["p","There will not be one answer for every specialty or every setting. And that is probably a good thing."],
+    ["p","The useful next phase of adoption isn't about convincing doctors to use more technology simply because it exists. It is about deciding where technology genuinely adds value — without hiding uncertainty, creating new risks or shifting responsibility into the background."],
+    ["pull","In clinics, wards, labs and doctors' workstations, someone will eventually ask the most practical question of all: does this actually make my work better?"]
+  ],
+  refs:[
+    ["Press Information Bureau, MoHFW — Launch of SAHI and BODH initiatives, 17 February 2026","https://www.pib.gov.in/PressReleasePage.aspx?PRID=2229226&lang=1&reg=1"],
+    ["Press Information Bureau, MoHFW — Update on Secure AI in Health, 10 March 2026","https://www.pib.gov.in/PressReleasePage.aspx?PRID=2237406&lang=1&reg=3"]
+  ]
+},
+{
+  id:"doctor-burnout", type:"current", series:"Making rounds", read:"2 min",
+  title:"When “I'm fine” stops meaning fine",
+  deck:"A doctor can be functioning perfectly and still not be doing well. That is part of why burnout is difficult to spot.",
+  keyword:"Doctor Burnout in India",
+  body:[
+    ["lead","A doctor can be functioning perfectly and still not be doing well. That is one reason burnout is so difficult to spot."],
+    ["p","It does not always look like someone stepping away from work. Sometimes it looks like someone who keeps showing up."],
+    ["p","A nationwide study of 763 Indian healthcare practitioners found personal burnout in 47%, work-related burnout in 31% and patient-related burnout in 35%; 24.9% experienced all three. The study also found higher burnout among younger practitioners and among those spending longer hours with patients or doing night duties and night calls."],
+    ["h","What it looks like before it gets a label"],
+    ["p","“I'm just tired.” “This month has been hectic.” “I'll rest after this week.”"],
+    ["p","Doctors are exceptionally good at continuing. That is a strength in clinical work. It can become a problem when endurance becomes the only visible measure of wellbeing."],
+    ["p","The conversation therefore deserves to move beyond the familiar advice to sleep more and take a break. Workload, systems, night duties, emotional demands and the accumulated pressure of caring for people all shape how sustainable a medical career feels."],
+    ["pull","Perhaps the useful question is not, “Why aren't doctors more resilient?” It is: what would make resilience less necessary as a survival strategy?"]
+  ],
+  refs:[
+    ["Journal of the Association of Physicians of India — Assessment of burnout among healthcare practitioners in India: a survey-based nationwide study","https://pubmed.ncbi.nlm.nih.gov/40836718/"],
+    ["DOI: 10.59556/japi.73.1036","https://doi.org/10.59556/japi.73.1036"]
+  ]
+},
+{
+  id:"personal-branding", type:"current", series:"Making rounds", read:"2 min",
+  title:"Does being good need to be visible?",
+  deck:"A doctor can have twenty years of experience and very little professional information available online. That is becoming harder to ignore.",
+  keyword:"Personal Branding for Doctors",
+  body:[
+    ["lead","A doctor can have twenty years of experience and still have very little professional information available online. That is becoming harder to ignore."],
+    ["p","The current conversation is not necessarily about becoming an influencer. It is increasingly about whether a doctor's expertise is represented clearly and accurately across search, professional profiles, websites and social platforms."],
+    ["p","There is a practical reason to care. Before a patient books, a colleague refers, a conference invites or a journalist calls, someone may look the doctor up."],
+    ["p","That does not mean every doctor needs Instagram reels or a weekly LinkedIn post. For one specialist, a clear profile with qualifications, areas of practice and academic work may be enough. Another doctor may choose to teach publicly through writing, video or talks."],
+    ["p","The format can be different. The principle is the same: make it easy to understand who you are professionally and what you know."],
+    ["h","With a professional boundary around it"],
+    ["p","NMC's applicable ethics framework has long treated self-promotion, patient solicitation and misleading publicity cautiously, while allowing legitimate public-health communication under the applicable rules."],
+    ["p","So personal branding is not simply a visibility exercise. It is a communication exercise with a professional boundary around it."],
+    ["pull","The goal does not have to be popularity. It can be something much quieter: when someone searches for your name, your professional identity should make sense before you ever meet them."]
+  ],
+  refs:[
+    ["National Medical Commission — Code of Medical Ethics Regulations, 2002","https://www.nmc.org.in/rules-regulations/code-of-medical-ethics-regulations-2002/1000/"],
+    ["National Medical Commission — Rules and regulations","https://www.nmc.org.in/rules-regulations-nmc/"]
+  ]
+},
+
+/* ─────────── TOOLS & PRACTICE NOTES ─────────── */
+{
+  id:"consultation-end", type:"tool", series:"Use", read:"60 sec",
+  title:"When the consultation ends",
+  deck:"What should be clear to the patient, and what should stay in the record. Two things worth closing before you move on.",
+  status:"Open the guide",
+  image:"https://drive.google.com/thumbnail?id=1Yd8Sv22Ohw_U8s2d90Zwb9EL3F15plrx&sz=w1000",
+  caption:"<b>The Doctor</b> — Sir Luke Fildes, 1891. Oil on canvas, Tate, London. A doctor keeps watch over a sick child while the parents wait nearby. Source image via Wikimedia Commons.",
+  body:[
+    ["lead","A consultation can feel finished when the patient gets up to leave. But before you move on to the next one, there are two things worth closing."],
+    ["h","First: close the conversation"],
+    ["p","Does the patient know what you found, what the plan is, and what happens next?"],
+    ["p","Be clear about treatment, medication, tests and follow-up. Where relevant, explain what changes or warning signs should bring them back sooner."],
+    ["p","Then ask:"],
+    ["pull","Anything you'd like me to go over again?"],
+    ["p","Sometimes that's where the important question finally comes out."],
+    ["h","Second: close the record"],
+    ["p","You don't need to write down every word that was spoken. But someone reading the record later should be able to understand what happened and what was decided."],
+    ["p","Depending on the consultation, that may include:"],
+    ["list",["Findings","Assessment","Treatment and advice given","Investigations and referrals","Important decisions or discussions","Follow-up plan"]],
+    ["p","If a significant risk, alternative, refusal or other important decision was discussed, document it appropriately. Once it's written, keep the record secure and retain it for the period required under the rules applicable to your practice."],
+    ["h","The simple test"],
+    ["p","Before you move to the next patient, ask yourself two questions. Would the patient know what happens next? Would another doctor understand what happened from the record?"],
+    ["p","If both are clear, you've probably closed the consultation well."],
+    ["thought","The consultation ends with the patient. The record carries it forward."],
+    ["note",DISCLAIMER_TOOL]
+  ],
+  related:["referral-note","google-search"]
+},
+{
+  id:"consent-builder", type:"tool", series:"In development", read:"Concept",
+  title:"Consent checklist builder",
+  deck:"A consent form is generic. The conversation should be specific. This is what the tool is being built to do.",
+  status:"See the concept",
+  body:[
+    ["lead","A standard consent form may be generic. The conversation should be specific to the procedure and to the patient in front of you."],
+    ["p","The builder is designed to take a procedure and the patient factors that matter — comorbidities, medications, circumstances — and produce a structured prompt-list for the consent conversation, plus documentation prompts you can copy into your notes."],
+    ["h","What it would cover"],
+    ["list",[
+      "Why the procedure is being recommended",
+      "What the patient can reasonably expect",
+      "Material risks relevant to this procedure",
+      "Patient-specific considerations",
+      "Reasonable alternatives, and what may happen if treatment is deferred or refused",
+      "Space for the patient's questions",
+      "A check that the patient understood",
+      "Documentation prompts for the record"
+    ]],
+    ["h","Why it isn't live yet"],
+    ["p","The interface is the easy part. The content library underneath it is the product — and clinical risk content cannot be assembled from general knowledge. Every procedure entry needs to be built from professional guidance, clinical guidance and authoritative consent sources, then reviewed, dated and given a review cycle."],
+    ["p","Publishing a plausible-sounding risk list would be worse than publishing nothing. So the builder stays a concept here until the library behind it is source-validated."],
+    ["pull","The database is the product. The interface is only the access layer."],
+    ["h","What it will not claim"],
+    ["p","A structured checklist helps you have and record a specific conversation. It does not provide legal protection, guarantee defensibility, prove compliance or reduce liability. Those are not things a tool can offer, and the Desk will not suggest otherwise."],
+    ["note",DISCLAIMER_TOOL]
+  ],
+  related:["consent-scope","consultation-end"]
+},
+{
+  id:"template-shelf", type:"tool", series:"Keep", read:"Concept",
+  title:"Practice template shelf",
+  deck:"The documents you end up writing from scratch, every time — discharge against advice, handover, teleconsultation, incident notes.",
+  status:"See what's planned",
+  body:[
+    ["lead","There is a small set of documents most practices end up writing from scratch, repeatedly, usually under time pressure. The shelf is meant to remove that."],
+    ["h","The first set"],
+    ["list",[
+      "Discharge against medical advice",
+      "Referral and handover note",
+      "Teleconsultation scope and limitations note",
+      "Incident record for an abusive or violent encounter",
+      "Patient refusal of advised treatment"
+    ]],
+    ["h","How they are meant to be used"],
+    ["p","Templates are starting points, written to be practical, concise and easy to edit. Each one carries the date it was written and the date it was last reviewed."],
+    ["p","They do not replace your institution's own requirements, applicable professional standards, qualified legal advice or your clinical judgement. Where a template touches something with legal consequence, it says so rather than implying the form settles the matter."],
+    ["h","Why they aren't downloadable yet"],
+    ["p","A template that sounds authoritative and is wrong is worse than no template. Each one needs review against current NMC and applicable state requirements before it goes on the shelf."],
+    ["note",DISCLAIMER_TOOL]
+  ],
+  related:["referral-note"]
+},
+{
+  id:"legal-notice", type:"tool", series:"Understand", read:"2 min",
+  title:"Received a legal notice?",
+  deck:"Don't reply immediately. Five things to do first, in order.",
+  status:"See the first steps",
+  body:[
+    ["lead","A legal notice does not automatically mean you have done something wrong. It does mean the matter needs to be taken seriously, and that the first hour matters more than the first reply."],
+    ["h","1. Read the notice properly"],
+    ["p","Work out what you are actually dealing with. Who sent it? What are they alleging? What are they asking you to do? Is there a deadline?"],
+    ["p","Save the original and note when you received it. Don't rush to send a reply just because you feel you need to defend yourself."],
+    ["h","2. Pull out the records"],
+    ["p","Go back to the case. Keep the relevant notes, reports, prescriptions, consent forms, referrals, discharge records and correspondence together."],
+    ["p","Don't edit anything because the notice has arrived. Don't backdate. Don't delete. Don't “fix” old records. You want the record to show what was actually documented at the time."],
+    ["h","3. Show it to a lawyer"],
+    ["p","Don't try to work out the legal response yourself. Share the notice and relevant records with a qualified lawyer who can tell you what the allegation means and what needs to happen next."],
+    ["p","If you have professional indemnity insurance, check the policy now. Some policies have specific requirements around notifying the insurer or broker, and around how a claim is handled. Follow the terms of your own policy."],
+    ["h","4. Write down what happened"],
+    ["p","Before memories get fuzzy, make a simple timeline: what happened, when, who was involved, what was documented, and what happened afterwards."],
+    ["p","Keep it factual. Don't write a defence. Don't guess what someone else was thinking. Just get the sequence right."],
+    ["h","5. Don't miss the next date"],
+    ["p","Look at the notice again. Is there a response deadline? Put it in your calendar and make sure your lawyer has seen it. Also check whether your insurance policy has a separate notification requirement — the two deadlines may not be the same."],
+    ["thought","A legal notice is not a verdict. It is a deadline."],
+    ["note",DISCLAIMER_LEGAL]
+  ],
+  related:["consent-scope"]
+},
+{
+  id:"referral-note", type:"note", series:"Practice note", read:"2 min",
+  title:"What actually belongs in a referral note",
+  deck:"A good handover gives the next doctor the context they need, without making them piece the case together.",
+  body:[
+    ["lead","A referral note doesn't need to tell the whole story. It needs to make the important part of the story easy to pick up."],
+    ["h","Start with why"],
+    ["p","What prompted the referral? Instead of “kindly see and advise”, a little context goes a long way:"],
+    ["pull","Persistent abdominal pain despite initial management. Referred for further evaluation."],
+    ["p","And if there is a specific question for the specialist, put that in too."],
+    ["h","Give the relevant picture"],
+    ["p","The next doctor shouldn't have to reconstruct the case from scattered information. Include what's relevant to the current problem:"],
+    ["list",["Relevant history","Important examination findings","Key investigations and results","Treatment already given","Current medications and relevant allergies"]],
+    ["p","Not everything that has ever happened to the patient. Just what helps explain where things stand now."],
+    ["h","Make the handover clear"],
+    ["p","If the referral is urgent or time-sensitive, say so — and why. It's also useful to make clear whether you're seeking a specialist opinion or whether the specialist is expected to take over the patient's care."],
+    ["p","NMC regulations require the patient's clinical condition and the reason for referral to be documented and provided at referral, and call for clarity around whether the specialist is taking over care or the referring practitioner continues to manage the patient."],
+    ["h","Before you send it"],
+    ["p","Take one quick look at the note. Can the next doctor tell why this patient is here, what has already been done, and what you need from them?"],
+    ["p","If those three things are clear, the handover has done its job."],
+    ["thought","A referral note is not the whole case. It's the part of the case the next doctor needs first."],
+    ["note",DISCLAIMER_TOOL]
+  ],
+  related:["template-shelf","consultation-end"]
+},
+{
+  id:"google-search", type:"note", series:"Practice note", read:"90 sec",
+  title:"When a patient's Google search enters the consultation",
+  deck:"“Don't believe everything you read online” closes the conversation before you learn what is actually worrying them.",
+  body:[
+    ["lead","A patient walks in with a screenshot. “Doctor, I read that this could be serious.”"],
+    ["p","You've probably heard some version of it. The easy response is to say, “Don't believe everything you read online.” But that can close the conversation before you understand what is actually worrying them."],
+    ["h","Instead, try: show me what you read"],
+    ["p","It gives you something concrete to work with. Look at the source together. Then bring the conversation back to this patient — their symptoms, history, examination and investigations. Online information may be accurate in one situation and completely irrelevant in another."],
+    ["h","And sometimes the search isn't really the question"],
+    ["p","“Could this be cancer?” might really mean “should I be worried?” “Do I really need this medicine?” might mean “is it safe for me?”"],
+    ["p","That is where the consultation matters most. Before they leave, make sure you've covered what you've found, what happens next, and what they should do if things change. If the discussion involves an important clinical decision or changes the management plan, document it appropriately in the clinical record."],
+    ["thought","The search result is where the conversation starts. The consultation is where it gets context."],
+    ["note",DISCLAIMER_TOOL]
+  ],
+  related:["consultation-end"]
+},
+
+/* ─────────── THE CASEBOOK ─────────── */
+{
+  id:"consent-scope", type:"case", series:"Casebook", read:"2 min",
+  turns:"What consent covers",
+  title:"When a form was signed, but the operation changed",
+  deck:"The question was never whether there was consent. It was what that consent actually covered.",
+  image:"https://drive.google.com/thumbnail?id=1SL1EAiczCzFFRxj_3qspT0pSnsFmbFN3&sz=w1000",
+  caption:"<b>The earliest written medical consent form identified in the historical record, dated 1524.</b> Bursa Şer‘iyye Records, A-40, 221a. Reproduced in Sayligil &amp; Ozden, <i>Annals of Saudi Medicine</i>, 2014.",
+  body:[
+    ["lead","A patient signed the form. The dispute that followed was not about whether consent existed. It was about what that consent covered."],
+    ["h","The pattern on the desk"],
+    ["p","A woman in her forties is admitted with a gynaecological problem and advised to undergo a procedure under anaesthesia. She agrees and signs consent for the planned procedure. So far, nothing unusual."],
+    ["p","During the operation, the treating team forms the view that a more extensive surgery would be appropriate. The patient is already under anaesthesia. A relative present at the hospital is asked to consent to the additional surgery. The surgery goes ahead."],
+    ["h","The question it raises"],
+    ["p","There is a signed consent form. There is a clinical reason for what was done. Is that enough?"],
+    ["pull","If a patient agrees to one procedure, can that consent cover a substantially different procedure decided upon later?"],
+    ["h","Why this pattern recurs"],
+    ["p","Disputes of this shape rarely turn on whether a form existed. They turn on what the patient was told, what they agreed to, whether the situation was genuinely one that could not wait, and whether any of that was recorded at the time."],
+    ["p","A signature shows a document was signed. By itself it does not answer what the patient understood and agreed to."],
+    ["list",["What was discussed?","What was planned?","What changed, and when?","Was there a genuine need to proceed without waiting for the patient's own decision?","Where is that recorded?"]],
+    ["h","Desk note"],
+    ["p","Consent tied to a specific procedure does not automatically stretch to cover a different one. Where a change of plan is foreseeable, it is worth discussing the possibility before the patient goes under — and recording that discussion."],
+    ["thought","Consent isn't paperwork. It's the patient's permission for something they have had the opportunity to understand."],
+    ["note","This is a de-identified pattern drawn from recurring consent disputes. It is not a report of a specific judgment and states nothing about what any court held. " + DISCLAIMER_LEGAL]
+  ],
+  related:["consent-builder","consultation-end"]
+},
+{
+  id:"case-outcome", type:"case", series:"Casebook", read:"90 sec",
+  turns:"Outcome and negligence",
+  title:"A poor outcome is not, by itself, the allegation",
+  deck:"Where a complication follows treatment, the dispute usually turns on what was done and recorded — not on the outcome alone.",
+  body:[
+    ["lead","One of the most common shapes a medical dispute takes: a patient has a bad outcome, and the bad outcome becomes the case."],
+    ["h","The pattern on the desk"],
+    ["p","A patient undergoes a procedure. A complication follows — sometimes a recognised one, sometimes an unexpected deterioration. A complaint is made alleging that the outcome should not have happened."],
+    ["h","The question it raises"],
+    ["p","An adverse outcome and a departure from reasonable care are not the same thing. Distinguishing them is the whole difficulty."],
+    ["h","What these disputes tend to examine"],
+    ["list",[
+      "What was the clinical picture at the time, on the record?",
+      "What steps were taken, in what order, and when?",
+      "Was the complication a recognised risk of the procedure?",
+      "Was it recognised promptly and managed appropriately?",
+      "Is the chronology legible to someone reading the record afterwards?"
+    ]],
+    ["h","Desk note"],
+    ["p","The contemporaneous record is what carries this. A note written at the time, showing what was observed and what was done about it, does more than any account reconstructed later."],
+    ["note","This is a de-identified pattern drawn from recurring disputes. It is not a report of a specific judgment and states nothing about what any court held. " + DISCLAIMER_LEGAL]
+  ],
+  related:["consultation-end"]
+},
+{
+  id:"case-screening", type:"case", series:"Casebook", read:"90 sec",
+  turns:"Limits of a test",
+  title:"What a screening test was, and wasn't, expected to find",
+  deck:"Disputes over missed findings often turn on what the investigation could reasonably detect, and what the patient was told it would do.",
+  body:[
+    ["lead","A test is done. Something is later found that the test did not show. The dispute begins there."],
+    ["h","The pattern on the desk"],
+    ["p","A patient undergoes a routine investigation. A finding emerges afterwards that the investigation did not identify. A complaint alleges the finding should have been detected."],
+    ["h","The question it raises"],
+    ["p","Every investigation has a detection limit. The question is whether the limit was inherent to the test and the circumstances — and whether the patient understood what the test was for."],
+    ["h","What these disputes tend to examine"],
+    ["list",[
+      "What was the stated purpose and scope of the investigation?",
+      "Were the applicable technical standards followed?",
+      "Did conditions at the time affect what could be seen?",
+      "What did the report actually say, including any stated limitations?",
+      "What was the patient told the test would and would not establish?"
+    ]],
+    ["h","Desk note"],
+    ["p","A report that records its own limitations is doing real work. So is a conversation in which the patient is told what a test can rule out and what it cannot."],
+    ["note","This is a de-identified pattern drawn from recurring disputes. It is not a report of a specific judgment and states nothing about what any court held. " + DISCLAIMER_LEGAL]
+  ],
+  related:["consultation-end"]
+},
+{
+  id:"case-refusal", type:"case", series:"Casebook", read:"90 sec",
+  turns:"When the patient declines",
+  title:"The patient who chose differently",
+  deck:"Where a patient declines advice or leaves early, what matters is whether the advice, the risks and the refusal were recorded.",
+  body:[
+    ["lead","A patient declines the advised course, or leaves before the treating team considers it safe. Later, the consequences are attributed to the care rather than the choice."],
+    ["h","The pattern on the desk"],
+    ["p","Admission is advised and declined. Or a patient asks to be discharged early. Or a follow-up is advised and not attended. The condition deteriorates afterwards."],
+    ["h","The question it raises"],
+    ["p","A patient is entitled to decline. The professional question is whether the decision was informed, and whether that is visible in the record."],
+    ["h","What these disputes tend to examine"],
+    ["list",[
+      "What was advised, and was the reason for it explained?",
+      "Were the specific risks of declining explained in terms the patient could act on?",
+      "Was the refusal itself recorded, and by whom?",
+      "Was the patient told what would bring them back, and when?",
+      "Was any alternative or safety net offered?"
+    ]],
+    ["h","Desk note"],
+    ["p","“Patient refused” on its own is thin. “Admission advised for X; risks of leaving explained including Y; patient declined; advised to return immediately if Z; discharge summary given” is a record of a conversation."],
+    ["note","This is a de-identified pattern drawn from recurring disputes. It is not a report of a specific judgment and states nothing about what any court held. " + DISCLAIMER_LEGAL]
+  ],
+  related:["template-shelf","consultation-end"]
+},
+{
+  id:"case-referral", type:"case", series:"Casebook", read:"90 sec",
+  turns:"Who was holding the patient",
+  title:"When responsibility moves between doctors",
+  deck:"Referral and transfer disputes usually turn on timing and on whether it was clear who was responsible at each point.",
+  body:[
+    ["lead","Care passes between clinicians, departments or institutions. Something is missed in the space between them."],
+    ["h","The pattern on the desk"],
+    ["p","A patient is referred, transferred or handed over. Afterwards, it is unclear who was responsible for a decision during the transition — or the transition itself is said to have come too late."],
+    ["h","The question it raises"],
+    ["p","Handover is a clinical act, not an administrative one. The dispute is usually about timing and about clarity of responsibility."],
+    ["h","What these disputes tend to examine"],
+    ["list",[
+      "When did the indication for referral become apparent on the record?",
+      "How long did the transfer take, and what happened in the interval?",
+      "What information travelled with the patient?",
+      "Was it clear whether the receiving clinician was advising or taking over care?",
+      "Who was monitoring the patient during the transition?"
+    ]],
+    ["h","Desk note"],
+    ["p","The referral note is where most of this is either settled or left ambiguous. Naming what you are asking for — an opinion, or a transfer of care — removes the ambiguity."],
+    ["note","This is a de-identified pattern drawn from recurring disputes. It is not a report of a specific judgment and states nothing about what any court held. " + DISCLAIMER_LEGAL]
+  ],
+  related:["referral-note"]
+},
+
+/* ─────────── FROM THE ARCHIVE ─────────── */
+{
+  id:"cajal", type:"archive", series:"From the Archive", read:"90 sec",
+  title:"The scientist who drew the brain",
+  deck:"Before the brain could be photographed in detail, one scientist drew what he saw — again and again, until the drawing itself became part of the discovery.",
+  keyword:"scientific medical illustration",
+  image:"https://drive.google.com/thumbnail?id=1oZG3zrvJBSQDauFZQIoqbig-TJAuArRb&sz=w1000",
+  caption:"Santiago Ramón y Cajal and the neural structures he spent his career studying. Original drawings: Museo Cajal, Legado CSIC.",
+  body:[
+    ["lead","Before the brain could be photographed in detail, one scientist drew what he saw — again and again, until the drawing itself became part of the discovery."],
+    ["p","Santiago Ramón y Cajal looked through a microscope at tissue that was difficult to interpret and did something unusually disciplined with what he saw: he drew it."],
+    ["p","His drawings were not decorative copies of microscopic slides. They were working scientific records, used to compare structures, test ideas and make arguments about how the nervous system was organised. The Museo Cajal today holds 1,434 pieces signed or attributed to Cajal in its digitised drawing collection."],
+    ["p","Cajal used staining methods developed by others, including Camillo Golgi's silver staining technique, and pushed the observations further. His work supported the idea that the nervous system is made of individual nerve cells — neurons — rather than one uninterrupted network."],
+    ["p","In 1906, Cajal and Golgi shared the Nobel Prize in Physiology or Medicine for their work on the structure of the nervous system, despite disagreeing sharply about what their observations meant."],
+    ["p","That disagreement is part of what makes the drawings so interesting. A scientific image does not automatically settle a question. Someone still has to decide what the pattern means."],
+    ["p","Cajal's contribution was therefore more than beautiful illustration. It helped turn something almost impossible to describe in words into something other scientists could inspect, question and build upon."],
+    ["p","Today we have digital microscopy, advanced imaging and software that can render biological structures in remarkable detail. But the underlying habit is much older: look closely, record carefully, and make the invisible easier for someone else to see."],
+    ["thought","Sometimes the best way to make a discovery visible is to draw what no one else can yet see."]
+  ],
+  refs:[
+    ["Museo Cajal / CSIC — Cajal's drawings","https://www.santiagoramonycajal.org/en/museo-cajal/drawings/cajal/1/"],
+    ["Nobel Prize — The Nobel Prize in Physiology or Medicine 1906","https://www.nobelprize.org/prizes/medicine/1906/summary/"],
+    ["Nobel Prize — Exposing the forest: Cajal and Golgi","https://www.nobelprize.org/nobel_prizes/medicine/laureates/1906/speedread.html"]
+  ]
+},
+{
+  id:"stethoscope-invention", type:"archive", series:"From the Archive", read:"90 sec",
+  title:"The simple idea behind the stethoscope",
+  deck:"A doctor, a difficult examination, and a piece of paper. The instrument is so ordinary now that it's easy to forget how strange medicine looked before it.",
+  keyword:"stethoscope invention",
+  body:[
+    ["lead","The stethoscope is so ordinary today that it is easy to forget how strange medicine looked before it existed."],
+    ["p","In 1816, French physician René Laënnec was examining a young woman with symptoms that suggested a heart problem. Directly placing an ear against a patient's chest was already an established method, but in this case Laënnec found it uncomfortable and impractical. He tried something simple instead: he rolled a sheet of paper into a cylinder and placed one end against her chest."],
+    ["p","He heard the heart more clearly than he had expected."],
+    ["p","That improvised tube became the starting point for the modern stethoscope. It changed not only how doctors listened, but how they connected a sound to what was happening inside the body. Laënnec spent the next few years refining the idea, moving from the paper cylinder to wooden instruments and developing what he called mediate auscultation — listening to the body through an object rather than directly. It gave physicians a repeatable way to interpret internal sounds instead of relying only on what the patient could describe."],
+    ["p","What makes the story worth remembering is not just that someone invented an instrument. The real shift was in what the instrument allowed medicine to do. Sounds from inside the chest could now be linked more systematically to what physicians later found in diseased organs. The stethoscope helped turn listening into a more disciplined part of diagnosis."],
+    ["p","Today it hangs around the neck almost like part of the uniform. But its beginning was much less grand: a doctor, a difficult examination, and a piece of paper."],
+    ["thought","Good medicine sometimes begins with a very simple question: is there a better way to listen?"]
+  ],
+  refs:[
+    ["NCBI Bookshelf — The origins of the history and physical examination, Clinical Methods","https://www.ncbi.nlm.nih.gov/books/NBK458/"],
+    ["PubMed — René Théophile Hyacinthe Laënnec (1781–1826): two hundred years of the stethoscope","https://pubmed.ncbi.nlm.nih.gov/32924399/"],
+    ["Clinical Medicine & Research — The man behind the stethoscope","https://pmc.ncbi.nlm.nih.gov/articles/PMC1570491/"]
+  ]
+},
+{
+  id:"paternalism", type:"archive", series:"From the Archive", read:"90 sec",
+  title:"When the consultation stopped being one-way",
+  deck:"There was a time when a doctor's authority did most of the talking. What changed was not who won, but how deliberate the relationship became.",
+  keyword:"doctor-patient relationship",
+  body:[
+    ["lead","There was a time when a doctor's authority did most of the talking."],
+    ["p","For much of medical history, the doctor-patient relationship was built around an unequal exchange: the physician was expected to know, and the patient was expected to trust. That did not make every doctor authoritarian, but it did make medical decision-making largely physician-led."],
+    ["p","Over the 20th century, that arrangement began to loosen. Medicine became more specialised, patients gained better access to information, and ideas of autonomy and informed consent moved closer to the centre of medical ethics. The change was gradual rather than a single turning point, but the expectation was different: the patient was no longer simply the recipient of a decision."],
+    ["p","That shift changed what a consultation meant. The doctor's expertise remained essential, but the patient's preferences, values and questions became part of the decision itself. In modern shared decision-making, a good consultation is not a vote between doctor and patient. It is a conversation in which clinical expertise and the patient's goals have to fit together."],
+    ["p","The interesting part is therefore not that one side replaced the other. It is that the relationship became more deliberate. Explaining a diagnosis, discussing options, checking understanding and making space for disagreement all became part of good care."],
+    ["p","The consultation room may still have a desk, a computer and a prescription pad. But the relationship inside it has changed: the patient is increasingly there not just to be told what happens next, but to help decide it."],
+    ["thought","A consultation is richer when clinical expertise makes room for the person receiving it."]
+  ],
+  refs:[
+    ["PubMed — Doctor-patient relationship: from medical paternalism to enhanced autonomy","https://pubmed.ncbi.nlm.nih.gov/12005343/"],
+    ["PMC — Distribution of power in past and present models of the doctor-patient relationship","https://pmc.ncbi.nlm.nih.gov/articles/PMC8322008/"],
+    ["PubMed — From physician paternalism to patient autonomy: 25 centuries of history","https://pubmed.ncbi.nlm.nih.gov/39058424/"]
+  ]
+},
+{
+  id:"oath", type:"archive", series:"From the Archive", read:"90 sec",
+  title:"Why the Hippocratic oath keeps changing",
+  deck:"An ancient physician's promise is still recited in modern medicine — but not always in the same words. That is the point of it.",
+  keyword:"Hippocratic oath",
+  body:[
+    ["lead","An ancient physician's promise is still recited in modern medicine — but not always in the same words."],
+    ["p","The Hippocratic oath was written for a world with no antibiotics, no MRI scanners and no modern hospital system. Yet some of its concerns still sound familiar: professional conduct, confidentiality and the obligation to treat patients responsibly."],
+    ["p","The important part is that the oath itself has never been a frozen script for every generation of doctors. Medicine changed, societies changed, and the language of professional duty changed with them."],
+    ["p","In 1948, the World Medical Association adopted the Declaration of Geneva as a modern physician's pledge. Later revisions continued to update it. The 2017 revision, for example, added explicit language on respecting patient autonomy and on physicians attending to their own health and well-being."],
+    ["p","That evolution is revealing. The profession did not abandon the old idea of a promise; it kept rewriting what the promise needed to contain. Confidentiality remained important. So did patient welfare. But modern medicine also had to make room for autonomy, dignity, equality and the physician's responsibility to practise with conscience."],
+    ["p","That may be the enduring lesson: professional ethics are not useful because they never change. They are useful because each generation has to ask what its promises mean in the medicine of its own time."],
+    ["p","The words have changed. The expectation behind them has not: medicine asks for skill, judgment and responsibility — and it asks them in public, as a profession."],
+    ["thought","Some promises endure by being rewritten, not by being left untouched."]
+  ],
+  refs:[
+    ["World Medical Association — WMA Declaration of Geneva","https://www.wma.net/policies-post/wma-declaration-of-geneva/"],
+    ["JAMA — The revised Declaration of Geneva: a modern-day physician's pledge","https://jamanetwork.com/journals/jama/fullarticle/2658261"],
+    ["U.S. National Library of Medicine — The Hippocratic oath, Greek Medicine collection","https://www.nlm.nih.gov/hmd/greek/popup/16_hippo_oath.html"]
+  ]
+},
+{
+  id:"hela", type:"archive", series:"From the Archive", read:"90 sec",
+  title:"The ethics question behind a scientific breakthrough",
+  deck:"A breakthrough can be extraordinary and still leave an uncomfortable question behind: did anyone ask the person at the centre of it?",
+  keyword:"medical ethics",
+  body:[
+    ["lead","A scientific breakthrough can be extraordinary and still leave an uncomfortable question behind: did anyone ask the person at the centre of it?"],
+    ["p","In 1951, a young woman being treated for cervical cancer had tissue taken during her care for laboratory research. The cells behaved in a way researchers had struggled to achieve with human tissue: they kept growing outside the body."],
+    ["p","They became one of the most influential human cell lines in biomedical research, later known as HeLa cells. They helped scientists investigate viruses, cancer and other areas of human biology, and their impact reached far beyond the laboratory where the cells first grew."],
+    ["p","But the scientific success carried an ethical problem with it. The tissue had been used for research without the patient's knowledge or consent. At the time, expectations around the use of human biospecimens were far less developed than they are today. As biomedical research expanded, questions about privacy, consent, ownership and the future use of human tissue became harder to ignore."],
+    ["p","That is why the story belongs in medical ethics, not just in the history of science. The remarkable part is not only that the cells survived. It is that their enormous scientific value eventually forced medicine to think more carefully about the person behind a specimen."],
+    ["p","Modern research frameworks are more attentive to informed consent, privacy and responsible stewardship of human biological material. The questions are still evolving, especially as genomic data can reveal information about both individuals and families."],
+    ["p","The lesson is not to distrust research. It is to remember what research is built from: people, samples and trust."],
+    ["thought","Scientific progress is more meaningful when the person behind the specimen is kept in view."]
+  ],
+  refs:[
+    ["NIH Office of Science Policy — HeLa cells: a lasting contribution to biomedical research","https://osp.od.nih.gov/hela-cells/"],
+    ["NIH — HeLa cell whole genome sequence data: family acknowledgement and use","https://grants.nih.gov/grants/guide/notice-files/NOT-OD-24-098.html"],
+    ["PMC — Lessons from HeLa cells: the ethics and policy of biospecimens","https://pmc.ncbi.nlm.nih.gov/articles/PMC5072843/"]
+  ]
+},
+
+/* ─────────── SMALL HISTORY ─────────── */
+{
+  id:"whitecoat", type:"history", series:"Small History", read:"2 min",
+  title:"When medicine changed its clothes",
+  deck:"The white coat feels inevitable now. Two paintings by the same artist, fourteen years apart, show that it wasn't.",
+  keyword:"why do doctors wear white coats",
+  image:"https://drive.google.com/thumbnail?id=13lFVXpY_Z5qfVdMkTlOTc9v3BsAer_4n&sz=w1000",
+  caption:"<b>The Agnew Clinic</b> — Thomas Eakins, 1889. Dr D. Hayes Agnew and his assistants appear in clean white gowns, alongside sterilised instruments and a nurse. Compare with Eakins' <i>The Gross Clinic</i> of 1875, where the surgeons operate in dark formal clothing.",
+  body:[
+    ["lead","The white coat looks like it has always belonged to medicine. It hasn't."],
+    ["p","For much of the 19th century, doctors were often depicted in dark, formal clothing. Then medicine began to change. Antisepsis, laboratory science and a growing emphasis on cleanliness were reshaping medical practice. And slowly, the way doctors looked began to change with it."],
+    ["h","Look at the two paintings"],
+    ["p","In Thomas Eakins' <i>The Gross Clinic</i> of 1875, the surgeons performing the operation are dressed largely in dark formal clothing. This was medicine before the white coat became the visual shorthand we know today."],
+    ["p","Fourteen years later, Eakins painted another operating room. In <i>The Agnew Clinic</i>, the difference is hard to miss: clean white gowns, sterilised instruments, a nurse in attendance."],
+    ["p","Same artist. Same profession. Fourteen years apart. And medicine suddenly looks very different."],
+    ["h","It wasn't just fashion"],
+    ["p","The move toward white clothing was tied to a bigger transformation. Cleanliness became increasingly associated with safe surgical practice and scientific medicine."],
+    ["p","The white coat eventually became more than practical clothing. It became a symbol of the profession itself — something patients could recognise before a doctor had even said a word. But its meaning wasn't created overnight. It evolved alongside the profession."],
+    ["dates",[["1875","<i>The Gross Clinic</i> — dark formal clothing"],["1875–1889","Antisepsis, laboratory science, cleanliness"],["1889","<i>The Agnew Clinic</i> — white surgical clothing"]]],
+    ["thought","Sometimes a profession changes before we notice that its uniform has changed too."]
+  ],
+  refs:[["Philadelphia Museum of Art — Thomas Eakins, The Gross Clinic","https://philamuseum.org/collection/object/299420"]]
+},
+{
+  id:"stethoscope-history", type:"history", series:"Small History", read:"90 sec",
+  title:"Before the tube, doctors listened differently",
+  deck:"Once, listening to a chest meant putting your ear directly against it. The method had a name, and obvious limits.",
+  keyword:"stethoscope history",
+  body:[
+    ["lead","Today, a stethoscope is so ordinary that it barely feels like an invention. But once, listening to a patient's chest meant putting your ear directly against it."],
+    ["p","That method was known as immediate auscultation. It had obvious limits. It could be awkward, difficult in some patients, and offered no physical barrier between doctor and patient. Doctors still used it because, quite simply, there was no better alternative. It was not especially precise, but it was the method available to physicians trying to make sense of sounds coming from inside the body."],
+    ["p","In 1816, René Laënnec was examining a young woman with suspected heart disease when direct listening proved impractical. He remembered how sound could travel through a solid object, rolled a sheet of paper into a cylinder, and placed one end against her chest. The sound carried through it clearly enough to make the experiment worth repeating."],
+    ["p","That little paper tube became the starting point for the modern stethoscope. Laënnec refined the idea into a wooden instrument and spent the next three years testing it at the Necker Hospital. In 1819, he published <i>De l'auscultation médiate</i>, describing how sounds heard through the instrument could be connected to disease in the lungs and heart."],
+    ["p","What is easy to miss is that the breakthrough was not simply a new object. It changed the distance between the doctor and the body — and made a new kind of examination possible. The stethoscope did not simply make listening easier; it helped turn listening into a repeatable clinical technique."],
+    ["p","Sometimes medical progress begins with a piece of paper and a problem that needs a better solution."],
+    ["dates",[["1816","Laënnec develops the first stethoscope"],["1819","<i>De l'auscultation médiate</i> is published"],["Afterward","The instrument evolves into the modern stethoscope"]]],
+    ["thought","Sometimes the simplest inventions change the distance between doctor and patient."]
+  ],
+  refs:[
+    ["NCBI Bookshelf — Clinical Methods: the origins of the history and physical examination","https://www.ncbi.nlm.nih.gov/books/NBK458/"],
+    ["Reiser SJ et al. — The stethoscope in 19th-century American practice, Canadian Bulletin of Medical History, 2020","https://pubmed.ncbi.nlm.nih.gov/32208110/"],
+    ["Donoso F, Arriagada D. — René Théophile Hyacinthe Laënnec: two hundred years of the stethoscope, 2020","https://pubmed.ncbi.nlm.nih.gov/32924399/"]
+  ]
+},
+{
+  id:"homevisit", type:"history", series:"Small History", read:"2 min",
+  title:"When the relationship moved across the desk",
+  deck:"House calls were 40% of American encounters in 1930 and 0.6% by 1980. The room changed first. The relationship followed.",
+  keyword:"patient and doctor relationship",
+  body:[
+    ["lead","Not so long ago, the doctor's office was not always the place where medicine happened. Quite often, the doctor came to the patient's home."],
+    ["p","In the United States, house calls made up about 40% of patient-physician encounters in 1930. By 1980, the figure had fallen to just 0.6%. The change was not caused by one decision. Hospitals became more important, medical technology became harder to carry, and diagnosis increasingly depended on equipment that lived in clinics rather than in a doctor's bag."],
+    ["p","The change in location changed more than convenience. A home visit placed the doctor in the patient's world. The modern clinic placed the patient inside an organised medical system. Over time, the consultation became a more formal encounter — and the patient's questions became harder to leave outside the room."],
+    ["p","The legal history moved alongside it. The 1914 Schloendorff decision in the United States recognised an adult patient's right to decide what happens to their own body. Later cases helped develop the modern doctrine of informed consent. These were not the only forces shaping the relationship, but they helped turn the consultation from a one-way exchange into something closer to a conversation."],
+    ["p","The interesting part is how ordinary this now feels. A patient asks what happens next. A doctor explains the options. Questions are expected."],
+    ["dates",[["1914","Schloendorff decision and bodily autonomy"],["1930","House calls: about 40% of US encounters"],["1980","House calls: about 0.6%"],["Today","Consultation as dialogue and shared decision-making"]]],
+    ["thought","The room changed first. The relationship followed."]
+  ],
+  refs:[
+    ["Meyer GS, Gibbons RV — House calls to the elderly: a vanishing practice among physicians, NEJM, 1997","https://www.nejm.org/doi/10.1056/NEJM199712183372507"],
+    ["Cushing A — History of the doctor–patient relationship, Clinical Communication in Medicine, 2015","https://doi.org/10.1002/9781118728130.ch3"],
+    ["Chin JJ — Doctor-patient relationship: from medical paternalism to enhanced autonomy, Singapore Medical Journal, 2002","https://pubmed.ncbi.nlm.nih.gov/12005343/"]
+  ]
+},
+{
+  id:"xray", type:"history", series:"Small History", read:"90 sec",
+  title:"The photograph that changed what doctors could see",
+  deck:"Imagine diagnosing a fracture without being able to see the bone. For centuries, that was simply part of the job.",
+  keyword:"history of x-ray",
+  body:[
+    ["lead","Imagine diagnosing a fracture without being able to see the bone. For centuries, that was simply part of the job."],
+    ["p","Then, in late 1895, something strange happened in a German laboratory. Wilhelm Conrad Röntgen was experimenting with cathode-ray tubes when he noticed a fluorescent screen glowing even though the tube was covered. Something invisible was getting through the barrier. What he could not yet explain was exactly what the rays were. He only knew that they were doing something no ordinary light should do."],
+    ["p","He began testing what those rays could pass through. On 22 December 1895, he placed his wife's hand in their path and captured an image on a photographic plate. The result showed the bones inside the hand and the outline of her ring — a picture that suddenly made the inside of the body visible without cutting into it."],
+    ["p","That is why this is bigger than the discovery of a new kind of radiation. It changed what doctors could know from the outside. Within weeks, physicians were already thinking about how the new images could be used to locate bullets, examine fractures and investigate disease. The technique did not make diagnosis perfect, but it added a new kind of evidence: an image of structures that had previously been hidden."],
+    ["p","Röntgen did not patent the discovery. He believed the finding should be available to humanity, and the technique spread rapidly."],
+    ["p","Today, an X-ray is so familiar that we forget how astonishing that first image must have been: bones appearing on a plate, inside a living hand, exactly where nobody could see them before."],
+    ["dates",[["8 Nov 1895","Röntgen notices an unexplained fluorescent glow"],["22 Dec 1895","The first famous radiograph of a hand"],["1896","X-rays begin entering medical practice"],["1901","Röntgen receives the first Nobel Prize in Physics"]]],
+    ["thought","Sometimes a medical revolution begins with a picture that should not, by all appearances, have been possible."]
+  ],
+  refs:[
+    ["Nobel Prize Outreach — Wilhelm Conrad Röntgen, biographical","https://www.nobelprize.org/prizes/physics/1901/rontgen/biographical/"],
+    ["Nobel Prize Outreach — The Nobel Prize in Physics 1901: an illuminating accident","https://www.nobelprize.org/nobel_prizes/physics/laureates/1901/speedread.html"]
+  ]
+},
+{
+  id:"emr", type:"history", series:"Small History", read:"2 min",
+  title:"When a patient's file left the folder",
+  deck:"The push toward better records began long before the screen. It started with an argument about how records should be organised at all.",
+  keyword:"electronic medical records",
+  body:[
+    ["lead","A patient's medical story once lived in a folder. It might contain years of handwriting, test results, prescriptions and notes — all in one place, as long as nobody misplaced the folder."],
+    ["p","The push toward better records began before the modern screen. In the 1960s, physician Lawrence Weed argued that medical records should be organised around the patient's problems rather than simply collected as a chronological stack of notes. His problem-oriented medical record became the basis for ideas that later shaped both paper and computerised systems. That sounds like a small administrative improvement. It was actually a change in how doctors thought about information."],
+    ["p","In 1972, the Regenstrief Institute developed an early working computerised medical record system. Other hospitals and researchers were experimenting too. The important shift was not simply replacing paper with a keyboard. It was trying to make the patient's information structured, searchable and useful to more than one person."],
+    ["p","Then the digital health era arrived in India. The Ayushman Bharat Digital Mission, launched in 2021, created the ABHA system to give individuals a standardised digital health identity and enable health records to be linked and shared with patient consent. By 20 July 2026, more than 94.87 crore ABHA IDs had been created, according to the Ministry of Health and Family Welfare."],
+    ["p","That number is impressive. But the more interesting change is quieter: the medical record is becoming less like a file that belongs to one clinic and more like a patient-controlled thread that can move across systems."],
+    ["dates",[["1960s","Lawrence Weed develops the problem-oriented record"],["1972","Regenstrief develops an early computerised record system"],["2021","India launches ABDM"],["20 Jul 2026","94.87 crore ABHA IDs reported"]]],
+    ["thought","The record went digital. The idea behind it was much older."]
+  ],
+  refs:[
+    ["Adler-Milstein J et al. — Problem-oriented documentation, JAMIA, 2023","https://pmc.ncbi.nlm.nih.gov/articles/PMC9897179/"],
+    ["Gillum RF — Bringing science to medicine: an interview with Larry Weed","https://pmc.ncbi.nlm.nih.gov/articles/PMC4215056/"],
+    ["National Health Authority — Ayushman Bharat Digital Mission, ABHA number","https://abdm.gov.in/Download"],
+    ["Press Information Bureau, MoHFW — Update on ABDM, 24 July 2026","https://www.pib.gov.in/PressReleasePage.aspx?PRID=2288848"]
+  ]
+},
+{
+  id:"hospitals", type:"history", series:"Small History", read:"2 min",
+  title:"How a place of shelter became a place of science",
+  deck:"Walk into a modern hospital and everything suggests science. India's oldest has been changing its purpose since 1664.",
+  keyword:"history of hospitals",
+  body:[
+    ["lead","Walk into a modern hospital and almost everything about it suggests science: imaging machines, operating theatres, laboratories, specialist teams. It is easy to assume hospitals have always looked — and worked — this way."],
+    ["p","They haven't. Patients could be sheltered, fed and cared for there, but hospitals were not yet the technology-rich clinical centres we recognise today."],
+    ["p","For much of early modern history, hospitals were often places of shelter, charity and basic care, especially for people who had few other options. The transformation into institutions centred on diagnosis, treatment, training and research happened gradually, as medical knowledge became more scientific and hospitals became places where that knowledge could be applied."],
+    ["p","India has its own striking version of this story. In 1664, the East India Company established a military hospital at Fort St George in Madras for sick and wounded soldiers. The institution moved several times before reaching its present site in 1772. Over the following centuries, it changed in ownership, purpose and clientele, eventually becoming the Rajiv Gandhi Government General Hospital — now a major public hospital in Chennai. Its story also says something about who hospitals were built for."],
+    ["p","Across the world, the same broad shift was taking shape. The Johns Hopkins Hospital opened in 1889 with an unusually ambitious model linking patient care, medical education and research. The hospital was becoming more than a place to recover. It was becoming a place where medicine itself could be produced, tested and taught."],
+    ["dates",[["1664","Military hospital established at Fort St George, Madras"],["1772","The General Hospital reaches its present Chennai site"],["1889","The Johns Hopkins Hospital opens"],["Today","Hospitals combine care, teaching, technology and research"]]],
+    ["thought","Medicine changed, and the building had to change with it."]
+  ],
+  refs:[
+    ["Amarjothi JMV et al. — The origin and evolution of the first modern hospital in India, NMJI, 2020","https://nmji.in/the-origin-and-evolution-of-the-first-modern-hospital-in-india/"],
+    ["Raman R, Raman A — On the quarter-millennial anniversary of the Madras General Hospital, NMJI, 2022","https://nmji.in/on-the-quarter-millennial-anniversary-of-the-madras-general-hospital/"],
+    ["Johns Hopkins Medicine — History of The Johns Hopkins Hospital","https://www.hopkinsmedicine.org/about/history/history-of-jhh"]
+  ]
+}
+];
+
+/* every record is authored and curated by Tikshana Shah */
+DESK.forEach(function(d){ d.author = AUTHOR; d.editor = AUTHOR; });
+
+const BY = {};
+DESK.forEach(function(d){ BY[d.id] = d; });
+const of_ = function(t){ return DESK.filter(function(d){ return d.type === t; }); };
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════════════════ */
+const $  = function(s){ return document.querySelector(s); };
+const esc = function(s){
+  return String(s).replace(/[&<>"]/g, function(c){
+    return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c];
+  });
+};
+
+/* ── masthead issue line ── */
+(function(){
+  const d = new Date();
+  const month = d.toLocaleDateString("en-GB",{month:"long", year:"numeric"});
+  $("#issueline").textContent = "No. 01 · " + month;
+})();
+
+/* ── on your desk today ── */
+const STRIP = [
+  { verb:"Use · 60 sec", what:"Close the consultation well", id:"consultation-end" },
+  { verb:"Understand",      what:"First steps after a legal notice", id:"legal-notice" },
+  { verb:"Read · 2 min", what:"What consent actually covered", id:"consent-scope" },
+  { verb:"Discover",        what:"The scientist who drew the brain", id:"cajal" }
+];
+$("#strip").innerHTML = STRIP.map(function(s){
+  return '<button data-open="' + s.id + '">' +
+           '<span class="verb">' + esc(s.verb) + '</span>' +
+           '<span class="what">' + esc(s.what) + '</span>' +
+         '</button>';
+}).join("");
+
+/* ── the issue: a genuine sequence, so it gets numbers ── */
+const ISSUE_IDS = ["nmc-registration","dengue-vaccine","ai-healthcare-india","doctor-burnout","gst-health-insurance","world-heart-day"];
+const issueItems = ISSUE_IDS.map(function(id){ return BY[id]; }).filter(Boolean);
+
+$("#issuelist").innerHTML = issueItems.map(function(d,i){
+  return '<button class="entry" data-open="' + d.id + '">' +
+      '<span class="e-num">' + String(i+1).padStart(2,"0") + '</span>' +
+      '<span class="e-body">' +
+        '<span class="kicker">' + esc(d.series) + '</span>' +
+        '<span class="e-title">' + esc(d.title) + '</span>' +
+        '<span class="e-deck">' + esc(d.deck) + '</span>' +
+      '</span>' +
+      '<span class="e-time">' + esc(d.read) + '</span>' +
+    '</button>';
+}).join("");
+$("#issuecount").textContent = issueItems.length + " entries";
+
+const rest = of_("current").filter(function(d){ return ISSUE_IDS.indexOf(d.id) === -1; });
+$("#foldlist").innerHTML = rest.map(function(d){
+  return '<button class="mini" data-open="' + d.id + '">' +
+      '<span class="meta">' + esc(d.read) + '</span>' +
+      '<span class="mini-t">' + esc(d.title) + '</span>' +
+    '</button>';
+}).join("");
+$(".fold summary span").textContent = rest.length + " more";
+
+/* ── tools ── */
+const tools = of_("tool");
+$("#toollist").innerHTML = tools.map(function(d){
+  return '<button class="tool" data-open="' + d.id + '">' +
+      '<span class="kicker">' + esc(d.series) + '</span>' +
+      '<span class="tool-t">' + esc(d.title) + '</span>' +
+      '<p>' + esc(d.deck) + '</p>' +
+      '<span class="status">' + esc(d.status || "Open") + '</span>' +
+    '</button>';
+}).join("");
+$("#toolcount").textContent = tools.length + " tools";
+
+/* ── casebook ── */
+const cases = of_("case");
+$("#caselist").innerHTML = cases.map(function(d){
+  return '<button class="case" data-open="' + d.id + '">' +
+      '<span class="case-turn">' + esc(d.turns) + '</span>' +
+      '<span class="case-t">' + esc(d.title) + '</span>' +
+      '<span class="case-open">Read the pattern</span>' +
+    '</button>';
+}).join("");
+$("#casecount").textContent = cases.length + " patterns";
+
+/* ── the library: lead + stack, swappable ── */
+const shelves = {
+  "shelf-archive": of_("archive").slice(),
+  "shelf-history": of_("history").slice()
+};
+
+function drawShelf(key){
+  const items = shelves[key];
+  const lead = items[0];
+  const plate = lead.image
+    ? '<img class="plate" src="' + esc(lead.image) + '" alt="" loading="lazy" ' +
+      'onerror="this.outerHTML=\'<div class=&quot;plate-fallback&quot;>' + esc(lead.series) + '</div>\'">'
+    : '<div class="plate-fallback">' + esc(lead.series) + '</div>';
+
+  $("#" + key).innerHTML =
+    '<button class="lead" data-open="' + lead.id + '">' +
+      plate +
+      '<span class="lead-t">' + esc(lead.title) + '</span>' +
+      '<p>' + esc(lead.deck) + '</p>' +
+    '</button>' +
+    '<div class="stack">' +
+      items.slice(1).map(function(d,i){
+        return '<button class="stack-item" data-swap="' + key + '" data-i="' + (i+1) + '">' +
+            '<span class="meta">' + esc(d.read) + '</span>' +
+            '<span class="stack-t">' + esc(d.title) + '</span>' +
+            '<span class="stack-d">' + esc(d.deck) + '</span>' +
+          '</button>';
+      }).join("") +
+    '</div>';
+}
+drawShelf("shelf-archive");
+drawShelf("shelf-history");
+$("#libcount").textContent = (of_("archive").length + of_("history").length) + " stories";
+
+let swapping = false;
+function swapShelf(key, i){
+  if (swapping) return;
+  const a = shelves[key];
+  const t = a[0]; a[0] = a[i]; a[i] = t;
+  if (document.startViewTransition){
+    swapping = true;
+    document.startViewTransition(function(){ drawShelf(key); })
+      .finished.then(function(){ swapping = false; });
+  } else {
+    drawShelf(key);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THE READER
+   ═══════════════════════════════════════════════════════════ */
+const veil = $("#veil"), sheet = $("#sheet");
+let lastFocus = null;
+
+function block(b){
+  const kind = b[0], v = b[1];
+  if (kind === "lead")  return '<p class="lede">' + v + "</p>";
+  if (kind === "p")     return "<p>" + v + "</p>";
+  if (kind === "h")     return "<h4>" + v + "</h4>";
+  if (kind === "pull")  return '<blockquote class="pull">' + v + "</blockquote>";
+  if (kind === "list")  return "<ul>" + v.map(function(x){ return "<li>" + x + "</li>"; }).join("") + "</ul>";
+  if (kind === "olist") return "<ol>" + v.map(function(x){ return "<li>" + x + "</li>"; }).join("") + "</ol>";
+  if (kind === "thought")
+    return '<div class="thought"><b>A thought worth keeping</b><q>' + v + "</q></div>";
+  if (kind === "note")
+    return '<p class="disclaim">' + v + "</p>";
+  if (kind === "dates")
+    return '<div class="dates"><b>A few dates to keep</b><dl>' +
+      v.map(function(r){ return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") +
+      "</dl></div>";
+  return "";
+}
+
+function open(id){
+  const d = BY[id];
+  if (!d) return;
+  lastFocus = document.activeElement;
+
+  let html = "";
+  if (d.image){
+    html += '<figure><img src="' + esc(d.image) + '" alt="" ' +
+            'onerror="this.closest(\'figure\').remove()">' +
+            (d.caption ? "<figcaption>" + d.caption + "</figcaption>" : "") +
+            "</figure>";
+  }
+  html += d.body.map(block).join("");
+
+  if (d.refs && d.refs.length){
+    html += '<div class="refs"><b>References</b><ol>' +
+      d.refs.map(function(r){
+        return '<li><a href="' + esc(r[1]) + '" target="_blank" rel="noopener noreferrer">' +
+               esc(r[0]) + "</a></li>";
+      }).join("") + "</ol></div>";
+  }
+
+  if (d.related && d.related.length){
+    const rel = d.related.map(function(r){ return BY[r]; }).filter(Boolean);
+    if (rel.length){
+      html += '<div class="related"><b>Also on the desk</b>' +
+        rel.map(function(r){
+          return '<button data-open="' + r.id + '">' + esc(r.title) + "</button>";
+        }).join("") + "</div>";
+    }
+  }
+
+  $("#sheetKicker").textContent = d.series + " · " + d.read;
+  $("#sheetIn").innerHTML = '<h1 id="sheetTitle">' + esc(d.title) + "</h1>" + html;
+
+  veil.hidden = false;
+  requestAnimationFrame(function(){ veil.classList.add("on"); });
+  document.body.style.overflow = "hidden";
+  sheet.scrollTop = 0;
+  $("#sheetX").focus();
+}
+
+function close(){
+  veil.classList.remove("on");
+  document.body.style.overflow = "";
+  setTimeout(function(){ veil.hidden = true; }, 240);
+  if (lastFocus) lastFocus.focus();
+}
+
+$("#sheetX").addEventListener("click", close);
+veil.addEventListener("mousedown", function(e){ if (e.target === veil) close(); });
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && !veil.hidden) close();
+});
+
+/* keep tab focus inside the sheet while it's open */
+sheet.addEventListener("keydown", function(e){
+  if (e.key !== "Tab") return;
+  const f = sheet.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])');
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+});
+
+/* one delegated listener for everything that opens or swaps */
+document.addEventListener("click", function(e){
+  const o = e.target.closest("[data-open]");
+  if (o){ open(o.getAttribute("data-open")); return; }
+  const s = e.target.closest("[data-swap]");
+  if (s){ swapShelf(s.getAttribute("data-swap"), +s.getAttribute("data-i")); }
+});
+
+/* ═══════════════════════════════════════════════════════════
+   SEARCH — over titles, decks, keywords, series and body
+   ═══════════════════════════════════════════════════════════ */
+const INDEX = DESK.map(function(d){
+  const text = [
+    d.title, d.deck, d.keyword || "", d.series, d.turns || "",
+    d.body.map(function(b){
+      if (typeof b[1] === "string") return b[1];
+      if (Array.isArray(b[1])) return b[1].flat().join(" ");
+      return "";
+    }).join(" ")
+  ].join(" ").toLowerCase().replace(/<[^>]+>/g, " ");
+  return { id:d.id, text:text };
+});
+
+function search(raw){
+  const q = raw.trim().toLowerCase();
+  const box = $("#results");
+  if (!q){ box.hidden = true; return; }
+
+  const terms = q.split(/\s+/).filter(Boolean);
+  const hits = [];
+
+  INDEX.forEach(function(row){
+    const d = BY[row.id];
+    let score = 0;
+    terms.forEach(function(t){
+      if (!row.text.includes(t)) { score = -999; return; }
+      score += 1;
+      if (d.title.toLowerCase().includes(t))   score += 6;
+      if ((d.keyword || "").toLowerCase().includes(t)) score += 4;
+      if (d.deck.toLowerCase().includes(t))    score += 2;
+    });
+    if (score > 0) hits.push({ d:d, score:score });
+  });
+
+  hits.sort(function(a,b){ return b.score - a.score; });
+
+  $("#rescount").textContent = hits.length
+    ? hits.length + (hits.length === 1 ? " result" : " results") + " for “" + raw.trim() + "”"
+    : "Nothing on the desk for “" + raw.trim() + "”";
+
+  $("#reslist").innerHTML = hits.length
+    ? hits.map(function(h){
+        return '<button class="res" data-open="' + h.d.id + '">' +
+            '<span class="res-t">' + esc(h.d.title) + "</span>" +
+            '<span class="e-time">' + esc(h.d.read) + "</span>" +
+            '<span class="res-k">' + esc(h.d.series) + "</span>" +
+          "</button>";
+      }).join("")
+    : '<p class="res-none">Nothing matched. The Desk is small on purpose — try consent, records, referral, burnout or dengue.</p>';
+
+  box.hidden = false;
+}
+
+const qbox = $("#q");
+let t;
+qbox.addEventListener("input", function(){
+  clearTimeout(t);
+  t = setTimeout(function(){ search(qbox.value); }, 140);
+});
+qbox.addEventListener("keydown", function(e){ if (e.key === "Enter") search(qbox.value); });
+$("#go").addEventListener("click", function(){ search(qbox.value); qbox.focus(); });
+$("#resclear").addEventListener("click", function(){
+  qbox.value = ""; $("#results").hidden = true; qbox.focus();
+});
+document.querySelectorAll(".quick button").forEach(function(b){
+  b.addEventListener("click", function(){
+    qbox.value = b.getAttribute("data-q");
+    search(qbox.value);
+    qbox.focus();
+  });
+});
+$("#tosearch").addEventListener("click", function(){
+  window.scrollTo({ top:0, behavior:"smooth" });
+  setTimeout(function(){ qbox.focus(); }, 320);
+});
+
+/* ── keep this desk ── */
+$("#keep").addEventListener("click", function(){
+  const mac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+  this.textContent = "Press " + (mac ? "⌘" : "Ctrl") + " + D";
+  this.dataset.saved = "1";
+});
+</script>
+</body>
+</html>
