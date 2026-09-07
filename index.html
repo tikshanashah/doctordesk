@@ -541,6 +541,284 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
 .related button:hover{color:var(--ink-accent)}
 
 /* ═══════════════════════════════════════════════════════════
+   CONSENT BUILDER — lives inside the reader, so it inherits the
+   tools ink. Risk markers take the spot ink, which is reserved
+   for cautions, and nothing else here is coloured.
+   ═══════════════════════════════════════════════════════════ */
+.cb{margin:var(--s4) 0 0}
+.cb p.cb-lead{
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-2);font-variation-settings:"wdth" 84;
+  margin:0 0 var(--s2);
+}
+
+/* ── the shelf of procedures ── */
+.cb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule-hair);border-block:1px solid var(--rule-mid)}
+.cb-card{
+  background:var(--sheet);border:0;cursor:pointer;text-align:left;
+  padding:var(--s3) var(--s3) var(--s2);
+  display:grid;grid-template-rows:auto auto 1fr auto;gap:6px;
+  font-family:var(--serif);color:var(--ink);
+}
+.cb-card:hover,.cb-card:focus-visible{background:var(--paper-2)}
+/* an odd count would otherwise leave a hole in the grid */
+.cb-card:last-child:nth-child(odd){grid-column:1/-1}
+.cb-card:last-child:nth-child(odd) span.cb-sum{max-width:56ch}
+.cb-card .cb-spec{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tools);font-variation-settings:"wdth" 86;
+}
+.cb-card b{
+  font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.16;
+  letter-spacing:-.018em;font-variation-settings:"opsz" 24;
+}
+.cb-card span.cb-sum{font-size:15.5px;line-height:1.5;color:var(--ink-2);max-width:38ch}
+.cb-card .cb-count{
+  font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.045em;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 88;
+  border-top:1px solid var(--rule-hair);padding-top:9px;margin-top:4px;
+}
+.cb-card .cb-count em{font-style:normal;color:var(--ink)}
+
+/* ── one procedure, opened ── */
+.cb-back{
+  background:none;border:0;padding:0 0 var(--s2);cursor:pointer;
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.07em;
+  color:var(--tools);font-variation-settings:"wdth" 86;
+}
+.cb-back:hover{color:var(--ink)}
+.cb-name{
+  font-family:var(--serif);font-weight:400;font-size:clamp(27px,3.6vw,38px);
+  line-height:1.08;letter-spacing:-.026em;margin:0 0 var(--s1);
+  font-variation-settings:"opsz" 38;text-wrap:balance;
+}
+.cb-rule{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px var(--s2);
+  border-bottom:3px solid var(--tools);padding-bottom:var(--s2);margin-bottom:var(--s3);
+  font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.075em;
+  text-transform:uppercase;color:var(--ink-2);font-variation-settings:"wdth" 86;
+}
+.cb-src{border:1px solid var(--rule-mid);padding:2px 9px}
+.cb h5{
+  font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.25;
+  margin:var(--s4) 0 var(--s2);letter-spacing:-.012em;font-variation-settings:"opsz" 20;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s2);
+}
+.cb h5 i{
+  font-style:normal;font-family:var(--sans);font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 88;
+}
+.cb-why{
+  border-left:4px solid var(--tools);padding:2px 0 2px var(--s3);
+  margin:0 0 var(--s3);font-size:16.5px;line-height:1.6;color:var(--ink-2);max-width:62ch;
+}
+.cb-why b{color:var(--ink);font-weight:600}
+
+/* ── things to tick ── */
+.cb ul.cb-ticks{list-style:none;margin:0;padding:0;max-width:none;columns:2 236px;column-gap:var(--s4)}
+.cb-ticks li{margin:0 0 2px;break-inside:avoid}
+.cb-ticks label{
+  display:grid;grid-template-columns:17px 1fr;gap:11px;align-items:start;
+  padding:5px 6px 5px 0;cursor:pointer;font-size:15.5px;line-height:1.48;color:var(--ink-2);
+}
+.cb-ticks label:hover{color:var(--ink)}
+.cb-ticks input{position:absolute;width:1px;height:1px;opacity:0}
+.cb-box{
+  width:17px;height:17px;margin-top:3px;border:1.5px solid var(--rule-mid);
+  background:var(--sheet);display:grid;place-items:center;color:var(--sheet);
+}
+.cb-box svg{width:11px;height:11px;opacity:0}
+.cb-ticks input:checked + .cb-box{background:var(--tools);border-color:var(--tools)}
+.cb-ticks input:checked + .cb-box svg{opacity:1}
+.cb-ticks input:focus-visible + .cb-box{outline:2.5px solid var(--rounds);outline-offset:3px}
+.cb-ticks input:checked ~ .cb-txt{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule-mid)}
+
+/* ── risks: the spot ink, used as a caution and nothing more ── */
+.cb ul.cb-risks{list-style:none;margin:0;padding:0;max-width:none;columns:2 236px;column-gap:var(--s4)}
+.cb-risks li{
+  display:grid;grid-template-columns:7px 1fr;gap:11px;align-items:start;
+  margin:0 0 7px;break-inside:avoid;font-size:15.5px;line-height:1.48;color:var(--ink-2);
+}
+.cb-risks li::before{content:"";width:7px;height:7px;margin-top:8px;background:var(--rounds)}
+.cb-risks li.rare{color:var(--ink-3)}
+.cb-risks li.rare::before{background:none;border:1.5px solid var(--rounds)}
+
+/* ── patient factors ── */
+.cb-factors{background:var(--paper-2);padding:var(--s3);margin:var(--s2) 0 0}
+.cb p.cb-hint{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--ink-2);margin:0 0 var(--s2);max-width:56ch}
+.cb-chips{display:flex;flex-wrap:wrap;gap:7px}
+.cb-chip{
+  font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.02em;
+  padding:6px 13px;border:1px solid var(--rule-mid);background:var(--sheet);
+  color:var(--ink);cursor:pointer;font-variation-settings:"wdth" 90;
+}
+.cb-chip:hover{border-color:var(--tools);color:var(--tools)}
+.cb-chip[aria-pressed="true"]{background:var(--tools);border-color:var(--tools);color:var(--sheet)}
+.cb-notes{margin-top:var(--s3);display:grid;gap:var(--s2)}
+.cb-note{border-top:1px solid var(--rule-mid);padding-top:var(--s2);font-size:15.5px;line-height:1.55;color:var(--ink-2);max-width:62ch}
+.cb-note b{
+  display:block;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink);margin-bottom:5px;font-variation-settings:"wdth" 84;
+}
+.cb-note.fixed b{color:var(--tools)}
+.cb p.cb-none{font-family:var(--sans);font-size:13px;color:var(--ink-3);margin:var(--s3) 0 0;max-width:56ch;border-top:1px solid var(--rule-mid);padding-top:var(--s2)}
+
+/* ── how far through the conversation you are ── */
+.cb-prog{display:flex;align-items:center;gap:var(--s2);margin:0 0 var(--s2)}
+.cb-track{flex:1;max-width:320px;height:4px;background:var(--paper-2);border:1px solid var(--rule-hair)}
+.cb-fill{display:block;height:100%;width:0;background:var(--tools);transition:width .2s ease}
+.cb-num{
+  font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.07em;
+  color:var(--ink-2);font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 88;
+  white-space:nowrap;
+}
+.cb-num.set{color:var(--tools)}
+
+/* ═══════════════════════════════════════════════════════════
+   CASE INTELLIGENCE — the spot ink at full strength, used once,
+   on the card that opens the case files. The stories themselves
+   play on the ink ground the Casebook already uses.
+   ═══════════════════════════════════════════════════════════ */
+.ci-card{
+  background:linear-gradient(152deg,#A63528 0%,#BE4A34 52%,#CE5B41 100%);
+  color:#FBFAF5;padding:var(--s5) clamp(22px,4vw,var(--s5));margin-top:var(--s5);
+}
+.ci-card .kicker{color:rgba(251,250,245,.78);font-style:normal;font-family:var(--sans);
+  font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  font-variation-settings:"wdth" 86;margin-bottom:var(--s2)}
+.ci-card h3{
+  font-family:var(--serif);font-weight:400;margin:0 0 var(--s3);
+  font-size:clamp(29px,4.4vw,46px);line-height:1.04;letter-spacing:-.028em;
+  font-variation-settings:"opsz" 46;max-width:22ch;text-wrap:balance;
+}
+.ci-card > p{margin:0 0 var(--s4);max-width:56ch;font-size:17px;line-height:1.55;color:rgba(251,250,245,.92)}
+.ci-find{
+  display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;
+  background:rgba(251,250,245,.14);border:1px solid rgba(251,250,245,.3);
+  padding:9px 9px 9px var(--s3);border-radius:44px;max-width:640px;
+}
+.ci-find input{
+  flex:1 1 200px;min-width:0;background:none;border:0;color:#FBFAF5;
+  font-family:var(--serif);font-size:17px;padding:8px 0;
+}
+.ci-find input::placeholder{color:rgba(251,250,245,.68)}
+.ci-find input:focus{outline:none}
+.ci-find:focus-within{border-color:rgba(251,250,245,.75)}
+.ci-go{
+  flex:0 0 auto;border:0;cursor:pointer;background:#FBFAF5;color:#A63528;
+  font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:13px 26px;border-radius:36px;
+  font-variation-settings:"wdth" 88;
+}
+.ci-go:hover{background:#fff;color:#8E2B22}
+.ci-note{
+  font-family:var(--sans);font-size:12.5px;color:rgba(251,250,245,.8);
+  margin:var(--s3) 0 0;max-width:56ch;letter-spacing:.01em;
+}
+
+/* the five case files */
+.ci-list{border-top:3px solid var(--rounds);margin-top:var(--s3)}
+.ci-item{
+  display:grid;grid-template-columns:44px 1fr auto;gap:3px var(--s3);align-items:baseline;
+  width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  border-bottom:1px solid var(--rule-hair);padding:var(--s2) 0;
+  font-family:var(--serif);color:var(--ink);
+}
+.ci-item:hover,.ci-item:focus-visible{background:var(--paper-2)}
+.ci-n{
+  font-family:var(--sans);font-size:19px;font-weight:700;color:var(--rounds);
+  font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 82;line-height:1.2;
+}
+.ci-b{display:grid;gap:2px;min-width:0}
+.ci-b .meta{color:var(--ink-3)}
+.ci-t{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.16;letter-spacing:-.016em;font-variation-settings:"opsz" 22}
+.ci-s{font-size:15px;line-height:1.45;color:var(--ink-2);max-width:58ch}
+.ci-r{display:grid;gap:4px;justify-items:end;align-content:start}
+.ci-out{
+  font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  color:var(--tools);white-space:nowrap;font-variant-numeric:tabular-nums;
+  font-variation-settings:"wdth" 88;
+}
+.ci-open{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--rounds);font-variation-settings:"wdth" 86;white-space:nowrap}
+.ci-item:hover .ci-open{text-decoration:underline}
+
+/* the caveat sits on paper here, not on the Casebook's dark ground */
+.ci-caveat{
+  margin:var(--s3) 0 0;padding-top:var(--s2);border-top:1px solid var(--rule-hair);
+  font-family:var(--sans);font-size:12.5px;line-height:1.55;color:var(--ink-3);max-width:88ch;
+}
+.ci-caveat strong{color:var(--ink-2);font-weight:700}
+
+/* ── the story player ──────────────────────────────────────── */
+.story{
+  position:fixed;inset:0;z-index:120;background:rgba(23,35,42,.9);
+  display:grid;place-items:center;padding:clamp(10px,3vw,30px);
+  opacity:0;pointer-events:none;transition:opacity .2s ease;
+}
+.story.on{opacity:1;pointer-events:auto}
+.story-card{
+  position:relative;width:min(432px,100%);height:min(768px,88vh);
+  background:var(--ink);color:var(--paper);overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
+}
+.story-bars{display:flex;gap:4px;padding:14px 16px 0;flex:0 0 auto}
+.story-bar{flex:1;height:3px;background:rgba(244,241,232,.26);overflow:hidden}
+.story-bar i{display:block;height:100%;width:0;background:var(--paper)}
+.story-top{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s2);
+  padding:12px 16px 0;flex:0 0 auto;
+}
+.story-who{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--sand);font-variation-settings:"wdth" 84;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.story-btns{display:flex;align-items:center;gap:4px;flex:0 0 auto}
+.story-btns button{
+  background:rgba(244,241,232,.14);border:0;color:var(--paper);cursor:pointer;
+  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--sans);font-size:11px;font-weight:700;line-height:1;
+}
+.story-btns button:hover{background:rgba(244,241,232,.28)}
+.story-slide{
+  flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;
+  gap:var(--s2);padding:var(--s4) 54px var(--s3);overflow-y:auto;
+}
+.story-slide.hook{background:linear-gradient(168deg,rgba(166,53,40,0) 18%,rgba(166,53,40,.92) 100%)}
+.story-label{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--sand);font-variation-settings:"wdth" 84;
+}
+.story-head{
+  font-family:var(--serif);font-weight:500;margin:0;
+  font-size:clamp(25px,5.6vw,33px);line-height:1.1;letter-spacing:-.022em;
+  font-variation-settings:"opsz" 32;text-wrap:balance;
+}
+.story-text{margin:0;font-size:16.5px;line-height:1.58;color:rgba(244,241,232,.84);max-width:36ch}
+.story-stat{
+  font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.05em;
+  color:var(--sand);font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 88;
+  border-top:1px solid rgba(220,201,162,.4);padding-top:11px;margin-top:4px;
+}
+.story-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  background:rgba(244,241,232,.14);border:0;color:var(--paper);cursor:pointer;
+  width:34px;height:34px;border-radius:50%;font-size:17px;line-height:1;
+  display:grid;place-items:center;
+}
+.story-arrow:hover{background:rgba(244,241,232,.3)}
+.story-arrow.prev{left:10px}
+.story-arrow.next{right:10px}
+.story-foot{
+  flex:0 0 auto;display:flex;justify-content:space-between;gap:var(--s2);
+  padding:0 20px 16px;
+  font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:rgba(244,241,232,.6);font-variation-settings:"wdth" 86;
+}
+.story-foot b{color:var(--sand);font-weight:700}
+
+/* ═══════════════════════════════════════════════════════════
    RESPONSIVE — explicit column counts, no auto-fit surprises
    ═══════════════════════════════════════════════════════════ */
 @media (max-width:1100px){
@@ -571,6 +849,7 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
 @media (max-width:820px){
   body{font-size:16px}
   .tools{grid-template-columns:1fr;gap:var(--s3)}
+  .cb-grid{grid-template-columns:1fr}
   .lead{grid-template-columns:1fr}
   .lead .plate-wrap{grid-row:auto}
   .lead-t{margin-top:var(--s3)}
@@ -586,6 +865,9 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
   .nav-jump{padding:11px 0}
 }
 @media (max-width:560px){
+  .ci-item{grid-template-columns:34px 1fr;gap:5px var(--s2)}
+  .ci-item .ci-r{grid-column:2;justify-items:start}
+  .ci-card{padding:var(--s4) var(--s3)}
   .strip{grid-template-columns:1fr}
   .strip button,.strip button:nth-child(2n){border-left:0;border-top:1px solid var(--rule-hair)}
   .strip button:first-child{border-top:0}
@@ -637,6 +919,7 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
       <a href="#issue">This issue</a>
       <a href="#tools">Tools</a>
       <a href="#casebook">Casebook</a>
+      <a href="#casefiles">Case files</a>
       <a href="#library">Library</a>
     </div>
     <button class="nav-jump" id="tosearch">Search the desk</button>
@@ -737,6 +1020,44 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
     </div>
   </section>
 
+  <!-- ══ CASE INTELLIGENCE ═════════════════════════════ -->
+  <section class="sec wrap" id="casefiles" data-ink="rounds">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Experiment</span>
+        <h2>Case Intelligence</h2>
+      </div>
+      <span class="count" id="cicount"></span>
+    </div>
+    <p class="sec-note">Five case files from CoverYou&rsquo;s own claims desk, told the way they
+      happened &mdash; notice, record, response, outcome. De-identified, and short enough to read
+      between two patients.</p>
+
+    <div class="ci-card">
+      <span class="kicker">Experiment / Case intelligence</span>
+      <h3>What have Indian courts said about cases like this?</h3>
+      <p>Search a structured library of publicly available medical judgments by specialty,
+        allegation or practice issue. Summaries should always link back to the underlying
+        source.</p>
+      <div class="ci-find">
+        <input id="ciq" type="search" autocomplete="off" placeholder="e.g. informed consent surgery"
+               aria-label="Search the case files by specialty, allegation or practice issue">
+        <button class="ci-go" id="cigo">Explore cases</button>
+      </div>
+      <p class="ci-note">The judgment library is still being built. What is open today: five
+        claims-desk case files, searchable by the same terms.</p>
+    </div>
+
+    <div class="ci-list" id="cilist" hidden></div>
+
+    <p class="ci-caveat" id="cicaveat" hidden>
+      <strong>How to read these.</strong> Case files from CoverYou&rsquo;s claims desk,
+      de-identified &mdash; no names, no contact details, no claim numbers, and nothing that
+      identifies a patient. Dates and amounts are as recorded on the file. Nothing here states
+      what a court held, and no outcome predicts another.
+    </p>
+  </section>
+
   <!-- ══ LIBRARY ═══════════════════════════════════════ -->
   <section class="sec wrap" id="library" data-ink="library">
     <div class="sec-head">
@@ -799,6 +1120,27 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
   </article>
 </div>
 
+<!-- ══ CASE STORY PLAYER ═══════════════════════════════ -->
+<div class="story" id="story" role="dialog" aria-modal="true" aria-label="Case file" hidden>
+  <div class="story-card" id="storyCard">
+    <div class="story-bars" id="storyBars"></div>
+    <div class="story-top">
+      <span class="story-who" id="storyWho"></span>
+      <span class="story-btns">
+        <button id="storyHold" type="button" aria-label="Pause">&#10073;&#10073;</button>
+        <button id="storyX" type="button" aria-label="Close case file">&#10005;</button>
+      </span>
+    </div>
+    <button class="story-arrow prev" id="storyPrev" type="button" aria-label="Previous">&#8249;</button>
+    <button class="story-arrow next" id="storyNext" type="button" aria-label="Next">&#8250;</button>
+    <div class="story-slide" id="storySlide"></div>
+    <div class="story-foot">
+      <span id="storyCount"></span>
+      <span>CoverYou claims desk</span>
+    </div>
+  </div>
+</div>
+
 <script>
 "use strict";
 /* ═══════════════════════════════════════════════════════════
@@ -814,7 +1156,472 @@ const AUTHOR = "Tikshana Shah";
 const DISCLAIMER_TOOL  = "For professional education and documentation support. Not a substitute for clinical judgement, applicable institutional requirements or qualified legal advice.";
 const DISCLAIMER_LEGAL = "General information only. Not legal advice. The appropriate response depends on the facts, the applicable law, the forum and the terms of your own policy.";
 
-/* body blocks: lead | p | h | pull | list | olist | fig | dates | thought | note */
+/* ═══════════════════════════════════════════════════════════
+   CONSENT LIBRARY
+   The content behind the consent checklist builder. Kept apart
+   from DESK because it is a reference library, not an article:
+   each entry is per-procedure, carries its own short sourcing,
+   and is meant to be reviewed and dated on its own cycle.
+
+   Schema per procedure:
+     id, name, specialty, summary, sources (short form),
+     why, docs[], risks[] (string, or {text,rare:true}),
+     factors{} — keyed to FACTORS, only where the factor applies,
+     fixed{}   — a factor inherent to the procedure, not optional,
+     checks[]  — the consent conversation itself.
+   ═══════════════════════════════════════════════════════════ */
+
+const FACTORS = [
+  ["diabetes","Diabetes"],
+  ["hypertension","Hypertension"],
+  ["obesity","Obesity"],
+  ["elderly","Elderly"],
+  ["ckd","CKD"],
+  ["pregnancy","Pregnancy"]
+];
+
+const PROCEDURES = [
+{
+  id:"appendectomy", name:"Appendectomy", specialty:"General surgery",
+  summary:"A common operation. The consent still has to be specific to it, and to this patient.",
+  sources:"SAGES · NMC",
+  why:"Appendectomy is a common procedure, but consent should be specific to the operation and the individual patient — not simply a signature on a generic surgical form. The NMC requires <b>procedure-specific consent</b> and appropriate documentation of the consent discussion.",
+  docs:[
+    "Relevant clinical assessment and diagnosis",
+    "Investigation and imaging reports",
+    "Relevant laboratory results",
+    "Medication and allergy history",
+    "Comorbidity history",
+    "Pre-anaesthetic assessment",
+    "Procedure-specific surgical consent",
+    "Anaesthesia consent, where applicable"
+  ],
+  risks:[
+    "Bleeding",
+    "Wound infection",
+    "Intra-abdominal infection or abscess",
+    "Injury to nearby bowel, bladder or other structures",
+    "Appendiceal or bowel stump leak",
+    "Blood clots",
+    "Anaesthesia-related complications",
+    "Incisional hernia",
+    "Conversion from laparoscopic to open surgery",
+    "Re-operation or further treatment",
+    "Sepsis, particularly in complicated or perforated appendicitis",
+    {text:"Rarely, death", rare:true}
+  ],
+  factors:{
+    diabetes:"Higher infection risk, possible delayed healing, and need for perioperative glucose management.",
+    hypertension:"Perioperative cardiovascular risk may be higher, particularly when poorly controlled or associated with cardiac or renal disease.",
+    obesity:"Greater technical difficulty, possible conversion to open surgery, and additional wound, thromboembolic and anaesthetic considerations.",
+    elderly:"Higher vulnerability to complications, particularly where frailty and multiple comorbidities are present.",
+    ckd:"Renal function may affect medication, fluid and imaging decisions, and overall perioperative risk.",
+    pregnancy:"Appendectomy may be required during pregnancy. Consider gestational age, maternal and fetal considerations, and appropriate obstetric involvement."
+  },
+  checks:[
+    "Diagnosis and indication explained",
+    "Expected benefit discussed",
+    "Planned approach discussed",
+    "Material risks discussed",
+    "Possibility of conversion to open surgery discussed where relevant",
+    "Alternatives discussed where applicable",
+    "Consequences of delaying or refusing treatment discussed where relevant",
+    "Patient-specific risks discussed",
+    "Questions answered",
+    "Understanding checked",
+    "Consent documented"
+  ]
+},
+{
+  id:"caesarean", name:"Caesarean section", specialty:"Obstetrics",
+  summary:"Major surgery inside a much larger obstetric decision. Maternal risk, fetal status and alternatives all belong in the conversation.",
+  sources:"ACOG · NMC",
+  why:"A caesarean section is both a major surgical procedure and part of a much larger obstetric decision. Consent should reflect the individual pregnancy, the reason for delivery, maternal risks, fetal considerations and available alternatives. <b>A signed form alone does not establish that meaningful informed consent occurred.</b>",
+  docs:[
+    "Antenatal and relevant obstetric history",
+    "Current maternal and fetal assessment",
+    "Relevant ultrasound and investigation reports",
+    "Blood group and relevant laboratory results",
+    "Medication and allergy history",
+    "Relevant comorbidity history",
+    "Procedure-specific consent",
+    "Anaesthesia consent",
+    "Blood-transfusion documentation, according to institutional practice"
+  ],
+  risks:[
+    "Infection",
+    "Significant bleeding or transfusion",
+    "Injury to bladder or bowel",
+    "Blood clots",
+    "Anaesthesia-related complications",
+    "Wound complications",
+    "Additional surgery, including hysterectomy in severe uncontrolled bleeding",
+    "Longer recovery than vaginal birth",
+    "Risks in future pregnancies, including placenta-related complications and uterine rupture depending on circumstances"
+  ],
+  factors:{
+    diabetes:"Consider glycaemic control and the associated maternal and fetal risks.",
+    hypertension:"Assess for pre-eclampsia and associated maternal complications. Chronic hypertension is itself a risk factor for pre-eclampsia.",
+    obesity:"Higher likelihood of pregnancy and surgical complications. Consider anaesthetic, wound and thromboembolic risk.",
+    elderly:"At advanced maternal age, weigh the individual's comorbidities, pregnancy complications and overall obstetric risk rather than age alone.",
+    ckd:"Consider renal function, blood pressure, fluid management and the associated maternal and fetal risks."
+  },
+  fixed:{
+    label:"Pregnancy — inherent to this procedure",
+    text:"Not an optional modifier here. Capture the specific pregnancy context: gestational age, indication, fetal status and any relevant obstetric complications."
+  },
+  checks:[
+    "Reason for caesarean explained",
+    "Expected maternal and fetal benefits discussed",
+    "Planned procedure discussed",
+    "Material maternal risks discussed",
+    "Relevant fetal considerations discussed",
+    "Bleeding and transfusion risk discussed",
+    "Anaesthesia-related risks discussed",
+    "Alternatives relevant to the clinical situation discussed",
+    "Implications for future pregnancies discussed where relevant",
+    "Patient-specific risks discussed",
+    "Questions answered",
+    "Understanding checked",
+    "Consent documented"
+  ]
+},
+{
+  id:"cataract", name:"Cataract surgery", specialty:"Ophthalmology",
+  summary:"Highly successful, but the visual result depends on the rest of the eye. Expectations are part of the consent.",
+  sources:"AAO · EyeWiki",
+  why:"Cataract surgery is highly successful, but the expected visual result depends not only on removing the cataract but also on the condition of the eye and the patient's individual risk factors. A useful consent discussion therefore covers <b>realistic expectations</b>, procedure-specific complications, and conditions that may limit the visual outcome.",
+  docs:[
+    "Ophthalmic examination findings",
+    "Visual acuity and refraction",
+    "Slit-lamp examination",
+    "Dilated retinal examination",
+    "IOL biometry and calculation",
+    "Relevant ocular imaging where indicated",
+    "Medical and ocular history",
+    "Medication and allergy history",
+    "Procedure-specific consent",
+    "Anaesthesia and operative documentation as applicable"
+  ],
+  risks:[
+    "Infection, including endophthalmitis",
+    "Bleeding",
+    "Corneal swelling or decompensation",
+    "Posterior capsule rupture or vitreous loss",
+    "Cystoid macular oedema",
+    "Retinal tear or detachment",
+    "Increased intraocular pressure",
+    "Damage to other ocular structures",
+    "IOL displacement",
+    "Inflammation",
+    "Reduced or unexpected visual outcome",
+    "Posterior capsule opacification, which may later require YAG laser treatment",
+    {text:"Rarely, severe or permanent vision loss", rare:true}
+  ],
+  factors:{
+    diabetes:"Diabetic retinopathy and diabetes increase the risk of some postoperative complications, including cystoid macular oedema. Pre-existing retinal disease may limit visual improvement.",
+    hypertension:"Associated with increased risk of certain ocular complications, including haemorrhagic complications.",
+    obesity:"Morbid obesity is recognised among the systemic risk factors associated with increased cataract-surgery complication risk, and may carry anaesthetic and positioning implications.",
+    elderly:"Age alone does not determine outcome, but older patients commonly have coexisting ocular or systemic conditions that affect surgical risk or visual recovery.",
+    ckd:"Assess systemic status and medications. CKD itself should not automatically be presented as a cataract-specific surgical risk without patient-specific clinical context.",
+    pregnancy:"Generally an elective procedure, and may be deferred where clinically appropriate. Where surgery is medically necessary, assess pregnancy and anaesthetic or medication considerations individually."
+  },
+  checks:[
+    "Cataract diagnosis and indication explained",
+    "Expected visual benefit discussed",
+    "Limitations from other eye disease explained where relevant",
+    "Material surgical risks discussed",
+    "Risk of infection and endophthalmitis discussed",
+    "Possibility of the visual outcome being less than expected discussed",
+    "IOL-related considerations discussed",
+    "Relevant patient-specific risks discussed",
+    "Questions answered",
+    "Understanding checked",
+    "Consent documented"
+  ]
+},
+{
+  id:"cholecystectomy", name:"Laparoscopic cholecystectomy", specialty:"General surgery",
+  summary:"The risks are not limited to the small incisions. Bile duct injury, bile leak and open conversion belong in the discussion.",
+  sources:"SAGES · NMC",
+  why:"Gallbladder removal is a common operation, but the risks are not limited to the small incisions on the abdomen. <b>Bile duct injury, bile leak, bleeding and the possibility of converting to open surgery</b> are among the issues that may need to be discussed.",
+  docs:[
+    "Clinical assessment and diagnosis",
+    "Ultrasound and relevant imaging",
+    "Relevant laboratory results, including liver tests where indicated",
+    "Medication and allergy history",
+    "Comorbidity history",
+    "Pre-anaesthetic assessment",
+    "Procedure-specific surgical consent",
+    "Anaesthesia consent",
+    "Blood-transfusion documentation where applicable"
+  ],
+  risks:[
+    "Bleeding",
+    "Wound infection",
+    "Bile leak",
+    "Bile duct injury",
+    "Injury to bowel or other nearby structures",
+    "Blood clots",
+    "Anaesthesia-related complications",
+    "Hernia at an incision site",
+    "Retained common bile duct stone, or need for an additional procedure",
+    "Conversion to open surgery",
+    "Further intervention or re-operation",
+    {text:"Rarely, serious complications or death", rare:true}
+  ],
+  factors:{
+    diabetes:"Consider infection risk, glycaemic control and associated cardiovascular or renal disease.",
+    hypertension:"Assess blood-pressure control and associated cardiovascular risk.",
+    obesity:"May increase technical difficulty and the possibility of open conversion. Wound, thromboembolic and anaesthetic considerations may also be relevant.",
+    elderly:"Consider frailty, cardiopulmonary reserve, renal function and greater vulnerability to postoperative complications.",
+    ckd:"Consider renal function, fluid and electrolyte balance, and medication choices.",
+    pregnancy:"Gallbladder disease may require management during pregnancy. Where surgery is indicated, consider gestational age, maternal and fetal factors, and obstetric input."
+  },
+  checks:[
+    "Indication explained",
+    "Expected benefit discussed",
+    "Laparoscopic approach explained",
+    "Bleeding and infection discussed",
+    "Bile leak discussed",
+    "Bile duct injury discussed",
+    "Possibility of open surgery discussed",
+    "Possibility of an additional procedure discussed where relevant",
+    "Reasonable alternatives discussed",
+    "Patient-specific risks discussed",
+    "Questions answered",
+    "Understanding checked",
+    "Consent documented"
+  ]
+},
+{
+  id:"root-canal", name:"Root canal treatment", specialty:"Dentistry",
+  summary:"Meant to preserve the tooth, but success is not guaranteed. Prognosis and extraction both need saying.",
+  sources:"AAE · ADA",
+  why:"Root canal treatment is intended to preserve a natural tooth, but <b>success is not guaranteed</b>. The consent conversation should cover the diagnosis, expected prognosis, possible complications and alternatives — including extraction — rather than treating a signed form as a substitute for discussion.",
+  docs:[
+    "Dental and medical history",
+    "Clinical examination findings",
+    "Relevant dental radiographs and imaging",
+    "Diagnosis",
+    "Medication and allergy history",
+    "Relevant systemic conditions",
+    "Treatment plan",
+    "Procedure-specific informed consent",
+    "Relevant referral and specialist records where applicable"
+  ],
+  risks:[
+    "Post-treatment pain or tenderness",
+    "Persistent or recurrent infection",
+    "Incomplete healing",
+    "Instrument separation",
+    "Perforation",
+    "Damage to the tooth or root structure",
+    "Fracture of the tooth",
+    "Need for retreatment or endodontic surgery",
+    "Failure to save the tooth, potentially requiring extraction",
+    "Anaesthetic-related complications"
+  ],
+  factors:{
+    diabetes:"Poor glycaemic control may be associated with delayed periapical healing and poorer endodontic outcomes.",
+    hypertension:"Assess current blood pressure and overall cardiovascular status. Significantly uncontrolled hypertension may require modification, or medical assessment before elective dental treatment.",
+    obesity:"Usually not a direct root-canal-specific risk, but positioning, access, airway or sedation considerations may matter in individual patients.",
+    elderly:"Consider comorbidities, medications, cognitive capacity, and the ability to tolerate or complete treatment.",
+    ckd:"Consider bleeding tendency, altered drug handling and medication selection. Significant CKD may warrant coordination with the treating physician.",
+    pregnancy:"Necessary root canal treatment can be carried out during pregnancy, and delaying needed treatment may allow dental disease to worsen. Radiographs and local anaesthesia can be used where clinically indicated, with appropriate precautions."
+  },
+  checks:[
+    "Diagnosis explained",
+    "Purpose of root canal treatment explained",
+    "Expected prognosis discussed",
+    "Procedure explained",
+    "Pain, tenderness and other relevant risks discussed",
+    "Possibility of persistent or recurrent infection discussed",
+    "Procedural complications discussed",
+    "Possibility of retreatment or surgery discussed where relevant",
+    "Possibility of extraction if the tooth cannot be saved discussed",
+    "Patient-specific factors considered",
+    "Questions answered",
+    "Understanding checked",
+    "Consent documented"
+  ]
+}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   CASE FILES
+   Five files from CoverYou's own claims desk, told as short
+   stories in the player at the bottom of the page.
+
+   De-identified on purpose: no doctor or patient names, no
+   contact details, no claim numbers. Dates and amounts are as
+   recorded on the file. Every file runs the same six beats —
+   hook, what happened, on the record, where CoverYou came in,
+   where it landed, worth keeping — so the set reads as one
+   format rather than five write-ups.
+   ═══════════════════════════════════════════════════════════ */
+
+const CASEFILES = [
+{
+  id:"retained-mop", rank:1,
+  who:"Obstetrics & gynaecology · Karnataka",
+  cover:"Professional indemnity",
+  title:"Eight lakh, forty-five days",
+  summary:"A consumer court order arrived before the funds did — and the insurer needed certified papers the court had not yet issued.",
+  outcome:"₹8,76,000 settled in full",
+  tags:"surgery retained instrument mop consumer court compensation obstetrics gynaecology negligence judgment deadline",
+  slides:[
+    { label:"The hook", hook:true,
+      head:"A judgment on Friday. Forty-five days to find ₹8 lakh.",
+      text:"The order had already been passed. The money was not there.",
+      stat:"Consumer court · compensation ordered" },
+    { label:"What happened",
+      head:"A surgical mop left behind",
+      text:"A consumer complaint followed an operation in which a surgical mop was left inside the patient, seeking compensation for the complications that followed." },
+    { label:"On the record",
+      head:"An oversight, not carelessness",
+      text:"The surgeon's position was that standard surgical protocol had been followed and that the retained mop was an unintended oversight. He did not dispute that it happened, and he cooperated with the process throughout." },
+    { label:"Where CoverYou came in",
+      head:"Escalate; don't wait for paper",
+      text:"The insurer needed certified copies of the final order with every annexure, and courts take their time issuing those. CoverYou put the deadline in front of the insurer, moved scanned copies forward while certified ones were arranged, kept senior management on the file, and kept the doctor and the family updated at every step.",
+      stat:"Missing the deadline meant interest — or contempt" },
+    { label:"Where it landed",
+      head:"Paid in full, inside the window",
+      text:"The insurer accepted and processed the claim despite the documentation delay, and the awarded liability was met without penalty or further escalation.",
+      stat:"₹8,76,000 requested · ₹8,76,000 settled" },
+    { label:"Worth keeping",
+      head:"A judgment is a deadline before it is a bill.",
+      text:"Intimate the day the order arrives — not the day the certified copy does." }
+  ]
+},
+{
+  id:"anomaly-scan", rank:2,
+  who:"Obstetrics & gynaecology · anomaly scan",
+  cover:"Professional indemnity",
+  title:"The scan was normal. The notice said otherwise.",
+  summary:"Parents alleged a congenital deformity should have been caught on the anomaly scan. The record showed antenatal care done properly.",
+  outcome:"Reply served in three days",
+  tags:"anomaly scan tiffa congenital deformity antenatal legal notice obstetrics gynaecology diagnosis failure to detect negligence",
+  slides:[
+    { label:"The hook", hook:true,
+      head:"A legal notice, two years after the scan.",
+      text:"The pregnancy had been followed properly. The scan had read normal. The delivery changed everything.",
+      stat:"Professional indemnity · pre-litigation" },
+    { label:"What happened",
+      head:"The allegation: it should have been seen",
+      text:"The parents of a newborn with a congenital limb deformity served a legal notice on the treating obstetrician, holding the doctor liable for not detecting it on the anomaly scan, and sought compensation." },
+    { label:"On the record",
+      head:"What the notes showed",
+      text:"Antenatal care had run with regular investigations, and the anomaly scan reported normal findings. Some congenital anomalies — limb malformations among them — are not reliably visible on a scan, and this one arose from development rather than from treatment." },
+    { label:"Where CoverYou came in",
+      head:"Same day in, three days out",
+      text:"The doctor called CoverYou the day the notice arrived and sent the whole file. Records, reports and bills were reviewed, defence counsel was appointed, and a reply went out three days later — denying negligence and setting out what an anomaly scan can and cannot rule out.",
+      stat:"Notice 19 August · reply served 22 August" },
+    { label:"Where it landed",
+      head:"Answered at the notice stage",
+      text:"The matter stands pre-litigation with the reply on record. No amount was specified in the notice, and nothing has been paid." },
+    { label:"Worth keeping",
+      head:"A normal scan is not a promise.",
+      text:"Record what it rules out and what it cannot. That sentence is the defence." }
+  ]
+},
+{
+  id:"corneal-tattoo", rank:3,
+  who:"Ophthalmology · Bengaluru",
+  cover:"Medical establishment",
+  title:"Four years later, an email arrived",
+  summary:"A cosmetic procedure on an eye blind since childhood. The allegation was that nothing had been explained; six years of notes said otherwise.",
+  outcome:"Notice answered in six days",
+  tags:"informed consent ophthalmology cosmetic corneal tattoo eye blind counselling records legal notice hospital negligence",
+  slides:[
+    { label:"The hook", hook:true,
+      head:"The surgery was in 2021. The notice came in 2025.",
+      text:"By then the file had already answered most of it.",
+      stat:"Ophthalmology · medical establishment cover" },
+    { label:"What happened",
+      head:"The allegation: never properly explained",
+      text:"A patient alleged serious negligence and an absence of informed consent for a cosmetic corneal tattoo, saying the procedure had not been explained and that he had been assured of no adverse effects." },
+    { label:"On the record",
+      head:"The chronology did the arguing",
+      text:"The eye had had no light perception since a childhood injury — known, and recorded. Counselling ran across several visits, and three options were put to him: a corneal tattoo, a cosmetic contact lens, or removal with a prosthesis. He declined removal and consented to the tattoo. Four post-operative reviews showed satisfactory healing, and independent opinions elsewhere had recommended the same options." },
+    { label:"Where CoverYou came in",
+      head:"A medico-legal advocate, the same day",
+      text:"CoverYou assessed the notice on intimation and assigned an advocate who works in medico-legal matters. He went through the treatment chronology, the clinical records and the hospital's own protocols, and a documented reply was drafted, reviewed and dispatched by email — inside time, with delivery on record.",
+      stat:"Notice 24 June · reply dispatched 30 June" },
+    { label:"Where it landed",
+      head:"No claim to pay",
+      text:"The reply stands on record and no monetary claim has been processed. The hospital's position rests on its own documentation." },
+    { label:"Worth keeping",
+      head:"Counselling that is written down is the defence.",
+      text:"Options offered, options declined, dates of review. A file that records them answers the notice for you." }
+  ]
+},
+{
+  id:"second-surgery", rank:4,
+  who:"Orthopaedics · Karnataka",
+  cover:"Medical establishment",
+  title:"₹10 lakh, and a second surgery elsewhere",
+  summary:"A leg did not heal after accident surgery. Corrective surgery at another hospital became a notice claiming over ₹10 lakh.",
+  outcome:"₹34,000 processed · policy stands behind any liability",
+  tags:"orthopaedics surgery fracture road accident second surgery legal notice compensation loss of income negligence hospital",
+  slides:[
+    { label:"The hook", hook:true,
+      head:"One notice. Two surgeries. Over ₹10 lakh claimed.",
+      text:"By the time the demand arrived, the second operation had already happened somewhere else.",
+      stat:"Orthopaedics · medical establishment cover" },
+    { label:"What happened",
+      head:"The patient's case",
+      text:"After a road accident and surgery on the right leg, the patient had continuing pain and poor healing, went to another hospital for corrective surgery, and served a notice claiming negligence, lost income and mental agony." },
+    { label:"On the record",
+      head:"The file becomes the answer",
+      text:"The admission, the operation, the discharge and every follow-up sat in the hospital's own records — which is where any response had to start." },
+    { label:"Where CoverYou came in",
+      head:"Notice to insurer, immediately",
+      text:"CoverYou reviewed the facts on intimation, notified the insurer and activated the indemnity cover, guided the doctor through the legal next steps, helped assemble the documentation, and weighed defence against settlement — standing between the insured and the insurer so the surgeon did not have to." },
+    { label:"Where it landed",
+      head:"Processed, and covered from here",
+      text:"The claim was accepted and settled, and any liability a court finally orders falls to be considered under the policy in force.",
+      stat:"₹34,000 requested · ₹34,000 settled · July 2025" },
+    { label:"Worth keeping",
+      head:"The notice is the moment to involve the insurer.",
+      text:"Not the hearing. Not the judgment. The notice." }
+  ]
+},
+{
+  id:"swallowed-file", rank:5,
+  who:"Dentistry · Uttar Pradesh",
+  cover:"Professional indemnity · out-of-court settlement",
+  title:"The child bit down mid-root canal",
+  summary:"An endodontic file slipped and was swallowed. Removed the same day, paid for by the dentist, and settled out of court.",
+  outcome:"₹64,000 approved · settled out of court",
+  tags:"dentistry root canal rct endodontic file child ingestion endoscopy out of court settlement ocs consent paediatric",
+  slides:[
+    { label:"The hook", hook:true,
+      head:"A sudden bite. A file in the wrong place.",
+      text:"Everything after that was about how quickly it was handled.",
+      stat:"Dentistry · professional indemnity" },
+    { label:"What happened",
+      head:"Mid-procedure, an unexpected movement",
+      text:"During a routine root canal on a child, the patient bit down on the dentist's fingers. The endodontic file slipped from the dentist's grip and was swallowed." },
+    { label:"On the record",
+      head:"Fixed the same day",
+      text:"The file was removed safely by endoscopy at a higher centre. The dentist met the entire medical cost. The parents were satisfied with the outcome and signed a demand letter with an NOC and a settlement agreement." },
+    { label:"Where CoverYou came in",
+      head:"Read as a settlement, not a fight",
+      text:"The claim ran into a wording problem: dentists do not sit in the category the policy contemplated. CoverYou assessed the incident under its out-of-court settlement process and — given the prompt response, the due care taken and the parents' signed papers — classified it fit for settlement.",
+      stat:"Out-of-court settlement route" },
+    { label:"Where it landed",
+      head:"Cost met, cover confirmed",
+      text:"The treatment cost the dentist had already met was covered, the insurer approved the claim, and cover was confirmed for any payment a court might later order.",
+      stat:"₹45,000 met · ₹64,000 approved · July 2025" },
+    { label:"Worth keeping",
+      head:"Care taken, cost met, papers signed.",
+      text:"That combination is what makes a case settleable instead of contestable." }
+  ]
+}
+];
+
+/* body blocks: lead | p | h | pull | list | olist | fig | dates | thought | note | builder */
 const DESK = [
 
 /* ─────────── MAKING ROUNDS ─────────── */
@@ -1012,7 +1819,7 @@ const DESK = [
 
 /* ─────────── TOOLS & PRACTICE NOTES ─────────── */
 {
-  id:"consultation-end", type:"tool", series:"Use", read:"60 sec",
+  id:"consultation-end", type:"tool", series:"Use", read:"1 min",
   title:"When the consultation ends",
   deck:"What should be clear to the patient, and what should stay in the record. Two things worth closing before you move on.",
   status:"Open the guide",
@@ -1040,30 +1847,21 @@ const DESK = [
   related:["referral-note","google-search"]
 },
 {
-  id:"consent-builder", type:"tool", series:"In development", read:"Concept",
+  id:"consent-builder", type:"tool", series:"Use", read:"Builder",
   title:"Consent checklist builder",
-  deck:"A consent form is generic. The conversation should be specific. This is what the tool is being built to do.",
-  status:"See the concept",
+  deck:"A consent form is generic. The conversation should be specific. Pick a procedure, add the patient factors that apply, and work down the list.",
+  status:"Open the builder",
+  keyword:"consent checklist appendectomy caesarean cataract cholecystectomy root canal",
   body:[
     ["lead","A standard consent form may be generic. The conversation should be specific to the procedure and to the patient in front of you."],
-    ["p","The builder is designed to take a procedure and the patient factors that matter — comorbidities, medications, circumstances — and produce a structured prompt-list for the consent conversation, plus documentation prompts you can copy into your notes."],
-    ["h","What it would cover"],
-    ["list",[
-      "Why the procedure is being recommended",
-      "What the patient can reasonably expect",
-      "Material risks relevant to this procedure",
-      "Patient-specific considerations",
-      "Reasonable alternatives, and what may happen if treatment is deferred or refused",
-      "Space for the patient's questions",
-      "A check that the patient understood",
-      "Documentation prompts for the record"
-    ]],
-    ["h","Why it isn't live yet"],
-    ["p","The interface is the easy part. The content library underneath it is the product — and clinical risk content cannot be assembled from general knowledge. Every procedure entry needs to be built from professional guidance, clinical guidance and authoritative consent sources, then reviewed, dated and given a review cycle."],
-    ["p","Publishing a plausible-sounding risk list would be worse than publishing nothing. So the builder stays a concept here until the library behind it is source-validated."],
+    ["p","Pick a procedure. It opens with the records worth having ready, the material risks worth naming, and a checklist you can work down while the patient is still with you. Add the patient factors that apply and only the considerations relevant to them appear."],
+    ["builder",null],
+    ["h","Five procedures, and then more"],
+    ["p","The interface was the easy part. The content library underneath it is the product — and clinical risk content cannot be assembled from general knowledge. Each of these five entries is built from professional and clinical guidance and authoritative consent sources, with the source shown on the procedure itself. The rest of the library follows the same discipline, which is why it arrives a few procedures at a time rather than all at once."],
     ["pull","The database is the product. The interface is only the access layer."],
-    ["h","What it will not claim"],
+    ["h","What it does not claim"],
     ["p","A structured checklist helps you have and record a specific conversation. It does not provide legal protection, guarantee defensibility, prove compliance or reduce liability. Those are not things a tool can offer, and the Desk will not suggest otherwise."],
+    ["p","Nor does it replace the consent form your institution requires, or your own clinical judgement about what this patient needs to understand. Ticks stay in your browser for this visit only — nothing is stored against a patient."],
     ["note",DISCLAIMER_TOOL]
   ],
   related:["consent-scope","consultation-end"]
@@ -1144,7 +1942,7 @@ const DESK = [
   related:["template-shelf","consultation-end"]
 },
 {
-  id:"google-search", type:"note", series:"Practice note", read:"90 sec",
+  id:"google-search", type:"note", series:"Practice note", read:"2 min",
   title:"When a patient's Google search enters the consultation",
   deck:"“Don't believe everything you read online” closes the conversation before you learn what is actually worrying them.",
   body:[
@@ -1189,7 +1987,7 @@ const DESK = [
   related:["consent-builder","consultation-end"]
 },
 {
-  id:"case-outcome", type:"case", series:"Casebook", read:"90 sec",
+  id:"case-outcome", type:"case", series:"Casebook", read:"2 min",
   turns:"Outcome and negligence",
   title:"A poor outcome is not, by itself, the allegation",
   deck:"Where a complication follows treatment, the dispute usually turns on what was done and recorded — not on the outcome alone.",
@@ -1214,7 +2012,7 @@ const DESK = [
   related:["consultation-end"]
 },
 {
-  id:"case-screening", type:"case", series:"Casebook", read:"90 sec",
+  id:"case-screening", type:"case", series:"Casebook", read:"2 min",
   turns:"Limits of a test",
   title:"What a screening test was, and wasn't, expected to find",
   deck:"Disputes over missed findings often turn on what the investigation could reasonably detect, and what the patient was told it would do.",
@@ -1239,7 +2037,7 @@ const DESK = [
   related:["consultation-end"]
 },
 {
-  id:"case-refusal", type:"case", series:"Casebook", read:"90 sec",
+  id:"case-refusal", type:"case", series:"Casebook", read:"2 min",
   turns:"When the patient declines",
   title:"The patient who chose differently",
   deck:"Where a patient declines advice or leaves early, what matters is whether the advice, the risks and the refusal were recorded.",
@@ -1264,7 +2062,7 @@ const DESK = [
   related:["template-shelf","consultation-end"]
 },
 {
-  id:"case-referral", type:"case", series:"Casebook", read:"90 sec",
+  id:"case-referral", type:"case", series:"Casebook", read:"2 min",
   turns:"Who was holding the patient",
   title:"When responsibility moves between doctors",
   deck:"Referral and transfer disputes usually turn on timing and on whether it was clear who was responsible at each point.",
@@ -1291,8 +2089,8 @@ const DESK = [
 
 /* ─────────── FROM THE ARCHIVE ─────────── */
 {
-  id:"cajal", type:"archive", series:"From the Archive", read:"90 sec",
-  title:"The scientist who drew the brain",
+  id:"cajal", type:"archive", series:"From the Archive", read:"2 min",
+  title:"How Scientific Medical Illustration Helped Us See the Brain Differently",
   deck:"Before the brain could be photographed in detail, one scientist drew what he saw — again and again, until the drawing itself became part of the discovery.",
   keyword:"scientific medical illustration",
   image:"https://drive.google.com/thumbnail?id=1oZG3zrvJBSQDauFZQIoqbig-TJAuArRb&sz=w1000",
@@ -1301,10 +2099,9 @@ const DESK = [
     ["lead","Before the brain could be photographed in detail, one scientist drew what he saw — again and again, until the drawing itself became part of the discovery."],
     ["p","Santiago Ramón y Cajal looked through a microscope at tissue that was difficult to interpret and did something unusually disciplined with what he saw: he drew it."],
     ["p","His drawings were not decorative copies of microscopic slides. They were working scientific records, used to compare structures, test ideas and make arguments about how the nervous system was organised. The Museo Cajal today holds 1,434 pieces signed or attributed to Cajal in its digitised drawing collection."],
-    ["p","Cajal used staining methods developed by others, including Camillo Golgi's silver staining technique, and pushed the observations further. His work supported the idea that the nervous system is made of individual nerve cells — neurons — rather than one uninterrupted network."],
-    ["p","In 1906, Cajal and Golgi shared the Nobel Prize in Physiology or Medicine for their work on the structure of the nervous system, despite disagreeing sharply about what their observations meant."],
+    ["p","Cajal used staining methods developed by others, including Camillo Golgi's silver staining technique, and pushed the observations further. His work supported the idea that the nervous system is made of individual nerve cells — neurons — rather than one uninterrupted network. In 1906, Cajal and Golgi shared the Nobel Prize in Physiology or Medicine for their work on the structure of the nervous system, despite disagreeing sharply about what their observations meant."],
     ["p","That disagreement is part of what makes the drawings so interesting. A scientific image does not automatically settle a question. Someone still has to decide what the pattern means."],
-    ["p","Cajal's contribution was therefore more than beautiful illustration. It helped turn something almost impossible to describe in words into something other scientists could inspect, question and build upon."],
+    ["p","Cajal's contribution was therefore more than beautiful illustration. His scientific medical illustration helped turn something almost impossible to describe in words into something other scientists could inspect, question and build upon."],
     ["p","Today we have digital microscopy, advanced imaging and software that can render biological structures in remarkable detail. But the underlying habit is much older: look closely, record carefully, and make the invisible easier for someone else to see."],
     ["thought","Sometimes the best way to make a discovery visible is to draw what no one else can yet see."]
   ],
@@ -1315,15 +2112,15 @@ const DESK = [
   ]
 },
 {
-  id:"stethoscope-invention", type:"archive", series:"From the Archive", read:"90 sec",
-  title:"The simple idea behind the stethoscope",
+  id:"stethoscope-invention", type:"archive", series:"From the Archive", read:"2 min",
+  title:"The Simple Idea Behind the Stethoscope Invention That Changed Medicine",
   deck:"A doctor, a difficult examination, and a piece of paper. The instrument is so ordinary now that it's easy to forget how strange medicine looked before it.",
   keyword:"stethoscope invention",
   body:[
     ["lead","The stethoscope is so ordinary today that it is easy to forget how strange medicine looked before it existed."],
     ["p","In 1816, French physician René Laënnec was examining a young woman with symptoms that suggested a heart problem. Directly placing an ear against a patient's chest was already an established method, but in this case Laënnec found it uncomfortable and impractical. He tried something simple instead: he rolled a sheet of paper into a cylinder and placed one end against her chest."],
     ["p","He heard the heart more clearly than he had expected."],
-    ["p","That improvised tube became the starting point for the modern stethoscope. It changed not only how doctors listened, but how they connected a sound to what was happening inside the body. Laënnec spent the next few years refining the idea, moving from the paper cylinder to wooden instruments and developing what he called mediate auscultation — listening to the body through an object rather than directly. It gave physicians a repeatable way to interpret internal sounds instead of relying only on what the patient could describe."],
+    ["p","That improvised tube became the starting point for the modern stethoscope. The stethoscope invention changed not only how doctors listened, but how they connected a sound to what was happening inside the body. Laënnec spent the next few years refining the idea, moving from the paper cylinder to wooden instruments and developing what he called mediate auscultation — listening to the body through an object rather than directly. It also gave physicians a repeatable way to interpret internal sounds instead of relying only on what the patient could describe."],
     ["p","What makes the story worth remembering is not just that someone invented an instrument. The real shift was in what the instrument allowed medicine to do. Sounds from inside the chest could now be linked more systematically to what physicians later found in diseased organs. The stethoscope helped turn listening into a more disciplined part of diagnosis."],
     ["p","Today it hangs around the neck almost like part of the uniform. But its beginning was much less grand: a doctor, a difficult examination, and a piece of paper."],
     ["thought","Good medicine sometimes begins with a very simple question: is there a better way to listen?"]
@@ -1335,8 +2132,8 @@ const DESK = [
   ]
 },
 {
-  id:"paternalism", type:"archive", series:"From the Archive", read:"90 sec",
-  title:"When the consultation stopped being one-way",
+  id:"paternalism", type:"archive", series:"From the Archive", read:"2 min",
+  title:"The Consultation Changed the Doctor-Patient Relationship",
   deck:"There was a time when a doctor's authority did most of the talking. What changed was not who won, but how deliberate the relationship became.",
   keyword:"doctor-patient relationship",
   body:[
@@ -1344,7 +2141,7 @@ const DESK = [
     ["p","For much of medical history, the doctor-patient relationship was built around an unequal exchange: the physician was expected to know, and the patient was expected to trust. That did not make every doctor authoritarian, but it did make medical decision-making largely physician-led."],
     ["p","Over the 20th century, that arrangement began to loosen. Medicine became more specialised, patients gained better access to information, and ideas of autonomy and informed consent moved closer to the centre of medical ethics. The change was gradual rather than a single turning point, but the expectation was different: the patient was no longer simply the recipient of a decision."],
     ["p","That shift changed what a consultation meant. The doctor's expertise remained essential, but the patient's preferences, values and questions became part of the decision itself. In modern shared decision-making, a good consultation is not a vote between doctor and patient. It is a conversation in which clinical expertise and the patient's goals have to fit together."],
-    ["p","The interesting part is therefore not that one side replaced the other. It is that the relationship became more deliberate. Explaining a diagnosis, discussing options, checking understanding and making space for disagreement all became part of good care."],
+    ["p","The interesting part of the doctor-patient relationship is therefore not that one side replaced the other. It is that the relationship became more deliberate. Explaining a diagnosis, discussing options, checking understanding and making space for disagreement all became part of good care."],
     ["p","The consultation room may still have a desk, a computer and a prescription pad. But the relationship inside it has changed: the patient is increasingly there not just to be told what happens next, but to help decide it."],
     ["thought","A consultation is richer when clinical expertise makes room for the person receiving it."]
   ],
@@ -1355,8 +2152,8 @@ const DESK = [
   ]
 },
 {
-  id:"oath", type:"archive", series:"From the Archive", read:"90 sec",
-  title:"Why the Hippocratic oath keeps changing",
+  id:"oath", type:"archive", series:"From the Archive", read:"2 min",
+  title:"Why the Hippocratic Oath Keeps Changing — and Why That Matters",
   deck:"An ancient physician's promise is still recited in modern medicine — but not always in the same words. That is the point of it.",
   keyword:"Hippocratic oath",
   body:[
@@ -1365,7 +2162,7 @@ const DESK = [
     ["p","The important part is that the oath itself has never been a frozen script for every generation of doctors. Medicine changed, societies changed, and the language of professional duty changed with them."],
     ["p","In 1948, the World Medical Association adopted the Declaration of Geneva as a modern physician's pledge. Later revisions continued to update it. The 2017 revision, for example, added explicit language on respecting patient autonomy and on physicians attending to their own health and well-being."],
     ["p","That evolution is revealing. The profession did not abandon the old idea of a promise; it kept rewriting what the promise needed to contain. Confidentiality remained important. So did patient welfare. But modern medicine also had to make room for autonomy, dignity, equality and the physician's responsibility to practise with conscience."],
-    ["p","That may be the enduring lesson: professional ethics are not useful because they never change. They are useful because each generation has to ask what its promises mean in the medicine of its own time."],
+    ["p","That may be the enduring lesson of the Hippocratic oath: professional ethics are not useful because they never change. They are useful because each generation has to ask what its promises mean in the medicine of its own time."],
     ["p","The words have changed. The expectation behind them has not: medicine asks for skill, judgment and responsibility — and it asks them in public, as a profession."],
     ["thought","Some promises endure by being rewritten, not by being left untouched."]
   ],
@@ -1376,8 +2173,8 @@ const DESK = [
   ]
 },
 {
-  id:"hela", type:"archive", series:"From the Archive", read:"90 sec",
-  title:"The ethics question behind a scientific breakthrough",
+  id:"hela", type:"archive", series:"From the Archive", read:"2 min",
+  title:"Before HeLa: The Medical Ethics Question Behind a Scientific Breakthrough",
   deck:"A breakthrough can be extraordinary and still leave an uncomfortable question behind: did anyone ask the person at the centre of it?",
   keyword:"medical ethics",
   body:[
@@ -1421,16 +2218,16 @@ const DESK = [
   refs:[["Philadelphia Museum of Art — Thomas Eakins, The Gross Clinic","https://philamuseum.org/collection/object/299420"]]
 },
 {
-  id:"stethoscope-history", type:"history", series:"Small History", read:"90 sec",
-  title:"Before the tube, doctors listened differently",
+  id:"stethoscope-history", type:"history", series:"Small History", read:"2 min",
+  title:"Before the Tube: The Surprising Beginning of Stethoscope History",
   deck:"Once, listening to a chest meant putting your ear directly against it. The method had a name, and obvious limits.",
   keyword:"stethoscope history",
   body:[
     ["lead","Today, a stethoscope is so ordinary that it barely feels like an invention. But once, listening to a patient's chest meant putting your ear directly against it."],
     ["p","That method was known as immediate auscultation. It had obvious limits. It could be awkward, difficult in some patients, and offered no physical barrier between doctor and patient. Doctors still used it because, quite simply, there was no better alternative. It was not especially precise, but it was the method available to physicians trying to make sense of sounds coming from inside the body."],
     ["p","In 1816, René Laënnec was examining a young woman with suspected heart disease when direct listening proved impractical. He remembered how sound could travel through a solid object, rolled a sheet of paper into a cylinder, and placed one end against her chest. The sound carried through it clearly enough to make the experiment worth repeating."],
-    ["p","That little paper tube became the starting point for the modern stethoscope. Laënnec refined the idea into a wooden instrument and spent the next three years testing it at the Necker Hospital. In 1819, he published <i>De l'auscultation médiate</i>, describing how sounds heard through the instrument could be connected to disease in the lungs and heart."],
-    ["p","What is easy to miss is that the breakthrough was not simply a new object. It changed the distance between the doctor and the body — and made a new kind of examination possible. The stethoscope did not simply make listening easier; it helped turn listening into a repeatable clinical technique."],
+    ["p","That little paper tube became the starting point for modern stethoscope history. Laënnec refined the idea into a wooden instrument and spent the next three years testing it at the Necker Hospital. In 1819, he published <i>De l'auscultation médiate</i>, describing how sounds heard through the instrument could be connected to disease in the lungs and heart."],
+    ["p","What is easy to miss is that the breakthrough was not simply a new object. It changed the distance between the doctor and the body — and made a new kind of examination possible. In other words, the stethoscope did not simply make listening easier; it helped turn listening into a repeatable clinical technique."],
     ["p","Sometimes medical progress begins with a piece of paper and a problem that needs a better solution."],
     ["dates",[["1816","Laënnec develops the first stethoscope"],["1819","<i>De l'auscultation médiate</i> is published"],["Afterward","The instrument evolves into the modern stethoscope"]]],
     ["thought","Sometimes the simplest inventions change the distance between doctor and patient."]
@@ -1443,16 +2240,17 @@ const DESK = [
 },
 {
   id:"homevisit", type:"history", series:"Small History", read:"2 min",
-  title:"When the relationship moved across the desk",
+  title:"When the Patient and Doctor Relationship Moved Across the Desk",
   deck:"House calls were 40% of American encounters in 1930 and 0.6% by 1980. The room changed first. The relationship followed.",
   keyword:"patient and doctor relationship",
   body:[
     ["lead","Not so long ago, the doctor's office was not always the place where medicine happened. Quite often, the doctor came to the patient's home."],
     ["p","In the United States, house calls made up about 40% of patient-physician encounters in 1930. By 1980, the figure had fallen to just 0.6%. The change was not caused by one decision. Hospitals became more important, medical technology became harder to carry, and diagnosis increasingly depended on equipment that lived in clinics rather than in a doctor's bag."],
-    ["p","The change in location changed more than convenience. A home visit placed the doctor in the patient's world. The modern clinic placed the patient inside an organised medical system. Over time, the consultation became a more formal encounter — and the patient's questions became harder to leave outside the room."],
-    ["p","The legal history moved alongside it. The 1914 Schloendorff decision in the United States recognised an adult patient's right to decide what happens to their own body. Later cases helped develop the modern doctrine of informed consent. These were not the only forces shaping the relationship, but they helped turn the consultation from a one-way exchange into something closer to a conversation."],
+    ["p","The change in location changed more than convenience. A home visit placed the doctor in the patient's world. The modern clinic placed the patient inside an organised medical system. Over time, the consultation became a more formal encounter — and the patient's questions became harder to leave outside the room. The consultation was becoming a place where information could be exchanged, decisions could be discussed, and the patient's account could matter alongside the doctor's expertise."],
+    ["p","The legal history moved alongside it. The 1914 Schloendorff decision in the United States recognised an adult patient's right to decide what happens to their own body. Later cases helped develop the modern doctrine of informed consent. These were not the only forces shaping the patient and doctor relationship, but they helped turn the consultation from a one-way exchange into something closer to a conversation. Over time, the idea that the patient should understand and participate in decisions became a much more familiar part of medical practice."],
     ["p","The interesting part is how ordinary this now feels. A patient asks what happens next. A doctor explains the options. Questions are expected."],
-    ["dates",[["1914","Schloendorff decision and bodily autonomy"],["1930","House calls: about 40% of US encounters"],["1980","House calls: about 0.6%"],["Today","Consultation as dialogue and shared decision-making"]]],
+    ["p","The room changed first. The relationship followed."],
+    ["dates",[["1930","House calls: about 40% of US patient-physician encounters"],["1914","Schloendorff decision and bodily autonomy"],["1980","House calls: about 0.6%"],["Today","Consultation as dialogue and shared decision-making"]]],
     ["thought","The room changed first. The relationship followed."]
   ],
   refs:[
@@ -1462,37 +2260,40 @@ const DESK = [
   ]
 },
 {
-  id:"xray", type:"history", series:"Small History", read:"90 sec",
-  title:"The photograph that changed what doctors could see",
+  id:"xray", type:"history", series:"Small History", read:"2 min",
+  title:"The Photograph That Changed the History of X-Ray",
   deck:"Imagine diagnosing a fracture without being able to see the bone. For centuries, that was simply part of the job.",
   keyword:"history of x-ray",
   body:[
     ["lead","Imagine diagnosing a fracture without being able to see the bone. For centuries, that was simply part of the job."],
     ["p","Then, in late 1895, something strange happened in a German laboratory. Wilhelm Conrad Röntgen was experimenting with cathode-ray tubes when he noticed a fluorescent screen glowing even though the tube was covered. Something invisible was getting through the barrier. What he could not yet explain was exactly what the rays were. He only knew that they were doing something no ordinary light should do."],
     ["p","He began testing what those rays could pass through. On 22 December 1895, he placed his wife's hand in their path and captured an image on a photographic plate. The result showed the bones inside the hand and the outline of her ring — a picture that suddenly made the inside of the body visible without cutting into it."],
-    ["p","That is why this is bigger than the discovery of a new kind of radiation. It changed what doctors could know from the outside. Within weeks, physicians were already thinking about how the new images could be used to locate bullets, examine fractures and investigate disease. The technique did not make diagnosis perfect, but it added a new kind of evidence: an image of structures that had previously been hidden."],
+    ["p","That is why the history of x-ray is bigger than the discovery of a new kind of radiation. It changed what doctors could know from the outside. Within weeks, physicians were already thinking about how the new images could be used to locate bullets, examine fractures and investigate disease. The technique did not make diagnosis perfect, of course, but it added a new kind of evidence: an image of structures that had previously been hidden."],
     ["p","Röntgen did not patent the discovery. He believed the finding should be available to humanity, and the technique spread rapidly."],
     ["p","Today, an X-ray is so familiar that we forget how astonishing that first image must have been: bones appearing on a plate, inside a living hand, exactly where nobody could see them before."],
-    ["dates",[["8 Nov 1895","Röntgen notices an unexplained fluorescent glow"],["22 Dec 1895","The first famous radiograph of a hand"],["1896","X-rays begin entering medical practice"],["1901","Röntgen receives the first Nobel Prize in Physics"]]],
+    ["p","Sometimes a medical revolution begins with a picture that should not, by all appearances, have been possible."],
+    ["dates",[["8 Nov 1895","Röntgen notices an unexplained fluorescent glow"],["22 Dec 1895","First famous radiograph of a hand"],["1896","X-rays begin entering medical practice"],["1901","Röntgen receives the first Nobel Prize in Physics"]]],
     ["thought","Sometimes a medical revolution begins with a picture that should not, by all appearances, have been possible."]
   ],
   refs:[
     ["Nobel Prize Outreach — Wilhelm Conrad Röntgen, biographical","https://www.nobelprize.org/prizes/physics/1901/rontgen/biographical/"],
-    ["Nobel Prize Outreach — The Nobel Prize in Physics 1901: an illuminating accident","https://www.nobelprize.org/nobel_prizes/physics/laureates/1901/speedread.html"]
+    ["Nobel Prize Outreach — The Nobel Prize in Physics 1901: an illuminating accident","https://www.nobelprize.org/nobel_prizes/physics/laureates/1901/speedread.html"],
+    ["Nobel Prize Outreach — Wilhelm Conrad Röntgen, photo gallery","https://www.nobelprize.org/prizes/physics/1901/rontgen/photo-gallery/"]
   ]
 },
 {
   id:"emr", type:"history", series:"Small History", read:"2 min",
-  title:"When a patient's file left the folder",
+  title:"Electronic Medical Records: When a Patient's File Left the Folder",
   deck:"The push toward better records began long before the screen. It started with an argument about how records should be organised at all.",
   keyword:"electronic medical records",
   body:[
     ["lead","A patient's medical story once lived in a folder. It might contain years of handwriting, test results, prescriptions and notes — all in one place, as long as nobody misplaced the folder."],
     ["p","The push toward better records began before the modern screen. In the 1960s, physician Lawrence Weed argued that medical records should be organised around the patient's problems rather than simply collected as a chronological stack of notes. His problem-oriented medical record became the basis for ideas that later shaped both paper and computerised systems. That sounds like a small administrative improvement. It was actually a change in how doctors thought about information."],
     ["p","In 1972, the Regenstrief Institute developed an early working computerised medical record system. Other hospitals and researchers were experimenting too. The important shift was not simply replacing paper with a keyboard. It was trying to make the patient's information structured, searchable and useful to more than one person."],
-    ["p","Then the digital health era arrived in India. The Ayushman Bharat Digital Mission, launched in 2021, created the ABHA system to give individuals a standardised digital health identity and enable health records to be linked and shared with patient consent. By 20 July 2026, more than 94.87 crore ABHA IDs had been created, according to the Ministry of Health and Family Welfare."],
+    ["p","Then the digital health era arrived in India. The Ayushman Bharat Digital Mission, launched in 2021, created the ABHA system to give individuals a standardised digital health identity and enable health records to be linked and shared with patient consent. By 20 July 2026, more than 94.87 crore ABHA IDs had been created, according to the Ministry of Health and Family Welfare. The scale of that change is difficult to miss when a single digital identity can connect records across institutions rather than leaving each episode of care isolated in a separate file."],
     ["p","That number is impressive. But the more interesting change is quieter: the medical record is becoming less like a file that belongs to one clinic and more like a patient-controlled thread that can move across systems."],
-    ["dates",[["1960s","Lawrence Weed develops the problem-oriented record"],["1972","Regenstrief develops an early computerised record system"],["2021","India launches ABDM"],["20 Jul 2026","94.87 crore ABHA IDs reported"]]],
+    ["p","The record went digital. The idea behind it was much older."],
+    ["dates",[["1960s–1968","Lawrence Weed develops the problem-oriented record"],["1972","Regenstrief develops an early computerised record system"],["2021","India launches ABDM"],["20 Jul 2026","94.87 crore ABHA IDs reported"]]],
     ["thought","The record went digital. The idea behind it was much older."]
   ],
   refs:[
@@ -1504,16 +2305,17 @@ const DESK = [
 },
 {
   id:"hospitals", type:"history", series:"Small History", read:"2 min",
-  title:"How a place of shelter became a place of science",
+  title:"History of Hospitals: How a Place of Shelter Became a Place of Science",
   deck:"Walk into a modern hospital and everything suggests science. India's oldest has been changing its purpose since 1664.",
   keyword:"history of hospitals",
   body:[
     ["lead","Walk into a modern hospital and almost everything about it suggests science: imaging machines, operating theatres, laboratories, specialist teams. It is easy to assume hospitals have always looked — and worked — this way."],
     ["p","They haven't. Patients could be sheltered, fed and cared for there, but hospitals were not yet the technology-rich clinical centres we recognise today."],
     ["p","For much of early modern history, hospitals were often places of shelter, charity and basic care, especially for people who had few other options. The transformation into institutions centred on diagnosis, treatment, training and research happened gradually, as medical knowledge became more scientific and hospitals became places where that knowledge could be applied."],
-    ["p","India has its own striking version of this story. In 1664, the East India Company established a military hospital at Fort St George in Madras for sick and wounded soldiers. The institution moved several times before reaching its present site in 1772. Over the following centuries, it changed in ownership, purpose and clientele, eventually becoming the Rajiv Gandhi Government General Hospital — now a major public hospital in Chennai. Its story also says something about who hospitals were built for."],
+    ["p","India has its own striking version of this story. In 1664, the East India Company established a military hospital at Fort St George in Madras for sick and wounded soldiers. The institution moved several times before reaching its present site in 1772. Over the following centuries, it changed in ownership, purpose and clientele, eventually becoming the Rajiv Gandhi Government General Hospital — now a major public hospital in Chennai. Its story also says something about who hospitals were built for. What began as a military institution gradually became part of a much wider public healthcare system."],
     ["p","Across the world, the same broad shift was taking shape. The Johns Hopkins Hospital opened in 1889 with an unusually ambitious model linking patient care, medical education and research. The hospital was becoming more than a place to recover. It was becoming a place where medicine itself could be produced, tested and taught."],
-    ["dates",[["1664","Military hospital established at Fort St George, Madras"],["1772","The General Hospital reaches its present Chennai site"],["1889","The Johns Hopkins Hospital opens"],["Today","Hospitals combine care, teaching, technology and research"]]],
+    ["p","That may be the real history of hospitals: medicine changed, and the building had to change with it."],
+    ["dates",[["1664","Military hospital established at Fort St George, Madras"],["1772","General Hospital reaches its present Chennai site"],["1889","Johns Hopkins Hospital opens"],["Today","Hospitals combine care, teaching, technology and research"]]],
     ["thought","Medicine changed, and the building had to change with it."]
   ],
   refs:[
@@ -1550,7 +2352,7 @@ const esc = function(s){
 
 /* ── on your desk today ── */
 const STRIP = [
-  { verb:"Use · 60 sec", what:"Close the consultation well", id:"consultation-end" },
+  { verb:"Use · 1 min", what:"Close the consultation well", id:"consultation-end" },
   { verb:"Understand",      what:"First steps after a legal notice", id:"legal-notice" },
   { verb:"Read · 2 min", what:"What consent actually covered", id:"consent-scope" },
   { verb:"Discover",        what:"The scientist who drew the brain", id:"cajal" }
@@ -1681,6 +2483,307 @@ function swapShelf(key, i){
 }
 
 /* ═══════════════════════════════════════════════════════════
+   CONSENT CHECKLIST BUILDER
+   Rendered by the ["builder"] block, inside the reader sheet,
+   and repainted in place. State lives for the visit only — it
+   is never written to storage and never leaves the page.
+   ═══════════════════════════════════════════════════════════ */
+const PROC_BY = {};
+PROCEDURES.forEach(function(p){ PROC_BY[p.id] = p; });
+
+const CB = { open:null, factors:{}, ticks:{} };
+
+const CB_MARK = '<svg viewBox="0 0 12 12" aria-hidden="true">' +
+  '<path d="M1.6 6.4 4.4 9.3 10.4 2.7" fill="none" stroke="currentColor" stroke-width="2.1"/></svg>';
+
+function cbTicks(p){ return CB.ticks[p.id] || (CB.ticks[p.id] = {}); }
+
+function cbDone(p, kind, n){
+  const t = cbTicks(p);
+  let c = 0;
+  for (let i = 0; i < n; i++){ if (t[kind + i]) c++; }
+  return c;
+}
+
+function cbTickList(p, kind, items){
+  const t = cbTicks(p);
+  return '<ul class="cb-ticks">' + items.map(function(x, i){
+    const k = kind + i;
+    return '<li><label><input type="checkbox" data-cb-tick="' + k + '"' + (t[k] ? " checked" : "") + ">" +
+      '<span class="cb-box">' + CB_MARK + "</span>" +
+      '<span class="cb-txt">' + esc(x) + "</span></label></li>";
+  }).join("") + "</ul>";
+}
+
+/* the shelf — every procedure opens from here */
+function cbShelf(){
+  return '<p class="cb-lead">' + PROCEDURES.length + " procedures · pick one</p>" +
+    '<div class="cb-grid">' + PROCEDURES.map(function(p){
+      return '<button class="cb-card" type="button" data-cb-open="' + p.id + '">' +
+          '<span class="cb-spec">' + esc(p.specialty) + "</span>" +
+          "<b>" + esc(p.name) + "</b>" +
+          '<span class="cb-sum">' + esc(p.summary) + "</span>" +
+          '<span class="cb-count"><em>' + p.docs.length + "</em> records · <em>" +
+            p.risks.length + "</em> risks · <em>" + p.checks.length + "</em> checks</span>" +
+        "</button>";
+    }).join("") + "</div>";
+}
+
+/* patient factors — a factor only appears where the library has
+   something to say about it for this procedure */
+function cbFactors(p){
+  const avail = FACTORS.filter(function(f){ return p.factors[f[0]]; });
+  const chosen = avail.filter(function(f){ return CB.factors[f[0]]; });
+
+  let notes = p.fixed
+    ? '<div class="cb-note fixed"><b>' + esc(p.fixed.label) + "</b>" + esc(p.fixed.text) + "</div>"
+    : "";
+  notes += chosen.map(function(f){
+    return '<div class="cb-note"><b>' + esc(f[1]) + "</b>" + esc(p.factors[f[0]]) + "</div>";
+  }).join("");
+
+  return '<div class="cb-factors">' +
+      '<p class="cb-hint">Select what applies to this patient. Only the relevant considerations appear, and the selection carries to the next procedure.</p>' +
+      '<div class="cb-chips">' + avail.map(function(f){
+        return '<button class="cb-chip" type="button" data-cb-factor="' + f[0] + '" aria-pressed="' +
+          (CB.factors[f[0]] ? "true" : "false") + '">' + esc(f[1]) + "</button>";
+      }).join("") + "</div>" +
+      (notes ? '<div class="cb-notes">' + notes + "</div>" : "") +
+      (chosen.length ? "" : '<p class="cb-none">' + (p.fixed
+        ? "Add any other factor that applies to this patient."
+        : "Nothing selected — the risks above stand on their own.") + "</p>") +
+    "</div>";
+}
+
+function cbProgress(p){
+  const n = cbDone(p, "c", p.checks.length);
+  const all = n === p.checks.length;
+  return '<div class="cb-prog">' +
+      '<span class="cb-num' + (all ? " set" : "") + '">' + n + " of " + p.checks.length +
+        (all ? " · now document it" : " discussed") + "</span>" +
+      '<span class="cb-track"><span class="cb-fill" style="width:' +
+        (p.checks.length ? Math.round(n / p.checks.length * 100) : 0) + '%"></span></span>' +
+    "</div>";
+}
+
+/* one procedure, opened */
+function cbProcedure(p){
+  return '<button class="cb-back" type="button" data-cb-back="1">&larr; All ' + PROCEDURES.length + " procedures</button>" +
+    '<h3 class="cb-name">' + esc(p.name) + "</h3>" +
+    '<div class="cb-rule"><span class="cb-src">' + esc(p.sources) + "</span><span>" + esc(p.specialty) + "</span></div>" +
+    '<div class="cb-why">' + p.why + "</div>" +
+    "<h5>Records to have ready <i>" + cbDone(p, "d", p.docs.length) + " of " + p.docs.length + " ready</i></h5>" +
+    cbTickList(p, "d", p.docs) +
+    "<h5>Material risks <i>" + p.risks.length + " to consider</i></h5>" +
+    '<ul class="cb-risks">' + p.risks.map(function(r){
+      return typeof r === "string"
+        ? "<li>" + esc(r) + "</li>"
+        : '<li class="rare">' + esc(r.text) + "</li>";
+    }).join("") + "</ul>" +
+    "<h5>Patient factors</h5>" + cbFactors(p) +
+    "<h5>The consent conversation</h5>" + cbProgress(p) + cbTickList(p, "c", p.checks);
+}
+
+function cbMarkup(){
+  const p = CB.open ? PROC_BY[CB.open] : null;
+  return p ? cbProcedure(p) : cbShelf();
+}
+
+function cbPaint(focus){
+  const host = document.getElementById("cb");
+  if (!host) return;
+  host.innerHTML = cbMarkup();
+  const f = host.querySelector(focus);
+  if (f) f.focus();
+}
+
+/* a tick only moves the counters — repainting would cost the
+   doctor their place in the list */
+function cbCount(){
+  const host = document.getElementById("cb");
+  const p = CB.open ? PROC_BY[CB.open] : null;
+  if (!host || !p) return;
+
+  const ready = host.querySelector("h5 i");
+  if (ready) ready.textContent = cbDone(p, "d", p.docs.length) + " of " + p.docs.length + " ready";
+
+  const n = cbDone(p, "c", p.checks.length), all = n === p.checks.length;
+  const num = host.querySelector(".cb-num");
+  if (num){
+    num.textContent = n + " of " + p.checks.length + (all ? " · now document it" : " discussed");
+    num.classList.toggle("set", all);
+  }
+  const fill = host.querySelector(".cb-fill");
+  if (fill) fill.style.width = (p.checks.length ? Math.round(n / p.checks.length * 100) : 0) + "%";
+}
+
+document.addEventListener("change", function(e){
+  const t = e.target.closest ? e.target.closest("input[data-cb-tick]") : null;
+  if (!t || !CB.open) return;
+  cbTicks(PROC_BY[CB.open])[t.getAttribute("data-cb-tick")] = t.checked;
+  cbCount();
+});
+
+/* ═══════════════════════════════════════════════════════════
+   CASE INTELLIGENCE
+   The card opens the five files; each file plays as a six-beat
+   story. Autoplay holds while the page is hidden and is off
+   entirely for anyone who asks for reduced motion.
+   ═══════════════════════════════════════════════════════════ */
+const SLIDE_MS = 7000;
+const CI = { open:false, file:0, slide:0, t:0, held:false, raf:0 };
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+$("#cicount").textContent = CASEFILES.length + " case files";
+
+function ciMatches(q){
+  const terms = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (!terms.length) return CASEFILES.slice();
+  return CASEFILES.filter(function(c){
+    const hay = [c.title, c.summary, c.who, c.cover, c.tags, c.outcome,
+      c.slides.map(function(s){ return s.head + " " + s.text; }).join(" ")]
+      .join(" ").toLowerCase();
+    return terms.every(function(t){ return hay.indexOf(t) !== -1; });
+  });
+}
+
+function ciDraw(q){
+  const list = $("#cilist"), hits = ciMatches(q || "");
+  list.innerHTML = hits.length
+    ? hits.map(function(c){
+        return '<button class="ci-item" type="button" data-ci="' + c.id + '">' +
+            '<span class="ci-n">' + String(c.rank).padStart(2,"0") + "</span>" +
+            '<span class="ci-b">' +
+              '<span class="meta">' + esc(c.who) + " · " + esc(c.cover) + "</span>" +
+              '<span class="ci-t">' + esc(c.title) + "</span>" +
+              '<span class="ci-s">' + esc(c.summary) + "</span>" +
+            "</span>" +
+            '<span class="ci-r">' +
+              '<span class="ci-out">' + esc(c.outcome) + "</span>" +
+              '<span class="ci-open">Play the case &rarr;</span>' +
+            "</span>" +
+          "</button>";
+      }).join("")
+    : '<p class="res-none">Nothing in the five case files for &ldquo;' + esc(q.trim()) +
+      '&rdquo;. The judgment library behind this card is the next stage.</p>';
+  list.hidden = false;
+  $("#cicaveat").hidden = false;
+}
+
+$("#cigo").addEventListener("click", function(){
+  ciDraw($("#ciq").value);
+  $("#cilist").scrollIntoView({ block:"nearest", behavior:"smooth" });
+});
+$("#ciq").addEventListener("input", function(){ ciDraw(this.value); });
+$("#ciq").addEventListener("keydown", function(e){ if (e.key === "Enter") ciDraw(this.value); });
+
+/* ── the player ── */
+const story = $("#story");
+
+function ciBars(){
+  const n = CASEFILES[CI.file].slides.length;
+  let h = "";
+  for (let i = 0; i < n; i++) h += '<span class="story-bar"><i></i></span>';
+  $("#storyBars").innerHTML = h;
+}
+
+function ciFill(){
+  const bars = $("#storyBars").children;
+  for (let i = 0; i < bars.length; i++){
+    const w = i < CI.slide ? 1 : i > CI.slide ? 0 : Math.min(1, CI.t / SLIDE_MS);
+    bars[i].firstChild.style.width = (w * 100) + "%";
+  }
+}
+
+function ciSlide(){
+  const c = CASEFILES[CI.file], s = c.slides[CI.slide];
+  $("#storyWho").textContent = c.who;
+  $("#storySlide").className = "story-slide" + (s.hook ? " hook" : "");
+  $("#storySlide").innerHTML =
+    '<span class="story-label">' + esc(s.label) + "</span>" +
+    '<h3 class="story-head">' + esc(s.head) + "</h3>" +
+    '<p class="story-text">' + esc(s.text) + "</p>" +
+    (s.stat ? '<span class="story-stat">' + esc(s.stat) + "</span>" : "");
+  $("#storyCount").innerHTML = "Case <b>" + String(c.rank).padStart(2,"0") +
+    "</b> of " + CASEFILES.length + " · beat " + (CI.slide + 1) + " of " + c.slides.length;
+  CI.t = 0;
+  ciFill();
+}
+
+function ciTick(now){
+  if (!CI.open) return;
+  if (CI.last === undefined) CI.last = now;
+  const dt = now - CI.last;
+  CI.last = now;
+  if (!CI.held && !REDUCED && !document.hidden){
+    CI.t += dt;
+    if (CI.t >= SLIDE_MS){ ciStep(1); } else { ciFill(); }
+  }
+  CI.raf = requestAnimationFrame(ciTick);
+}
+
+/* forward past the last beat rolls into the next case, the way a
+   story set does; backward past the first stays put */
+function ciStep(dir){
+  const c = CASEFILES[CI.file];
+  let i = CI.slide + dir;
+  if (i >= c.slides.length){
+    CI.file = (CI.file + 1) % CASEFILES.length;
+    CI.slide = 0;
+    ciBars();
+  } else if (i < 0){
+    if (CI.file === 0){ CI.slide = 0; CI.t = 0; ciFill(); return; }
+    CI.file -= 1;
+    CI.slide = CASEFILES[CI.file].slides.length - 1;
+    ciBars();
+  } else {
+    CI.slide = i;
+  }
+  ciSlide();
+}
+
+function ciHold(on){
+  CI.held = on;
+  $("#storyHold").innerHTML = on ? "&#9654;" : "&#10073;&#10073;";
+  $("#storyHold").setAttribute("aria-label", on ? "Play" : "Pause");
+}
+
+function ciOpen(id){
+  const at = CASEFILES.findIndex(function(c){ return c.id === id; });
+  if (at < 0) return;
+  CI.open = true; CI.file = at; CI.slide = 0; CI.last = undefined;
+  ciHold(REDUCED);
+  ciBars(); ciSlide();
+  story.hidden = false;
+  requestAnimationFrame(function(){ story.classList.add("on"); });
+  document.body.style.overflow = "hidden";
+  $("#storyNext").focus();
+  cancelAnimationFrame(CI.raf);
+  CI.raf = requestAnimationFrame(ciTick);
+}
+
+function ciClose(){
+  CI.open = false;
+  cancelAnimationFrame(CI.raf);
+  story.classList.remove("on");
+  document.body.style.overflow = "";
+  setTimeout(function(){ story.hidden = true; }, 220);
+}
+
+$("#storyNext").addEventListener("click", function(){ ciStep(1); });
+$("#storyPrev").addEventListener("click", function(){ ciStep(-1); });
+$("#storyX").addEventListener("click", ciClose);
+$("#storyHold").addEventListener("click", function(){ ciHold(!CI.held); });
+story.addEventListener("mousedown", function(e){ if (e.target === story) ciClose(); });
+document.addEventListener("keydown", function(e){
+  if (!CI.open) return;
+  if (e.key === "Escape"){ ciClose(); }
+  else if (e.key === "ArrowRight"){ ciStep(1); }
+  else if (e.key === "ArrowLeft"){ ciStep(-1); }
+  else if (e.key === " "){ e.preventDefault(); ciHold(!CI.held); }
+});
+
+/* ═══════════════════════════════════════════════════════════
    THE READER
    ═══════════════════════════════════════════════════════════ */
 const veil = $("#veil"), sheet = $("#sheet");
@@ -1702,6 +2805,8 @@ function block(b){
     return '<div class="dates"><b>A few dates to keep</b><dl>' +
       v.map(function(r){ return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") +
       "</dl></div>";
+  if (kind === "builder")
+    return '<div class="cb" id="cb">' + cbMarkup() + "</div>";
   return "";
 }
 
@@ -1780,6 +2885,25 @@ sheet.addEventListener("keydown", function(e){
 
 /* one delegated listener for everything that opens or swaps */
 document.addEventListener("click", function(e){
+  const cf = e.target.closest("[data-ci]");
+  if (cf){ ciOpen(cf.getAttribute("data-ci")); return; }
+
+  /* the builder repaints itself in place, so it goes first */
+  const c = e.target.closest("[data-cb-open],[data-cb-back],[data-cb-factor]");
+  if (c){
+    if (c.hasAttribute("data-cb-factor")){
+      const k = c.getAttribute("data-cb-factor");
+      CB.factors[k] = !CB.factors[k];
+      cbPaint('[data-cb-factor="' + k + '"]');
+    } else if (c.hasAttribute("data-cb-back")){
+      CB.open = null;
+      cbPaint(".cb-card");
+    } else {
+      CB.open = c.getAttribute("data-cb-open");
+      cbPaint(".cb-back");
+    }
+    return;
+  }
   const o = e.target.closest("[data-open]");
   if (o){ open(o.getAttribute("data-open")); return; }
   const s = e.target.closest("[data-swap]");
@@ -1792,6 +2916,10 @@ document.addEventListener("click", function(e){
 const INDEX = DESK.map(function(d){
   const text = [
     d.title, d.deck, d.keyword || "", d.series, d.turns || "",
+    /* the builder's library is searchable too, or "cataract" finds nothing */
+    d.id === "consent-builder"
+      ? PROCEDURES.map(function(p){ return p.name + " " + p.specialty + " " + p.summary; }).join(" ")
+      : "",
     d.body.map(function(b){
       if (typeof b[1] === "string") return b[1];
       if (Array.isArray(b[1])) return b[1].flat().join(" ");
