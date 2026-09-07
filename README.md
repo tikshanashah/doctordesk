@@ -12,7 +12,7 @@ Written and curated by **Tikshana Shah**.
 
 | File | What it is |
 |---|---|
-| `index.html` | **The current build.** Single-file site: HTML, CSS and JS bundled, no build step, no dependencies beyond Google Fonts. Open it in a browser. |
+| `index.html` | **The current build.** Single-file site — HTML, CSS and JS bundled, no build step, no dependencies beyond Google Fonts. Open it in a browser. |
 | `THE_DOCTORS_DESK_MASTER_README (1).md` | The master brief. Strategy, editorial voice, content jobs, sourcing discipline, information architecture. Authoritative on everything except visual identity (see below). |
 | `From_the_Archive_*.docx` | 5 finished, sourced Archive pieces. |
 | `Small_History_*.docx` | 5 finished, sourced Small History pieces. |
@@ -29,128 +29,50 @@ The master brief's §90–93 (visual identity, palette, typography) are **supers
 README's CoverYou palette and the previous build's coral + glassmorphism system were dropped in
 favour of a digest content model in a modern minimal newspaper-editorial dress.
 
-**Concept: section inks on newsprint.** Warm newsprint stock, blue-black letterpress ink, and
+**Concept — section inks on newsprint.** Warm newsprint stock, blue-black letterpress ink, and
 a distinct ink per editorial stream. Colour is a section-front device: it tells you which part
 of the Desk you are in, rather than decorating the page. Each stream's ink flows through its
 section bar, its numbers, its buttons, its plates and its reader panel.
 
 ```
---paper    #F6F3EA   warm newsprint
+--paper    #F4F1E8   warm newsprint
 --paper-2  #EDE8DC   recessed bands
 --sheet    #FBFAF5   reading surface
 --ink      #17232A   blue-black letterpress
 
---rounds   #C62D1F   Making Rounds, current affairs        4.99:1
---tools    #0C6E50   Tools, practical                     5.63:1
---library  #A05A08   From the Archive, amber              4.78:1
---history  #2D5FA8   Small History, blue                  5.71:1
---sand     #F0D9A4   on the dark Casebook ground         11.57:1
+--rounds   #A63528   Making Rounds — current affairs      5.88:1
+--tools    #1B6353   Tools — practical                    6.29:1
+--library  #8A5A1E   From the Archive — sepia             5.22:1
+--history  #2F4F63   Small History — slate                7.69:1
+--sand     #DCC9A2   on the dark Casebook ground          9.86:1
 ```
 
 Streams are applied with `data-ink="rounds|tools|library|history|case"`, which sets
-`--ink-accent` for everything inside. An article page picks up its stream ink.
-All of them pass WCAG AA on their grounds.
+`--ink-accent` for everything inside. The reader picks up its article's stream ink on open.
+All five pass WCAG AA on their grounds.
 
 **Type.** [Newsreader](https://fonts.google.com/specimen/Newsreader) (variable, optical size
-6–72) for display *and* body: a face built for news reading, whose optical size axis lets
+6–72) for display *and* body — a face built for news reading, whose optical size axis lets
 display sizes tighten properly. [Archivo](https://fonts.google.com/specimen/Archivo) (width axis
 75–100) for the functional layer, condensed at label sizes the way newspaper kickers are.
 
 **Rules are hierarchy.** 6px coloured bar opens a section, 3px press rules divide, hairlines
 separate entries. Thickness carries meaning; nothing is a border for decoration's sake.
 
-**Plates carry real archival images**, which is what §23 and §95 ask for: paintings, scientific
-drawings and documentary photographs rather than stock. Cajal's own drawing of the nervous
-system, Laënnec's drawings of his stethoscope, Eakins' *Agnew Clinic*, the first medical X-ray of
-Anna Bertha Röntgen's hand. Behind each one sits a typographic colour field carrying the piece's
-closing thought, and the photograph fades in over it only once it has decoded. That is not a
-failure state: remote images that hang never fire `onerror`, so a fallback triggered by failure
-cannot be relied on, and a dead link degrades to something designed rather than to a hole.
+**Plates are typographic by design.** The Library's lead images are colour fields carrying the
+piece's own closing thought. A photograph, when one loads, fades in over the top. This is not a
+failure state — remote images that hang never fire `onerror`, so a fallback triggered by failure
+cannot be relied on.
 
-A tall plate keeps its own aspect rather than being cropped to a letterbox. The figure gets a
-`portrait` class on load when it is taller than wide; without it the Hippocrates engraving, which
-is 1920×2680, lost most of its height to `object-fit: cover`.
-
-**Breakpoints** are explicit column counts at 1100 / 980 / 940 / 820 / 560 / 400: never
+**Breakpoints** are explicit column counts at 1100 / 980 / 940 / 820 / 560 / 400 — never
 `auto-fit`, which produced five columns at 1440 and four-plus-an-orphan at 1024. Note that media
 queries evaluate against the viewport *including* the scrollbar, so a 768px tablet reports 768.
 
 **Kickers are serif italic**, not tracked-out caps eyebrows. **Numbers appear only in the issue
 digest**, because that is the one place the content is genuinely a sequence.
 
-**The issue leads with one story.** Entry 01 carries a 60px headline against 25px for the rest ,
-a 2.4× ratio: and closes on a rule in the section ink, so the eye lands somewhere before it
-starts scanning. Without it, six items of equal rank read as a list rather than a front page.
-The lead numeral and its rail scale down at 820 and 400, or it overruns the narrowed column.
-
-**The front is a split.** The Desk says what it is on the left; on the right it leads with an
-actual story carrying a plate. Before this, every image sat below the Casebook: the page opened
-with five screens of type before the first picture. There are now three visual anchors spaced
-down the page: the lead plate at the top, the dark Casebook in the middle, the Archive feature at
-the bottom. The lead story appears in the hero **or** the numbered digest, never both.
-
-**Motion.** The masthead line sets itself word by word, each rising out of its own mask, then the
-deck and search follow: one orchestrated opening, after which the page is still. A section
-announces itself by drawing its own 6px rule as it scrolls into view (`.sec-head::before`,
-`scaleX`), which reuses the existing rule vocabulary rather than adding a new effect. Beyond
-that it is interaction only: every control takes a press, hovering a row draws a 2px accent
-hairline in from the left in that section's ink, and a hairline tracks scroll position. Headlines use `text-wrap:balance`, decks `text-wrap:pretty`.
-All of it is disabled under `prefers-reduced-motion`, which also draws every section rule
-immediately so nothing is left invisible.
-
-**It routes like an app.** Search results, category listings and articles are real views with
-their own URL, not panels over the home page:
-
-```
-#/              the desk
-#/a/<id>        one article
-#/c/<key>       a category listing  (rounds | tools | casebook | library)
-#/search/<q>    search results
-```
-
-The home view stays in the DOM and is hidden rather than destroyed, so going back is instant and
-keeps its scroll position. `document.title` updates per view. An unknown id or category falls
-back to home rather than rendering an empty page.
-
-An earlier build filtered the home page in place instead of navigating, and an earlier one before
-that opened articles in an overlay. Both are gone: not everything needs to render on one scroll.
-
-## Homepage density
-
-The homepage shows a curated slice, down from 34 items. Nothing was deleted; what came off the surface
-went behind a fold or stayed reachable through search.
-
-- **The "on your desk today" strip is gone.** All four of its items repeated content shown
-  further down the same page: two Tools, the Casebook lead and the Archive lead: so a reader
-  met each of them twice before reaching the digest. It added navigation, not content.
-- **The issue shows a lead plus four**, with the remaining five current pieces folded.
-- **The two Library series no longer share a layout.** They were rendering as the same module
-  twice: two colour plates, two leads, two stacks of three items each carrying a full deck: so
-  the eye had to parse the same pattern back to back.
-
-**The Library plates break the container.** Everything else on the page sits inside one centred
-1280px column, which is the strongest single tell that a layout was generated rather than
-composed. The plates do not: they run to the edge of the screen while the type stays on the
-measure, and the two shelves mirror each other, so the Archive plate bleeds left and the Small
-History plate bleeds right.
-
-Bleed is measured from `--vw`, which JS sets from `documentElement.clientWidth` on load and on
-resize. **Do not swap it for `100vw`**: `100vw` includes the scrollbar, and the difference is
-exactly how far every bleeding block would push the page sideways. `--edge` derives the inset
-that keeps the type aligned to the measure, so the text column's inner edge lands on the same
-pixel as the section head above it.
-
-Each shelf shows the main story with the plate and the rest as a list of titles and read-times.
-Clicking a list title promotes it into the main slot. That promotion is a hand-rolled crossfade,
-not the View Transitions API: the API stopped running its callback on repeat swaps here, so
-every second click silently did nothing.
-
-`SHELF_ORDER` sets the Library order explicitly rather than inheriting it from `DESK`, because
-two pairs tell the same story twice: `stethoscope-invention` twins `stethoscope-history` (both
-Laënnec, 1816, the rolled paper tube), and `paternalism` twins `homevisit`. The Small History
-half of each pair is placed last so it falls into the fold: the pair is never on screen
-together. **If you reorder those shelves, keep the twins apart.** The proper fix is still to
-merge or differentiate them (§84); this only stops them colliding visually.
+**Motion** is interaction-only — modal open, search filter, library swap via the View Transitions
+API. Nothing animates on scroll. `prefers-reduced-motion` is respected.
 
 ---
 
@@ -174,7 +96,7 @@ brief's §105 schema:
 `type` is one of `current` · `archive` · `history` · `tool` · `note` · `case`.
 
 The render layer reads only from this array. When the Desk moves to an app, this is the one thing
-that gets replaced by an API response: the rendering, search and reader all carry over.
+that gets replaced by an API response — the rendering, search and reader all carry over.
 
 Search indexes titles, decks, SEO keywords, series and full body text, with title and keyword
 matches weighted.
@@ -187,7 +109,7 @@ Applied from the master brief and worth preserving in any future work:
 
 - **The Casebook contains no case citations.** Every entry is a de-identified *pattern* drawn from
   recurring disputes. Nothing states what a court held. The previous build asserted judicial
-  holdings without sources: that has been removed. Verified judgments with citations and links to
+  holdings without sources — that has been removed. Verified judgments with citations and links to
   the underlying text are the next stage of this section (§53, §57, §87).
 - **The Consent Checklist Builder is a concept card, not a tool.** The interface is easy; the
   content library underneath is the product, and clinical risk content cannot be written from
@@ -211,13 +133,9 @@ Applied from the master brief and worth preserving in any future work:
    clinical guidance, with review dates, before the builder goes live.
 3. **Template shelf.** Draft and review the first five templates against current NMC and
    applicable state requirements.
-4. **Self-host the plates.** The archival images are public-domain works from Wikimedia Commons,
-   hotlinked through `Special:FilePath` so the URL survives a re-upload of the same file. That is
-   fine for a prototype; before publication they should be downloaded and served from your own
-   host, and each credit checked against its Commons file page. Every plate was loaded and
-   verified before being wired in, and `PLATES` in `index.html` holds the filename and credit
-   together so the two cannot drift apart.
-
+4. **Images.** Most plates are Google Drive thumbnail links, which are fragile and rate-limited.
+   Move to hosted, rights-cleared assets and record source, creator, collection and rights status
+   for each (§96). Every image currently degrades to a typographic fallback if it fails to load.
 5. **Rights check.** The Mike Savad photograph used in the previous build was marked "commercial
    usage to be confirmed" and has been dropped from this build rather than carried forward.
 6. **SEO cannibalisation.** `stethoscope-invention` (Archive) and `stethoscope-history` (Small
@@ -228,4 +146,4 @@ Applied from the master brief and worth preserving in any future work:
 
 ## Running it
 
-Open `index.html` in a browser. That's it: no build, no server, no dependencies.
+Open `index.html` in a browser. That's it — no build, no server, no dependencies.
