@@ -59,10 +59,17 @@ display sizes tighten properly. [Archivo](https://fonts.google.com/specimen/Arch
 **Rules are hierarchy.** 6px coloured bar opens a section, 3px press rules divide, hairlines
 separate entries. Thickness carries meaning; nothing is a border for decoration's sake.
 
-**Plates are typographic by design.** The Library's lead images are colour fields carrying the
-piece's own closing thought. A photograph, when one loads, fades in over the top. This is not a
+**Plates carry real archival images**, which is what §23 and §95 ask for: paintings, scientific
+drawings and documentary photographs rather than stock. Cajal's own drawing of the nervous
+system, Laënnec's drawings of his stethoscope, Eakins' *Agnew Clinic*, the first medical X-ray of
+Anna Bertha Röntgen's hand. Behind each one sits a typographic colour field carrying the piece's
+closing thought, and the photograph fades in over it only once it has decoded. That is not a
 failure state: remote images that hang never fire `onerror`, so a fallback triggered by failure
-cannot be relied on.
+cannot be relied on, and a dead link degrades to something designed rather than to a hole.
+
+A tall plate keeps its own aspect rather than being cropped to a letterbox. The figure gets a
+`portrait` class on load when it is taller than wide; without it the Hippocrates engraving, which
+is 1920×2680, lost most of its height to `object-fit: cover`.
 
 **Breakpoints** are explicit column counts at 1100 / 980 / 940 / 820 / 560 / 400: never
 `auto-fit`, which produced five columns at 1440 and four-plus-an-orphan at 1024. Note that media
@@ -204,9 +211,13 @@ Applied from the master brief and worth preserving in any future work:
    clinical guidance, with review dates, before the builder goes live.
 3. **Template shelf.** Draft and review the first five templates against current NMC and
    applicable state requirements.
-4. **Images.** Most plates are Google Drive thumbnail links, which are fragile and rate-limited.
-   Move to hosted, rights-cleared assets and record source, creator, collection and rights status
-   for each (§96). Every image currently degrades to a typographic fallback if it fails to load.
+4. **Self-host the plates.** The archival images are public-domain works from Wikimedia Commons,
+   hotlinked through `Special:FilePath` so the URL survives a re-upload of the same file. That is
+   fine for a prototype; before publication they should be downloaded and served from your own
+   host, and each credit checked against its Commons file page. Every plate was loaded and
+   verified before being wired in, and `PLATES` in `index.html` holds the filename and credit
+   together so the two cannot drift apart.
+
 5. **Rights check.** The Mike Savad photograph used in the previous build was marked "commercial
    usage to be confirmed" and has been dropped from this build rather than carried forward.
 6. **SEO cannibalisation.** `stethoscope-invention` (Archive) and `stethoscope-history` (Small

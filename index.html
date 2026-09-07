@@ -592,6 +592,11 @@ button:active,summary:active{transform:translateY(1px)}
 
 /* a long image should not push the article below the fold */
 .article figure img{max-height:min(58vh,500px);object-fit:cover;object-position:center 28%}
+/* a tall plate keeps its shape rather than being cropped to a letterbox:
+   the Hippocrates engraving is 1920x2680, and cover threw most of it away */
+.article figure.portrait img{
+  width:auto;max-width:min(100%,440px);max-height:min(74vh,640px);object-fit:contain;
+}
 
 /* ═══════════════════════════════════════════════════════════
    THE OPENING
@@ -1676,6 +1681,56 @@ DESK.forEach(function(d){ BY[d.id] = d; });
 const of_ = function(t){ return DESK.filter(function(d){ return d.type === t; }); };
 
 /* ═══════════════════════════════════════════════════════════
+   ARCHIVAL PLATES
+   Real archival images, which is what §23 and §95 ask for:
+   paintings, scientific drawings and documentary photographs
+   rather than stock. All public domain unless marked, sourced
+   from Wikimedia Commons and addressed through Special:FilePath
+   so the link survives a re-upload of the same file.
+
+   Every one of these was loaded and checked before being wired
+   in. Anything that fails still falls back to the typographic
+   plate, so a dead link degrades rather than breaks.
+
+   Before publication these should be self-hosted rather than
+   hotlinked, and each credit checked against the file page.
+   ═══════════════════════════════════════════════════════════ */
+const wiki = function(file){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" +
+         encodeURIComponent(file.replace(/ /g, "_")) + "?width=1400";
+};
+
+const PLATES = {
+  "cajal": ["Nyt-Cajal DRAWING m1673-resized-for-web.jpg",
+    "<b>A drawing of the nervous system by Santiago Ramón y Cajal.</b> Public domain, via Wikimedia Commons."],
+  "stethoscope-invention": ["Rene-Theophile-Hyacinthe Laennec (1781-1826) Drawings stethoscope and lungs.jpg",
+    "<b>Laënnec's own drawings of the stethoscope and the lungs, around 1819.</b> Public domain, via Wikimedia Commons."],
+  "stethoscope-history": ["Laennec stethoscope lungs.jpg",
+    "<b>Laënnec's stethoscope, drawn with the lungs it was made to listen to.</b> Public domain, via Wikimedia Commons."],
+  "paternalism": ["Anonymous - Guillaume Dupuytren (1777-1835), à l'Hôtel-Dieu, présente à Charles X une opérée des yeux. - P748 - Musée Carnavalet.jpg",
+    "<b>Guillaume Dupuytren presenting a patient at the Hôtel-Dieu, Paris.</b> Musée Carnavalet. Public domain, via Wikimedia Commons."],
+  "oath": ["Hippocrates rubens.jpg",
+    "<b>Hippocrates, engraved after Peter Paul Rubens, 1638.</b> Public domain, via Wikimedia Commons."],
+  "hela": ["HeLa cells stained with Hoechst 33258.jpg",
+    "<b>HeLa cells stained with Hoechst 33258.</b> Public domain, via Wikimedia Commons."],
+  "whitecoat": ["The Agnew Clinic - Thomas Eakins.jpg",
+    "<b>The Agnew Clinic, Thomas Eakins, 1889.</b> The white gowns, sterilised instruments and attending nurse mark how far surgery had moved in the fourteen years since Eakins painted <i>The Gross Clinic</i>. Public domain, via Wikimedia Commons."],
+  "xray": ["Anna Berthe Roentgen.gif",
+    "<b>The first medical X-ray: Anna Bertha Röntgen's hand, 22 December 1895.</b> Her ring is visible on the fourth finger. Public domain, via Wikimedia Commons."],
+  "hospitals": ["Veron-Bellecourt - Napoléon Ier visitant l'infirmerie des Invalides, 11 février 1808.jpg",
+    "<b>An infirmary at Les Invalides, painted by Véron-Bellecourt, 1808.</b> Shelter and care, before the hospital became a place of science. Public domain, via Wikimedia Commons."],
+  "consultation-end": ["The Doctor Luke Fildes crop.jpg",
+    "<b>The Doctor, Sir Luke Fildes, 1891.</b> A doctor keeps watch over a sick child while the parents wait behind him. Tate, London. Public domain, via Wikimedia Commons."]
+};
+
+Object.keys(PLATES).forEach(function(id){
+  const d = BY[id];
+  if (!d) return;
+  d.image   = wiki(PLATES[id][0]);
+  d.caption = PLATES[id][1];
+});
+
+/* ═══════════════════════════════════════════════════════════
    RENDER
    ═══════════════════════════════════════════════════════════ */
 const $  = function(s){ return document.querySelector(s); };
@@ -1909,7 +1964,9 @@ function articleHTML(d){
     /* revealed only once the image decodes: a hanging remote image never
        fires onerror, so an empty figure would otherwise sit in the article */
     html += '<figure hidden><img src="' + esc(d.image) + '" alt="" ' +
-            'onload="this.closest(\'figure\').hidden=false">' +
+            'onload="this.closest(\'figure\').hidden=false;' +
+              'if(this.naturalHeight>this.naturalWidth)' +
+              'this.closest(\'figure\').classList.add(\'portrait\')">' +
             (d.caption ? "<figcaption>" + d.caption + "</figcaption>" : "") +
             "</figure>";
   }
