@@ -2182,6 +2182,19 @@ document.querySelectorAll(".quick button").forEach(function(b){
     location.hash = "#/search/" + encodeURIComponent(b.getAttribute("data-q"));
   });
 });
+/* One delegated listener for every card on the page. The cards are
+   <button>s carrying data-open (navigate to the article) or data-swap
+   (promote a shelf item), so without this nothing on the home page is
+   clickable at all. It was lost once already when the old overlay
+   reader was spliced out; if it goes missing again the symptom is that
+   every card silently does nothing while real <a href> links still work. */
+document.addEventListener("click", function(e){
+  const o = e.target.closest("[data-open]");
+  if (o){ location.hash = "#/a/" + o.getAttribute("data-open"); return; }
+  const sw = e.target.closest("[data-swap]");
+  if (sw){ swapShelf(sw.getAttribute("data-swap"), +sw.getAttribute("data-i")); }
+});
+
 $("#tosearch").addEventListener("click", function(){
   if (location.hash && location.hash !== "#/") { location.hash = "#/"; }
   window.scrollTo({ top:0, behavior:"smooth" });
