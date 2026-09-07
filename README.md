@@ -29,43 +29,35 @@ The master brief's §90–93 (visual identity, palette, typography) are **supers
 README's CoverYou palette and the previous build's coral + glassmorphism system were dropped in
 favour of a digest content model in a modern minimal newspaper-editorial dress.
 
-**Concept — section inks, contemporary editorial.** Near-white ground, a high-contrast display
-serif, and a distinct ink per editorial stream. Colour is a section-front device: it tells you
-which part of the Desk you are in rather than decorating the page. Each stream's ink flows
-through its rules, numerals, buttons, plates and reader panel.
+**Concept — section inks on newsprint.** Warm newsprint stock, blue-black letterpress ink, and
+a distinct ink per editorial stream. Colour is a section-front device: it tells you which part
+of the Desk you are in, rather than decorating the page. Each stream's ink flows through its
+section bar, its numbers, its buttons, its plates and its reader panel.
 
 ```
---paper    #FAF8F5   ground
---paper-2  #F1EDE7   recessed
---surface  #FFFFFF   raised cards
---ink      #15191E
+--paper    #F4F1E8   warm newsprint
+--paper-2  #EDE8DC   recessed bands
+--sheet    #FBFAF5   reading surface
+--ink      #17232A   blue-black letterpress
 
---rounds   #BE3A2B   Making Rounds — current affairs      5.48:1
---tools    #0F6B57   Tools — practical                    6.44:1
---library  #9C5B0C   From the Archive — amber             4.92:1
---history  #33507E   Small History — indigo               7.65:1
---sand     #E9D7B0   on the dark Casebook ground         12.45:1
+--rounds   #A63528   Making Rounds — current affairs      5.88:1
+--tools    #1B6353   Tools — practical                    6.29:1
+--library  #8A5A1E   From the Archive — sepia             5.22:1
+--history  #2F4F63   Small History — slate                7.69:1
+--sand     #DCC9A2   on the dark Casebook ground          9.86:1
 ```
 
 Streams are applied with `data-ink="rounds|tools|library|history|case"`, which sets
 `--ink-accent` for everything inside. The reader picks up its article's stream ink on open.
-All pass WCAG AA on their grounds, including white-on-accent buttons.
+All five pass WCAG AA on their grounds.
 
-**Type.** [Fraunces](https://fonts.google.com/specimen/Fraunces) (variable — `opsz`, `SOFT`,
-`WONK`) for display only, tightly tracked. [Archivo](https://fonts.google.com/specimen/Archivo)
-for everything you actually read. Sans body is the single thing that separates this from a
-broadsheet pastiche — an earlier pass set body copy in a news serif and read as a facsimile of an
-old newspaper rather than a contemporary publication.
+**Type.** [Newsreader](https://fonts.google.com/specimen/Newsreader) (variable, optical size
+6–72) for display *and* body — a face built for news reading, whose optical size axis lets
+display sizes tighten properly. [Archivo](https://fonts.google.com/specimen/Archivo) (width axis
+75–100) for the functional layer, condensed at label sizes the way newspaper kickers are.
 
-**Depth over rules.** Cards on a near-white ground with a two-step radius scale (14px for list
-items, 24px for panels) and two shadow levels. Radius tracks hierarchy rather than being applied
-uniformly.
-
-**Motion.** One page-load sequence on the hero, then interaction-driven only: cards lift on
-hover, every button takes a `scale(.985)` press, the reader slides in on a quint ease, and
-sections rise once as they enter the viewport — grouped and staggered by row, so a section
-arrives as one gesture rather than element by element. A scroll-progress hairline tracks the
-page. The whole motion layer is skipped under `prefers-reduced-motion`.
+**Rules are hierarchy.** 6px coloured bar opens a section, 3px press rules divide, hairlines
+separate entries. Thickness carries meaning; nothing is a border for decoration's sake.
 
 **Plates are typographic by design.** The Library's lead images are colour fields carrying the
 piece's own closing thought. A photograph, when one loads, fades in over the top. This is not a
