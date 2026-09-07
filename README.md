@@ -12,7 +12,7 @@ Written and curated by **Tikshana Shah**.
 
 | File | What it is |
 |---|---|
-| `index.html` | **The current build.** Single-file site — HTML, CSS and JS bundled, no build step, no dependencies beyond Google Fonts. Open it in a browser. |
+| `index.html` | **The current build.** Single-file site: HTML, CSS and JS bundled, no build step, no dependencies beyond Google Fonts. Open it in a browser. |
 | `THE_DOCTORS_DESK_MASTER_README (1).md` | The master brief. Strategy, editorial voice, content jobs, sourcing discipline, information architecture. Authoritative on everything except visual identity (see below). |
 | `From_the_Archive_*.docx` | 5 finished, sourced Archive pieces. |
 | `Small_History_*.docx` | 5 finished, sourced Small History pieces. |
@@ -29,30 +29,30 @@ The master brief's §90–93 (visual identity, palette, typography) are **supers
 README's CoverYou palette and the previous build's coral + glassmorphism system were dropped in
 favour of a digest content model in a modern minimal newspaper-editorial dress.
 
-**Concept — section inks on newsprint.** Warm newsprint stock, blue-black letterpress ink, and
+**Concept: section inks on newsprint.** Warm newsprint stock, blue-black letterpress ink, and
 a distinct ink per editorial stream. Colour is a section-front device: it tells you which part
 of the Desk you are in, rather than decorating the page. Each stream's ink flows through its
 section bar, its numbers, its buttons, its plates and its reader panel.
 
 ```
---paper    #F4F1E8   warm newsprint
+--paper    #F6F3EA   warm newsprint
 --paper-2  #EDE8DC   recessed bands
 --sheet    #FBFAF5   reading surface
 --ink      #17232A   blue-black letterpress
 
---rounds   #A63528   Making Rounds — current affairs      5.88:1
---tools    #1B6353   Tools — practical                    6.29:1
---library  #8A5A1E   From the Archive — sepia             5.22:1
---history  #2F4F63   Small History — slate                7.69:1
---sand     #DCC9A2   on the dark Casebook ground          9.86:1
+--rounds   #C62D1F   Making Rounds, current affairs        4.99:1
+--tools    #0C6E50   Tools, practical                     5.63:1
+--library  #A05A08   From the Archive, amber              4.78:1
+--history  #2D5FA8   Small History, blue                  5.71:1
+--sand     #F0D9A4   on the dark Casebook ground         11.57:1
 ```
 
 Streams are applied with `data-ink="rounds|tools|library|history|case"`, which sets
-`--ink-accent` for everything inside. The reader picks up its article's stream ink on open.
-All five pass WCAG AA on their grounds.
+`--ink-accent` for everything inside. An article page picks up its stream ink.
+All of them pass WCAG AA on their grounds.
 
 **Type.** [Newsreader](https://fonts.google.com/specimen/Newsreader) (variable, optical size
-6–72) for display *and* body — a face built for news reading, whose optical size axis lets
+6–72) for display *and* body: a face built for news reading, whose optical size axis lets
 display sizes tighten properly. [Archivo](https://fonts.google.com/specimen/Archivo) (width axis
 75–100) for the functional layer, condensed at label sizes the way newspaper kickers are.
 
@@ -61,74 +61,79 @@ separate entries. Thickness carries meaning; nothing is a border for decoration'
 
 **Plates are typographic by design.** The Library's lead images are colour fields carrying the
 piece's own closing thought. A photograph, when one loads, fades in over the top. This is not a
-failure state — remote images that hang never fire `onerror`, so a fallback triggered by failure
+failure state: remote images that hang never fire `onerror`, so a fallback triggered by failure
 cannot be relied on.
 
-**Breakpoints** are explicit column counts at 1100 / 980 / 940 / 820 / 560 / 400 — never
+**Breakpoints** are explicit column counts at 1100 / 980 / 940 / 820 / 560 / 400: never
 `auto-fit`, which produced five columns at 1440 and four-plus-an-orphan at 1024. Note that media
 queries evaluate against the viewport *including* the scrollbar, so a 768px tablet reports 768.
 
 **Kickers are serif italic**, not tracked-out caps eyebrows. **Numbers appear only in the issue
 digest**, because that is the one place the content is genuinely a sequence.
 
-**The issue leads with one story.** Entry 01 carries a 60px headline against 25px for the rest —
-a 2.4× ratio — and closes on a rule in the section ink, so the eye lands somewhere before it
+**The issue leads with one story.** Entry 01 carries a 60px headline against 25px for the rest ,
+a 2.4× ratio: and closes on a rule in the section ink, so the eye lands somewhere before it
 starts scanning. Without it, six items of equal rank read as a list rather than a front page.
 The lead numeral and its rail scale down at 820 and 400, or it overruns the narrowed column.
 
 **The front is a split.** The Desk says what it is on the left; on the right it leads with an
-actual story carrying a plate. Before this, every image sat below the Casebook — the page opened
+actual story carrying a plate. Before this, every image sat below the Casebook: the page opened
 with five screens of type before the first picture. There are now three visual anchors spaced
 down the page: the lead plate at the top, the dark Casebook in the middle, the Archive feature at
 the bottom. The lead story appears in the hero **or** the numbered digest, never both.
 
 **Motion.** The masthead line sets itself word by word, each rising out of its own mask, then the
-deck and search follow — one orchestrated opening, after which the page is still. A section
+deck and search follow: one orchestrated opening, after which the page is still. A section
 announces itself by drawing its own 6px rule as it scrolls into view (`.sec-head::before`,
 `scaleX`), which reuses the existing rule vocabulary rather than adding a new effect. Beyond
 that it is interaction only: every control takes a press, hovering a row draws a 2px accent
-hairline in from the left in that section's ink, the reader arrives on a long soft curve, and a
-hairline tracks scroll position. Headlines use `text-wrap:balance`, decks `text-wrap:pretty`.
+hairline in from the left in that section's ink, and a hairline tracks scroll position. Headlines use `text-wrap:balance`, decks `text-wrap:pretty`.
 All of it is disabled under `prefers-reduced-motion`, which also draws every section rule
 immediately so nothing is left invisible.
 
-**Search re-weights the desk.** Typing doesn't open a dropdown — the whole page responds.
-Matches stay lit, everything else drops to 14% and desaturates, folds force open so a match
-can't hide inside one, and a section dims entirely when it has nothing to offer. This is §14's
-"search as a core product layer" made literal. Two things to know if you touch it: content
-elements are addressed by `data-open` **or** `data-filter` (the Archive's "also" items promote
-rather than open, so they carry the latter), and `:not()` must be repeated per branch —
-`"[data-open],[data-filter]:not(.nomatch)"` applies the negation only to the second selector,
-which silently breaks the section-empty check.
+**It routes like an app.** Search results, category listings and articles are real views with
+their own URL, not panels over the home page:
 
-A card-based modernisation was tried and reverted at 78d5521 — rounded surfaces and shadows cost
-the flat typographic structure that was doing the work. Keep changes inside that structure.
+```
+#/              the desk
+#/a/<id>        one article
+#/c/<key>       a category listing  (rounds | tools | casebook | library)
+#/search/<q>    search results
+```
+
+The home view stays in the DOM and is hidden rather than destroyed, so going back is instant and
+keeps its scroll position. `document.title` updates per view. An unknown id or category falls
+back to home rather than rendering an empty page.
+
+An earlier build filtered the home page in place instead of navigating, and an earlier one before
+that opened articles in an overlay. Both are gone: not everything needs to render on one scroll.
 
 ## Homepage density
 
-The homepage shows **22 items**, down from 34. Nothing was deleted; what came off the surface
+The homepage shows a curated slice, down from 34 items. Nothing was deleted; what came off the surface
 went behind a fold or stayed reachable through search.
 
 - **The "on your desk today" strip is gone.** All four of its items repeated content shown
-  further down the same page — two Tools, the Casebook lead and the Archive lead — so a reader
+  further down the same page: two Tools, the Casebook lead and the Archive lead: so a reader
   met each of them twice before reaching the digest. It added navigation, not content.
 - **The issue shows a lead plus four**, with the remaining five current pieces folded.
 - **The two Library series no longer share a layout.** They were rendering as the same module
-  twice — two colour plates, two leads, two stacks of three items each carrying a full deck — so
+  twice: two colour plates, two leads, two stacks of three items each carrying a full deck: so
   the eye had to parse the same pattern back to back.
 
-**From the Archive is the resurfacing slot** (§65, §125), not a second grid. One story is
-featured with the full-width plate, a large title and its deck; the other three are titles and
-read-times only. Clicking one promotes it into the feature via the View Transitions API, so the
-shelf is something you browse rather than a fixed list.
+**Both Library shelves use one layout**: the main story carries the plate, and the rest sit
+beside it as a list of titles and read-times. The decks that used to sit under every list entry
+were most of the section's density, so they are gone. Clicking a list title promotes it into the
+main slot.
 
-**Small History is an index.** "How did this become normal" is a listing question, so it reads as
-a two-column list of titles and read-times — no plate, no decks. Two series, two textures.
+That promotion is a hand-rolled crossfade, not the View Transitions API. The API stopped running
+its callback on repeat swaps here, so every second click silently did nothing; a 190ms
+opacity-and-lift on the shelf container is predictable and the timing is ours.
 
 `SHELF_ORDER` sets the Library order explicitly rather than inheriting it from `DESK`, because
 two pairs tell the same story twice: `stethoscope-invention` twins `stethoscope-history` (both
 Laënnec, 1816, the rolled paper tube), and `paternalism` twins `homevisit`. The Small History
-half of each pair is placed last so it falls into the fold — the pair is never on screen
+half of each pair is placed last so it falls into the fold: the pair is never on screen
 together. **If you reorder those shelves, keep the twins apart.** The proper fix is still to
 merge or differentiate them (§84); this only stops them colliding visually.
 
@@ -154,7 +159,7 @@ brief's §105 schema:
 `type` is one of `current` · `archive` · `history` · `tool` · `note` · `case`.
 
 The render layer reads only from this array. When the Desk moves to an app, this is the one thing
-that gets replaced by an API response — the rendering, search and reader all carry over.
+that gets replaced by an API response: the rendering, search and reader all carry over.
 
 Search indexes titles, decks, SEO keywords, series and full body text, with title and keyword
 matches weighted.
@@ -167,7 +172,7 @@ Applied from the master brief and worth preserving in any future work:
 
 - **The Casebook contains no case citations.** Every entry is a de-identified *pattern* drawn from
   recurring disputes. Nothing states what a court held. The previous build asserted judicial
-  holdings without sources — that has been removed. Verified judgments with citations and links to
+  holdings without sources: that has been removed. Verified judgments with citations and links to
   the underlying text are the next stage of this section (§53, §57, §87).
 - **The Consent Checklist Builder is a concept card, not a tool.** The interface is easy; the
   content library underneath is the product, and clinical risk content cannot be written from
@@ -204,4 +209,4 @@ Applied from the master brief and worth preserving in any future work:
 
 ## Running it
 
-Open `index.html` in a browser. That's it — no build, no server, no dependencies.
+Open `index.html` in a browser. That's it: no build, no server, no dependencies.
