@@ -55,6 +55,8 @@
   --ink-3:#5E6D72;        /* faint              4.6:1 */
 
   --rounds:#A63528;       /* current affairs */
+  --rounds-2:#BE4A34;     /* the spot, warmed — the case-intelligence card only */
+  --rounds-3:#CE5B41;
   --tools:#1B6353;        /* practical */
   --library:#8A5A1E;      /* archival sepia */
   --history:#2F4F63;      /* small history — slate, to part the two shelves */
@@ -232,6 +234,7 @@ a{color:inherit}
    ═══════════════════════════════════════════════════════════ */
 .sec{padding-block:var(--s7) 0}
 .sec-head{
+  position:relative;
   display:flex;align-items:flex-end;justify-content:space-between;
   gap:var(--s2) var(--s4);flex-wrap:wrap;
   border-top:6px solid var(--ink-accent);padding-top:var(--s2);
@@ -681,67 +684,101 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
    play on the ink ground the Casebook already uses.
    ═══════════════════════════════════════════════════════════ */
 .ci-card{
-  background:linear-gradient(152deg,#A63528 0%,#BE4A34 52%,#CE5B41 100%);
-  color:#FBFAF5;padding:var(--s5) clamp(22px,4vw,var(--s5));margin-top:var(--s5);
+  background:linear-gradient(152deg,var(--rounds) 0%,var(--rounds-2) 52%,var(--rounds-3) 100%);
+  color:var(--paper);padding:var(--s4) clamp(20px,3vw,var(--s4));margin-top:var(--s3);
+  display:grid;gap:var(--s3) var(--s5);align-items:end;
 }
-.ci-card .kicker{color:rgba(251,250,245,.78);font-style:normal;font-family:var(--sans);
+@media (min-width:900px){
+  .ci-card{grid-template-columns:minmax(0,1.06fr) minmax(0,1fr)}
+}
+.ci-card .kicker{color:rgba(244,241,232,.78);font-style:normal;font-family:var(--sans);
   font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
   font-variation-settings:"wdth" 86;margin-bottom:var(--s2)}
+.ci-said{display:flex;flex-direction:column;justify-content:space-between;gap:var(--s3)}
 .ci-card h3{
-  font-family:var(--serif);font-weight:400;margin:0 0 var(--s3);
-  font-size:clamp(29px,4.4vw,46px);line-height:1.04;letter-spacing:-.028em;
-  font-variation-settings:"opsz" 46;max-width:22ch;text-wrap:balance;
+  font-family:var(--serif);font-weight:400;margin:0;
+  font-size:clamp(29px,4.1vw,50px);line-height:1.01;letter-spacing:-.032em;
+  font-variation-settings:"opsz" 50;max-width:18ch;text-wrap:balance;
 }
-.ci-card > p{margin:0 0 var(--s4);max-width:56ch;font-size:17px;line-height:1.55;color:rgba(251,250,245,.92)}
-.ci-find{
-  display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;
-  background:rgba(251,250,245,.14);border:1px solid rgba(251,250,245,.3);
-  padding:9px 9px 9px var(--s3);border-radius:44px;max-width:640px;
-}
-.ci-find input{
-  flex:1 1 200px;min-width:0;background:none;border:0;color:#FBFAF5;
-  font-family:var(--serif);font-size:17px;padding:8px 0;
-}
-.ci-find input::placeholder{color:rgba(251,250,245,.68)}
-.ci-find input:focus{outline:none}
-.ci-find:focus-within{border-color:rgba(251,250,245,.75)}
+.ci-ask{display:grid;gap:var(--s3);align-content:end;justify-items:start}
+.ci-ask > p{margin:0;max-width:48ch;font-size:16.5px;line-height:1.5;color:rgba(244,241,232,.92)}
 .ci-go{
-  flex:0 0 auto;border:0;cursor:pointer;background:#FBFAF5;color:#A63528;
-  font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;padding:13px 26px;border-radius:36px;
-  font-variation-settings:"wdth" 88;
+  border:0;cursor:pointer;background:var(--sheet);color:var(--rounds);
+  font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.07em;
+  padding:16px 28px;font-variation-settings:"wdth" 86;
+  transition:background .16s,color .16s;
 }
-.ci-go:hover{background:#fff;color:#8E2B22}
+.ci-go:hover{background:var(--ink);color:var(--paper)}
 .ci-note{
-  font-family:var(--sans);font-size:12.5px;color:rgba(251,250,245,.8);
-  margin:var(--s3) 0 0;max-width:56ch;letter-spacing:.01em;
+  font-family:var(--sans);font-size:12.5px;line-height:1.5;color:rgba(244,241,232,.8);
+  margin:0;max-width:52ch;letter-spacing:.01em;
 }
 
-/* the five case files */
-.ci-list{border-top:3px solid var(--rounds);margin-top:var(--s3)}
+/* the five case files — two up, footers aligned, cards on the
+   reading surface so the paper ground reads as the gap */
+.ci-listhead{
+  display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2);
+  flex-wrap:wrap;margin-top:var(--s4);padding-bottom:var(--s1);
+  border-bottom:3px solid var(--rounds);
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-2);font-variation-settings:"wdth" 84;
+}
+.ci-listhead span:last-child{color:var(--ink-3);letter-spacing:.07em}
+.ci-list{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s1);
+  margin-top:var(--s1);
+}
 .ci-item{
-  display:grid;grid-template-columns:44px 1fr auto;gap:3px var(--s3);align-items:baseline;
-  width:100%;text-align:left;background:none;border:0;cursor:pointer;
-  border-bottom:1px solid var(--rule-hair);padding:var(--s2) 0;
+  display:flex;flex-direction:column;gap:9px;
+  width:100%;text-align:left;background:var(--sheet);border:0;cursor:pointer;
+  padding:var(--s3);position:relative;overflow:hidden;
   font-family:var(--serif);color:var(--ink);
+  animation:ci-rise .52s cubic-bezier(.2,.72,.3,1) backwards;
+  animation-delay:calc(var(--i,0) * 70ms);
+  transition:background .16s;
 }
-.ci-item:hover,.ci-item:focus-visible{background:var(--paper-2)}
+.ci-item::before{
+  content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--rounds);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s cubic-bezier(.2,.72,.3,1);
+}
+.ci-item:hover{background:var(--paper-2)}
+.ci-item:hover .ci-t{color:var(--rounds)}
+.ci-item:hover::before,.ci-item:focus-visible::before{transform:scaleX(1)}
+.ci-list .res-none{grid-column:1/-1;background:var(--sheet);margin:0;padding:var(--s3)}
+.ci-body{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.ci-head{display:flex;align-items:baseline;gap:11px}
 .ci-n{
-  font-family:var(--sans);font-size:19px;font-weight:700;color:var(--rounds);
+  font-family:var(--sans);font-size:16px;font-weight:700;color:var(--rounds);
   font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 82;line-height:1.2;
+  flex:0 0 auto;
 }
-.ci-b{display:grid;gap:2px;min-width:0}
-.ci-b .meta{color:var(--ink-3)}
-.ci-t{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.16;letter-spacing:-.016em;font-variation-settings:"opsz" 22}
-.ci-s{font-size:15px;line-height:1.45;color:var(--ink-2);max-width:58ch}
-.ci-r{display:grid;gap:4px;justify-items:end;align-content:start}
+.ci-head .meta{color:var(--ink-3);line-height:1.35}
+.ci-t{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.14;letter-spacing:-.016em;font-variation-settings:"opsz" 22;text-wrap:balance;transition:color .16s}
+.ci-s{font-size:15px;line-height:1.45;color:var(--ink-2)}
+.ci-r{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s2);flex-wrap:wrap;padding-top:10px;
+  border-top:1px solid var(--rule-hair);
+}
+@media (min-width:900px){
+  .ci-wide{grid-column:1/-1;flex-direction:row;align-items:flex-end;gap:var(--s5)}
+  .ci-wide .ci-r{flex:0 0 auto;flex-direction:column;align-items:flex-end;gap:7px;border-top:0;padding-top:0}
+}
+@keyframes ci-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .ci-out{
-  font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.06em;
-  color:var(--tools);white-space:nowrap;font-variant-numeric:tabular-nums;
+  font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.05em;
+  color:var(--tools);font-variant-numeric:tabular-nums;
   font-variation-settings:"wdth" 88;
+  border:1px solid rgba(27,99,83,.34);padding:3px 10px;
 }
-.ci-open{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--rounds);font-variation-settings:"wdth" 86;white-space:nowrap}
-.ci-item:hover .ci-open{text-decoration:underline}
+.ci-open{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--rounds);font-variation-settings:"wdth" 86;
+  white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+}
+.ci-open i{font-style:normal;display:inline-block;transition:transform .22s cubic-bezier(.2,.7,.3,1)}
+.ci-item:hover .ci-open i{transform:translateX(5px)}
 
 /* the caveat sits on paper here, not on the Casebook's dark ground */
 .ci-caveat{
@@ -760,8 +797,12 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
 .story-card{
   position:relative;width:min(432px,100%);height:min(768px,88vh);
   background:var(--ink);color:var(--paper);overflow:hidden;
-  display:flex;flex-direction:column;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
+  display:flex;flex-direction:column;
 }
+.story.on .story-card{animation:st-pop .36s cubic-bezier(.2,.72,.3,1)}
+@keyframes st-pop{from{opacity:0;transform:scale(.955) translateY(14px)}to{opacity:1;transform:none}}
+@keyframes st-rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@keyframes st-drift{from{background-position:0% 0%}to{background-position:0% 100%}}
 .story-bars{display:flex;gap:4px;padding:14px 16px 0;flex:0 0 auto}
 .story-bar{flex:1;height:3px;background:rgba(244,241,232,.26);overflow:hidden}
 .story-bar i{display:block;height:100%;width:0;background:var(--paper)}
@@ -777,7 +818,7 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
 .story-btns{display:flex;align-items:center;gap:4px;flex:0 0 auto}
 .story-btns button{
   background:rgba(244,241,232,.14);border:0;color:var(--paper);cursor:pointer;
-  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  width:30px;height:30px;display:grid;place-items:center;
   font-family:var(--sans);font-size:11px;font-weight:700;line-height:1;
 }
 .story-btns button:hover{background:rgba(244,241,232,.28)}
@@ -785,7 +826,15 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
   flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;
   gap:var(--s2);padding:var(--s4) 54px var(--s3);overflow-y:auto;
 }
-.story-slide.hook{background:linear-gradient(168deg,rgba(166,53,40,0) 18%,rgba(166,53,40,.92) 100%)}
+.story-slide.hook{
+  background:linear-gradient(168deg,rgba(166,53,40,0) 12%,rgba(166,53,40,.55) 55%,rgba(166,53,40,.95) 100%);
+  background-size:100% 150%;animation:st-drift 16s ease-in-out infinite alternate;
+}
+/* each beat arrives in order: label, headline, body, figure */
+.story-slide > *{animation:st-rise .44s cubic-bezier(.2,.72,.3,1) backwards}
+.story-slide > *:nth-child(2){animation-delay:70ms}
+.story-slide > *:nth-child(3){animation-delay:140ms}
+.story-slide > *:nth-child(4){animation-delay:210ms}
 .story-label{
   font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;color:var(--sand);font-variation-settings:"wdth" 84;
@@ -804,7 +853,7 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
 .story-arrow{
   position:absolute;top:50%;transform:translateY(-50%);z-index:3;
   background:rgba(244,241,232,.14);border:0;color:var(--paper);cursor:pointer;
-  width:34px;height:34px;border-radius:50%;font-size:17px;line-height:1;
+  width:34px;height:34px;font-size:17px;line-height:1;
   display:grid;place-items:center;
 }
 .story-arrow:hover{background:rgba(244,241,232,.3)}
@@ -817,6 +866,26 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
   text-transform:uppercase;color:rgba(244,241,232,.6);font-variation-settings:"wdth" 86;
 }
 .story-foot b{color:var(--sand);font-weight:700}
+
+/* ═══════════════════════════════════════════════════════════
+   ARRIVAL
+   Nothing on this page depends on scrolling to become readable:
+   the classes below are added by script, and only to elements
+   that are still below the fold. Anything already in view, and
+   everything if the script never runs, is simply visible.
+   ═══════════════════════════════════════════════════════════ */
+.rise{opacity:0;transform:translateY(24px)}
+.rise.in{animation:rise-up .66s cubic-bezier(.2,.72,.3,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes rise-up{to{opacity:1;transform:none}}
+
+/* the section rule draws itself in as the head arrives */
+.sec-head.rise{border-top-color:transparent}
+.sec-head.rise::before{
+  content:"";position:absolute;left:0;right:0;top:-6px;height:6px;
+  background:var(--ink-accent);transform:scaleX(0);transform-origin:left;
+}
+.sec-head.rise.in::before{animation:rule-wipe .72s cubic-bezier(.2,.72,.3,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes rule-wipe{to{transform:scaleX(1)}}
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE — explicit column counts, no auto-fit surprises
@@ -850,6 +919,7 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
   body{font-size:16px}
   .tools{grid-template-columns:1fr;gap:var(--s3)}
   .cb-grid{grid-template-columns:1fr}
+  .ci-list{grid-template-columns:1fr}
   .lead{grid-template-columns:1fr}
   .lead .plate-wrap{grid-row:auto}
   .lead-t{margin-top:var(--s3)}
@@ -865,8 +935,8 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
   .nav-jump{padding:11px 0}
 }
 @media (max-width:560px){
-  .ci-item{grid-template-columns:34px 1fr;gap:5px var(--s2)}
-  .ci-item .ci-r{grid-column:2;justify-items:start}
+  .ci-list{grid-template-columns:1fr}
+  .ci-item{padding:var(--s2) var(--s2) var(--s2) 0}
   .ci-card{padding:var(--s4) var(--s3)}
   .strip{grid-template-columns:1fr}
   .strip button,.strip button:nth-child(2n){border-left:0;border-top:1px solid var(--rule-hair)}
@@ -890,7 +960,11 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-delay:0ms!important}
+  .ci-item,.story-slide > *,.story-card,.rise{animation:none!important;opacity:1!important;transform:none!important}
+  .sec-head.rise{border-top-color:var(--ink-accent)}
+  .sec-head.rise::before{display:none}
+  .story-slide.hook{animation:none!important}
 }
 @media print{
   .navbar,.veil,.strip,.keep{display:none}
@@ -1034,20 +1108,24 @@ footer{border-top:1px solid var(--rule-mid);padding-block:var(--s3) var(--s6);ma
       between two patients.</p>
 
     <div class="ci-card">
-      <span class="kicker">Experiment / Case intelligence</span>
-      <h3>What have Indian courts said about cases like this?</h3>
-      <p>Search a structured library of publicly available medical judgments by specialty,
-        allegation or practice issue. Summaries should always link back to the underlying
-        source.</p>
-      <div class="ci-find">
-        <input id="ciq" type="search" autocomplete="off" placeholder="e.g. informed consent surgery"
-               aria-label="Search the case files by specialty, allegation or practice issue">
-        <button class="ci-go" id="cigo">Explore cases</button>
+      <div class="ci-said">
+        <span class="kicker">Experiment / Case intelligence</span>
+        <h3>What have Indian courts said about cases like this?</h3>
       </div>
-      <p class="ci-note">The judgment library is still being built. What is open today: five
-        claims-desk case files, searchable by the same terms.</p>
+      <div class="ci-ask">
+        <p>A structured library of publicly available medical judgments, read by specialty,
+          allegation or practice issue. Summaries should always link back to the underlying
+          source.</p>
+        <button class="ci-go" id="cigo">Explore cases</button>
+        <p class="ci-note">The judgment library is still being built. What is open today: five
+          case files from the claims desk. The desk search at the top of the page finds them too.</p>
+      </div>
     </div>
 
+    <div class="ci-listhead" id="cilisthead" hidden>
+      <span>The files &mdash; six beats each</span>
+      <span>Autoplays &middot; arrow keys &middot; Esc to close</span>
+    </div>
     <div class="ci-list" id="cilist" hidden></div>
 
     <p class="ci-caveat" id="cicaveat" hidden>
@@ -2636,6 +2714,7 @@ const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 $("#cicount").textContent = CASEFILES.length + " case files";
 
+/* the desk search at the top of the page also reaches these */
 function ciMatches(q){
   const terms = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (!terms.length) return CASEFILES.slice();
@@ -2647,35 +2726,39 @@ function ciMatches(q){
   });
 }
 
-function ciDraw(q){
-  const list = $("#cilist"), hits = ciMatches(q || "");
-  list.innerHTML = hits.length
-    ? hits.map(function(c){
-        return '<button class="ci-item" type="button" data-ci="' + c.id + '">' +
-            '<span class="ci-n">' + String(c.rank).padStart(2,"0") + "</span>" +
-            '<span class="ci-b">' +
-              '<span class="meta">' + esc(c.who) + " · " + esc(c.cover) + "</span>" +
+function ciDraw(){
+  const list = $("#cilist"), hits = CASEFILES;
+  list.innerHTML =
+    hits.map(function(c,i){
+        const wide = hits.length % 2 === 1 && i === hits.length - 1;
+        return '<button class="ci-item' + (wide ? " ci-wide" : "") + '" type="button" ' +
+            'data-ci="' + c.id + '" style="--i:' + i + '">' +
+            '<span class="ci-body">' +
+              '<span class="ci-head">' +
+                '<span class="ci-n">' + String(c.rank).padStart(2,"0") + "</span>" +
+                '<span class="meta">' + esc(c.who) + " · " + esc(c.cover) + "</span>" +
+              "</span>" +
               '<span class="ci-t">' + esc(c.title) + "</span>" +
               '<span class="ci-s">' + esc(c.summary) + "</span>" +
             "</span>" +
             '<span class="ci-r">' +
               '<span class="ci-out">' + esc(c.outcome) + "</span>" +
-              '<span class="ci-open">Play the case &rarr;</span>' +
+              '<span class="ci-open">Play the case <i>&rarr;</i></span>' +
             "</span>" +
           "</button>";
-      }).join("")
-    : '<p class="res-none">Nothing in the five case files for &ldquo;' + esc(q.trim()) +
-      '&rdquo;. The judgment library behind this card is the next stage.</p>';
+      }).join("");
+  $("#cilisthead").hidden = false;
   list.hidden = false;
   $("#cicaveat").hidden = false;
 }
 
-$("#cigo").addEventListener("click", function(){
-  ciDraw($("#ciq").value);
-  $("#cilist").scrollIntoView({ block:"nearest", behavior:"smooth" });
-});
-$("#ciq").addEventListener("input", function(){ ciDraw(this.value); });
-$("#ciq").addEventListener("keydown", function(e){ if (e.key === "Enter") ciDraw(this.value); });
+function ciShow(id){
+  if (!$("#cilist").children.length) ciDraw();
+  if (id) ciOpen(id);
+  else $("#cilisthead").scrollIntoView({ block:"nearest", behavior:"smooth" });
+}
+
+$("#cigo").addEventListener("click", function(){ ciShow(); });
 
 /* ── the player ── */
 const story = $("#story");
@@ -2886,7 +2969,7 @@ sheet.addEventListener("keydown", function(e){
 /* one delegated listener for everything that opens or swaps */
 document.addEventListener("click", function(e){
   const cf = e.target.closest("[data-ci]");
-  if (cf){ ciOpen(cf.getAttribute("data-ci")); return; }
+  if (cf){ ciShow(cf.getAttribute("data-ci")); return; }
 
   /* the builder repaints itself in place, so it goes first */
   const c = e.target.closest("[data-cb-open],[data-cb-back],[data-cb-factor]");
@@ -2952,16 +3035,27 @@ function search(raw){
 
   hits.sort(function(a,b){ return b.score - a.score; });
 
-  $("#rescount").textContent = hits.length
-    ? hits.length + (hits.length === 1 ? " result" : " results") + " for “" + raw.trim() + "”"
+  /* the case files sit outside DESK, so they are searched alongside it */
+  const files = ciMatches(q);
+  const total = hits.length + files.length;
+
+  $("#rescount").textContent = total
+    ? total + (total === 1 ? " result" : " results") + " for “" + raw.trim() + "”"
     : "Nothing on the desk for “" + raw.trim() + "”";
 
-  $("#reslist").innerHTML = hits.length
+  $("#reslist").innerHTML = total
     ? hits.map(function(h){
         return '<button class="res" data-open="' + h.d.id + '">' +
             '<span class="res-t">' + esc(h.d.title) + "</span>" +
             '<span class="e-time">' + esc(h.d.read) + "</span>" +
             '<span class="res-k">' + esc(h.d.series) + "</span>" +
+          "</button>";
+      }).join("") +
+      files.map(function(c){
+        return '<button class="res" data-ci="' + c.id + '">' +
+            '<span class="res-t">' + esc(c.title) + "</span>" +
+            '<span class="e-time">Case file</span>' +
+            '<span class="res-k">Case intelligence · ' + esc(c.who) + "</span>" +
           "</button>";
       }).join("")
     : '<p class="res-none">Nothing matched. The Desk is small on purpose — try consent, records, referral, burnout or dengue.</p>';
@@ -2991,6 +3085,81 @@ $("#tosearch").addEventListener("click", function(){
   window.scrollTo({ top:0, behavior:"smooth" });
   setTimeout(function(){ qbox.focus(); }, 320);
 });
+
+/* ═══════════════════════════════════════════════════════════
+   ARRIVAL
+   Each group rises as it comes into view, staggered inside the
+   group. Only elements below the fold at load are held back, the
+   classes come off once the animation has run so hover states
+   own their transforms again, and a timer releases everything if
+   the observer never fires.
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+  if (REDUCED || !("IntersectionObserver" in window)) return;
+
+  /* selector, stagger step in ms, cap on how many items stagger */
+  const GROUPS = [
+    [".strip button", 55, 4],
+    ["#issue .sec-head, #issue .sec-note", 0, 1],
+    ["#issue .entry", 55, 5],
+    [".fold", 0, 1],
+    ["#tools .sec-head, #tools .sec-note", 0, 1],
+    [".tool", 70, 4],
+    ["#casebook .sec-head, #casebook .sec-note", 0, 1],
+    [".case-lead", 0, 1],
+    [".case", 60, 4],
+    ["#casebook .caveat", 0, 1],
+    ["#casefiles .sec-head, #casefiles .sec-note", 0, 1],
+    [".ci-card", 0, 1],
+    ["#library .sec-head, #library .sec-note", 0, 1],
+    [".shelf-label", 0, 1],
+    [".lead", 0, 1],
+    [".stack-item", 55, 4],
+    [".close > *", 90, 2]
+  ];
+
+  const held = [];
+  const fold = window.innerHeight;   /* hold only what is wholly below the first screen */
+
+  GROUPS.forEach(function(g){
+    const nodes = document.querySelectorAll(g[0]);
+    let n = 0;
+    nodes.forEach(function(el){
+      if (el.getBoundingClientRect().top < fold) return;   /* any part in view: leave it be */
+      el.style.setProperty("--d", (Math.min(n, g[2] - 1) * g[1]) + "ms");
+      el.classList.add("rise");
+      held.push(el);
+      n++;
+    });
+  });
+
+  if (!held.length) return;
+
+  function release(el){
+    el.classList.add("in");
+    el.addEventListener("animationend", function(){
+      el.classList.remove("rise", "in");
+      el.style.removeProperty("--d");
+    }, { once:true });
+  }
+
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      release(en.target);
+    });
+  }, { rootMargin:"0px 0px -10% 0px", threshold:0.12 });
+
+  held.forEach(function(el){ io.observe(el); });
+
+  /* failsafe — nothing stays invisible because an observer missed */
+  setTimeout(function(){
+    held.forEach(function(el){
+      if (el.classList.contains("rise")){ io.unobserve(el); release(el); }
+    });
+  }, 9000);
+})();
 
 /* ── keep this desk ── */
 $("#keep").addEventListener("click", function(){
