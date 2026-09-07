@@ -29,25 +29,44 @@ The master brief's §90–93 (visual identity, palette, typography) are **supers
 README's CoverYou palette and the previous build's coral + glassmorphism system were dropped in
 favour of a digest content model in a modern minimal newspaper-editorial dress.
 
-**Concept — two-ink press.** The Desk is set as if printed in two inks on clinical form stock.
-One ink carries the page. The spot colour is reserved for the case/legal rail and cautions, and
-is never used as decoration.
+**Concept — section inks on newsprint.** Warm newsprint stock, blue-black letterpress ink, and
+a distinct ink per editorial stream. Colour is a section-front device: it tells you which part
+of the Desk you are in, rather than decorating the page. Each stream's ink flows through its
+section bar, its numbers, its buttons, its plates and its reader panel.
 
 ```
---stock   #EDF1F0   pale cool grey-green, the tint of duplicate case-sheet paper
---sheet   #F9FBFA   the reading surface
---ink     #152A35   blue-black writing ink, chromatic rather than a tinted black
---ink-soft#4E626C   decks and meta
---spot    #8E2B22   madder — case rail and cautions only
+--paper    #F4F1E8   warm newsprint
+--paper-2  #EDE8DC   recessed bands
+--sheet    #FBFAF5   reading surface
+--ink      #17232A   blue-black letterpress
+
+--rounds   #A63528   Making Rounds — current affairs      5.88:1
+--tools    #1B6353   Tools — practical                    6.29:1
+--library  #8A5A1E   From the Archive — sepia             5.22:1
+--history  #2F4F63   Small History — slate                7.69:1
+--sand     #DCC9A2   on the dark Casebook ground          9.86:1
 ```
+
+Streams are applied with `data-ink="rounds|tools|library|history|case"`, which sets
+`--ink-accent` for everything inside. The reader picks up its article's stream ink on open.
+All five pass WCAG AA on their grounds.
 
 **Type.** [Newsreader](https://fonts.google.com/specimen/Newsreader) (variable, optical size
 6–72) for display *and* body — a face built for news reading, whose optical size axis lets
 display sizes tighten properly. [Archivo](https://fonts.google.com/specimen/Archivo) (width axis
 75–100) for the functional layer, condensed at label sizes the way newspaper kickers are.
 
-**Rules are hierarchy.** 3px press rule under the masthead, 1px section rule, hairlines between
-entries. Thickness carries meaning; nothing is a border for decoration's sake.
+**Rules are hierarchy.** 6px coloured bar opens a section, 3px press rules divide, hairlines
+separate entries. Thickness carries meaning; nothing is a border for decoration's sake.
+
+**Plates are typographic by design.** The Library's lead images are colour fields carrying the
+piece's own closing thought. A photograph, when one loads, fades in over the top. This is not a
+failure state — remote images that hang never fire `onerror`, so a fallback triggered by failure
+cannot be relied on.
+
+**Breakpoints** are explicit column counts at 1100 / 980 / 940 / 820 / 560 / 400 — never
+`auto-fit`, which produced five columns at 1440 and four-plus-an-orphan at 1024. Note that media
+queries evaluate against the viewport *including* the scrollbar, so a 768px tablet reports 768.
 
 **Kickers are serif italic**, not tracked-out caps eyebrows. **Numbers appear only in the issue
 digest**, because that is the one place the content is genuinely a sequence.
