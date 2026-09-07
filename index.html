@@ -20,6 +20,7 @@
 <meta name="description" content="A curated professional desk for doctors in India: practical tools, practice intelligence, medico-legal case patterns and remarkable stories worth keeping. Curated by CoverYou.">
 <meta name="author" content="Tikshana Shah">
 <meta name="theme-color" content="#EDF1F0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23152A35'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='19' fill='%23EDF1F0' text-anchor='middle'%3ED%3C/text%3E%3Crect x='7' y='25' width='18' height='2.5' fill='%238E2B22'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Archivo:wdth,wght@75..100,400..700&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@
   --sheet:#F9FBFA;        /* reading surface */
   --ink:#152A35;          /* blue-black writing ink */
   --ink-soft:#4E626C;     /* decks, meta */
-  --ink-faint:#8298A1;
+  --ink-faint:#596D77;   /* 4.76:1 on --stock; #8298A1 read nicer but failed AA */
   --spot:#8E2B22;         /* madder — case rail + cautions only */
 
   --rule-hair:rgba(21,42,53,.14);
@@ -93,19 +94,27 @@ a{color:inherit}
   color:var(--ink-soft);
 }
 .kicker{                                   /* serif italic, not a caps eyebrow */
+  display:block;
   font-family:var(--serif);font-style:italic;
   font-size:15px;font-weight:400;color:var(--spot);
   font-variation-settings:"opsz" 16;
 }
+/* These are <span> inside <button>, so they need to be told to stack.
+   Without this they run together inline and drop their vertical margins. */
+.e-title,.e-deck,.tool-t,.mini-t,.lead-t,.case-t,.stack-t,.stack-d,
+.mini .meta,.res-t{display:block}
 .kicker.n{color:var(--ink-soft)}
 
 /* ═══════════════════════════════════════════════════════════
    MASTHEAD
    ═══════════════════════════════════════════════════════════ */
 .mast{background:var(--stock);position:relative;z-index:30}
+/* NOTE: these blocks combine with .wrap, which owns the horizontal gutter.
+   Always set vertical padding with padding-block — a `padding` shorthand here
+   has equal specificity to .wrap and silently cancels its left/right gutter. */
 .mast-top{
   display:flex;align-items:flex-end;justify-content:space-between;
-  gap:24px;padding:22px 0 14px;flex-wrap:wrap;
+  gap:24px;padding-block:22px 14px;flex-wrap:wrap;
 }
 .logo{
   font-family:var(--serif);font-weight:500;
@@ -116,7 +125,7 @@ a{color:inherit}
 .logo .the{font-style:italic;font-weight:300}
 .mast-right{text-align:right;line-height:1.5}
 .mast-right .coverline{display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-top:3px}
-.mast-right img{height:13px;width:auto;opacity:.72}
+.mast-right img{height:18px;width:auto;opacity:.8}
 
 .navbar{
   position:sticky;top:0;z-index:25;background:var(--stock);
@@ -144,7 +153,7 @@ a{color:inherit}
 /* ═══════════════════════════════════════════════════════════
    FRONT — the issue opens here
    ═══════════════════════════════════════════════════════════ */
-.front{padding:clamp(44px,7vw,86px) 0 clamp(30px,4vw,48px)}
+.front{padding-block:clamp(44px,7vw,86px) clamp(30px,4vw,48px)}
 .front h1{
   font-family:var(--serif);font-weight:400;
   font-size:clamp(38px,6.6vw,84px);line-height:1.03;
@@ -223,7 +232,7 @@ a{color:inherit}
 /* ═══════════════════════════════════════════════════════════
    SECTION SCAFFOLD
    ═══════════════════════════════════════════════════════════ */
-.sec{padding:clamp(46px,6.5vw,84px) 0 0}
+.sec{padding-block:clamp(46px,6.5vw,84px) 0}
 .sec-head{
   display:flex;align-items:baseline;justify-content:space-between;
   gap:16px 28px;flex-wrap:wrap;
@@ -327,12 +336,12 @@ a{color:inherit}
 .casebook .sec-note{color:rgba(237,241,240,.74)}
 .casebook .count{color:rgba(237,241,240,.55)}
 
-.caselist{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0;margin-top:6px}
+.caselist{display:grid;grid-template-columns:repeat(auto-fit,minmax(188px,1fr));gap:0;margin-top:6px}
 .case{
   background:none;border:0;border-top:1px solid rgba(237,241,240,.24);
   border-left:1px solid rgba(237,241,240,.16);
   text-align:left;font:inherit;color:var(--stock);cursor:pointer;
-  padding:22px 24px 26px;transition:background .16s;
+  padding:22px 20px 26px;transition:background .16s;
 }
 .case:first-child{border-left:0;padding-left:0}
 .case:hover{background:rgba(237,241,240,.07)}
@@ -365,16 +374,25 @@ a{color:inherit}
   text-align:left;font:inherit;color:inherit;cursor:pointer;padding:20px 0 0;
 }
 .lead:hover .lead-t{color:var(--spot)}
+/* The typographic plate is the default. The photograph is progressive
+   enhancement, faded in only once it has actually decoded — remote images
+   that hang never fire onerror, so a fallback triggered by failure is not
+   reliable enough to depend on. */
+.plate-wrap{
+  position:relative;display:block;width:100%;aspect-ratio:16/10;
+  background:var(--ink);overflow:hidden;
+}
+.plate-type{
+  position:absolute;inset:0;display:flex;align-items:flex-end;padding:22px;
+  color:rgba(237,241,240,.82);font-family:var(--serif);font-style:italic;
+  font-size:19px;line-height:1.3;
+}
 .plate{
-  width:100%;aspect-ratio:16/10;object-fit:cover;
-  background:var(--ink);filter:grayscale(.24) contrast(1.04);
-  border:1px solid var(--rule-hair);
+  position:relative;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.24) contrast(1.04);
+  opacity:0;transition:opacity .3s ease;
 }
-.plate-fallback{
-  width:100%;aspect-ratio:16/10;background:var(--ink);color:var(--stock);
-  display:flex;align-items:flex-end;padding:22px;
-  font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.3;
-}
+.plate.ok{opacity:1}
 .lead-t{
   font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.7vw,33px);
   line-height:1.16;letter-spacing:-.022em;margin:16px 0 9px;transition:color .16s;
@@ -421,7 +439,7 @@ a{color:inherit}
 
 footer{border-top:1px solid var(--rule-mid);padding:26px 0 46px}
 .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-.foot img{height:15px;opacity:.7}
+.foot img{height:20px;opacity:.8}
 .foot .cy{display:flex;align-items:center;gap:7px}
 
 /* ═══════════════════════════════════════════════════════════
@@ -1560,10 +1578,14 @@ const shelves = {
 function drawShelf(key){
   const items = shelves[key];
   const lead = items[0];
-  const plate = lead.image
-    ? '<img class="plate" src="' + esc(lead.image) + '" alt="" loading="lazy" ' +
-      'onerror="this.outerHTML=\'<div class=&quot;plate-fallback&quot;>' + esc(lead.series) + '</div>\'">'
-    : '<div class="plate-fallback">' + esc(lead.series) + '</div>';
+  const plate =
+    '<span class="plate-wrap">' +
+      '<span class="plate-type">' + esc(lead.series) + '</span>' +
+      (lead.image
+        ? '<img class="plate" src="' + esc(lead.image) + '" alt="" loading="lazy" ' +
+          'onload="this.classList.add(\'ok\')">'
+        : '') +
+    '</span>';
 
   $("#" + key).innerHTML =
     '<button class="lead" data-open="' + lead.id + '">' +
@@ -1631,8 +1653,10 @@ function open(id){
 
   let html = "";
   if (d.image){
-    html += '<figure><img src="' + esc(d.image) + '" alt="" ' +
-            'onerror="this.closest(\'figure\').remove()">' +
+    /* revealed only once the image decodes — a hanging remote image never
+       fires onerror, so an empty figure would otherwise sit in the article */
+    html += '<figure hidden><img src="' + esc(d.image) + '" alt="" ' +
+            'onload="this.closest(\'figure\').hidden=false">' +
             (d.caption ? "<figcaption>" + d.caption + "</figcaption>" : "") +
             "</figure>";
   }

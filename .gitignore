@@ -22,3 +22,7 @@ scratchpad/
 *.exe
 *.msi
 *.zip
+
+# Browser review artifacts
+.playwright-mcp/
+*.png
